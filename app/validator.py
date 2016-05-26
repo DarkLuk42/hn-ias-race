@@ -1,45 +1,50 @@
 # coding: utf-8
 
+import cherrypy
+
 
 class Validator(object):
-    EMPTY = "EMPTY"
-    INVALID_VALUE = "INVALID_VALUE"
+    def __init__(self):
+        pass
 
-    def __init__(self, data, rules=None):
-        self.data = data
-        self.errors = {}
-        if rules is not None:
-            for field in rules:
-                check = rules[field][0]
-                if check == Validator.EMPTY:
-                    self.not_empty(field)
-                if check == Validator.INVALID_VALUE:
-                    self.is_in(field, rules[field][1])
+    @staticmethod
+    def require(data, *fields):
+        empty_fields = list()
+        for field in fields:
+            if field not in data or data[field] is None or data[field].strip() == "":
+                empty_fields.append(field)
+        if len(empty_fields) > 0:
+            raise Validator.ValidationFailedRequire(empty_fields)
 
-    def not_empty(self, field):
-        if field not in self.data or not self.data[field]:
-            self.errors[field] = Validator.EMPTY
-            return False
-        return True
+    @staticmethod
+    def require_int(strVal):
+        try:
+            return int(strVal)
+        except ValueError:
+            Validator.fail("The string '" + strVal + "' has to be a valid integer.")
 
-    def is_in(self, field, possibilities):
-        if field not in self.data or not self.data[field] or self.data[field] not in possibilities:
-            self.errors[field] = Validator.INVALID_VALUE
-            return False
-        return True
+    @staticmethod
+    def fail(message):
+        raise Validator.ValidationFailed(message)
 
-    def get_errors(self):
-        return self.errors
+    @staticmethod
+    def fail_found(message=None):
+        raise cherrypy.HTTPError(status=404, message=message)
 
-    def is_valid(self):
-        return len(self.errors) == 0
+    class ValidationFailed(Exception):
+        def __init__(self, msg):
+            self.msg = msg
 
-    def get_error_message(self):
-        if self.is_valid():
-            return ""
-        if len(self.errors) == 1:
-            return "Bitte überprüfen sie ihre Eingabe bei dem Feld: '" + list(self.errors.keys()).join("', '") + "'"
-        return "Bitte überprüfen sie ihre Eingabe bei den Feldern: '" + list(self.errors.keys()).join("', '") + "'"
+        def __str__(self):
+            return self.msg
+
+    class ValidationFailedRequire(ValidationFailed):
+        def __init__(self, required_fields):
+            self.required_fields = required_fields
+            self.msg = "The fields '" + "', '".join([str(field) for field in self.required_fields]) + "' are required."
+
+        def __str__(self):
+            return self.msg
 
 
 # EOF

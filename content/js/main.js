@@ -5,7 +5,8 @@ function showMessage(message){
     var alert = $("<p></p>").addClass("message").text(message).attr("id",id);
     $(".content").prepend(alert);
     //window.location.href = "#" + id;*/
-};
+}
+
 function showError(message){
     alert(message);
     /*
@@ -13,10 +14,28 @@ function showError(message){
     var alert = $("<p></p>").addClass("message").addClass("message-error").text(message).attr("id",id);
     $(".content").prepend(alert);
     //window.location.href = "#" + id;*/
-};
+}
+
+function setNav(list)
+{
+    var nav = $(".uk-navbar-nav");
+    nav.html("");
+    for(var i = 0; i < list.length; i++)
+    {
+        nav.append($("<li></li>").text(list[i]));
+    }
+}
+function showForm(form, data)
+{
+    data = data || {};
+    var formModal = "#"+form+"Modal";
+    var modal = UIkit.modal(formModal);
+    //modal.options.bgclose = false;
+    modal.show();
+}
 
 function snakeToCamel(s){
-    return s.replace(/(\_\w)/g, function(m){return m[1].toUpperCase();});
+    return s.replace(/(_\w)/g, function(m){return m[1].toUpperCase();});
 }
 
 function registerHandlers(element)
@@ -91,5 +110,5 @@ function registerHandlers(element)
 }
 
 $(function(){
-    registerHandlers(document);
+    showForm('login');
 });

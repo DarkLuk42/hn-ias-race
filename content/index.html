@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Oldtimer Rennen</title>
+        <meta charset="UTF-8"/>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.26.3/css/uikit.min.css" />
+        <link rel="stylesheet" href="main.css"/>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.26.3/js/uikit.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/inheritance.js"></script>
+        <script src="js/es.js"></script>
+        <script src="js/te.js"></script>
+        <script src="js/tm.js"></script>
+    </head>
+    <body>
+        <header>
+            <nav class="uk-navbar">
+                <ul class="uk-navbar-nav"></ul>
+            </nav>
+            <ul class="uk-breadcrumb"></ul>
+        </header>
+        <div class="content">
+            <button class="uk-button uk-button-primary" data-uk-modal="{target:'#registerModal'}">Registrieren</button>
+            <button class="uk-button uk-button-primary" data-uk-modal="{target:'#loginModal'}">Anmelden</button>
+        </div>
+        <footer>
+            <span>© 2015 - Lukas Quast und Lukas Kropp</span>
+        </footer>
+        <div id="registerModal" class="uk-modal">
+            <div class="uk-modal-dialog">
+                <div class="uk-modal-header">
+                    Registrierung
+                </div>
+                <form class="uk-form" action="/user" method="post">
+                    <div class="uk-form-row">
+                        <input type="text" name="login" placeholder="Username"/>
+                        <input type="password" name="password" placeholder="Passwort"/>
+                    </div>
+                    <div class="uk-form-row">
+                        <input type="text" name="firstname" placeholder="Firstname"/>
+                        <input type="text" name="lastname" placeholder="Lastname"/>
+                    </div>
+                    <div class="uk-form-row">
+                        <label><input type="checkbox" name="driver_license"/>Führerschein</label>
+                    </div>
+                    <div class="uk-form-row">
+                        <button class="uk-modal-close uk-button">Abbrechen</button>
+                        <input type="submit" value="Anmelden" class="uk-button uk-button-primary"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="loginModal" class="uk-modal">
+            <div class="uk-modal-dialog">
+                <div class="uk-modal-header">
+                    Login
+                </div>
+                <form class="uk-form uk-form-row" action="/login" method="post">
+                    <div class="uk-form-row">
+                        <input type="text" name="login" placeholder="Username"/>
+                        <input type="password" name="password" placeholder="Passwort"/>
+                    </div>
+                    <div class="uk-form-row">
+                        <button class="uk-modal-close uk-button">Abbrechen</button>
+                        <input type="submit" value="Anmelden" class="uk-button uk-button-primary"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

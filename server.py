@@ -8,17 +8,13 @@ from app.application import Application
 
 def main():
     # Get current directory
-    try:
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-    except:
-        import sys
-        current_dir = os.path.dirname(os.path.abspath(sys.executable))
-    # disable autoreload and timeout_monitor
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
     cherrypy.engine.autoreload.unsubscribe()
     cherrypy.engine.timeout_monitor.unsubscribe()
+
     # Static content config
-    app = Application()
-    static_config = {
+    root_o = cherrypy.tree.mount(Application(current_dir), '/', {
         '/': {
             'tools.staticdir.root': current_dir,
             'tools.staticdir.on': True,
@@ -29,15 +25,14 @@ def main():
             'tools.sessions.timeout': 10,
             'tools.encode.on': True,
             'tools.encode.encoding': "utf-8",
-            'error_page.403': app.error_page_403,
-            'error_page.404': app.error_page_404,
-            'request.error_response': app.handle_error
+            'request.error_response': Application.handle_error,
+            'request.dispatch': cherrypy.dispatch.MethodDispatcher()
         }
-    }
-    # Mount static content handler
-    root_o = cherrypy.tree.mount(app, '/', static_config)
+    })
+
     # suppress traceback-info
     cherrypy.config.update({'request.show_tracebacks': False})
+
     # Start server
     cherrypy.engine.start()
     cherrypy.engine.block()

@@ -16,17 +16,6 @@ CREATE TABLE `race_evaluation` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `race_registration`;
-CREATE TABLE `race_registration` (
-  `vehicle_id` int(11) unsigned NOT NULL,
-  `race_id` int(11) unsigned NOT NULL,
-  `time` time NOT NULL,
-  PRIMARY KEY (`vehicle_id`,`race_id`),
-  KEY `vehicle` (`vehicle_id`),
-  KEY `race` (`race_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
 DROP TABLE IF EXISTS `race_qualification`;
 CREATE TABLE `race_qualification` (
   `vehicle_id` int(11) unsigned NOT NULL,
@@ -50,33 +39,6 @@ CREATE TABLE `race_station` (
   KEY `race` (`race_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `user` (`is_admin`, `driver_license`, `firstname`, `lastname`, `login`, `password`) VALUES
-(1, 1, 'Lukas', 'Quast', 'quast', '123'),
-(1, 1, 'Lukas', 'Kropp', 'kropp', '123');
-
-
-DROP TABLE IF EXISTS `vehicle`;
-CREATE TABLE `vehicle` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `brand` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `year` int(4) unsigned NOT NULL,
-  `capacity_ccm` int(5) unsigned NOT NULL,
-  `power_kw` int(4) unsigned NOT NULL,
-  `description` text NOT NULL,
-  `category_id` int(11) unsigned NOT NULL,
-  `owner_id` int(11) unsigned NOT NULL,
-  `driver_id` int(11) unsigned NOT NULL,
-  `passenger_id` int(11) unsigned NOT NULL,
-  `mechanic_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `team` (`driver_id`,`passenger_id`,`mechanic_id`, `category_id`),
-  KEY `category` (`category_id`),
-  KEY `owner` (`owner_id`),
-  KEY `driver` (`driver_id`),
-  KEY `passenger` (`passenger_id`),
-  KEY `mechanic` (`mechanic_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `vehicle_category`;

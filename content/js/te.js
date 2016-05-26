@@ -64,7 +64,7 @@ TELIB.Generator_cl = Class.create({
       if (code_spl.startsWith('if')) {
          this.code_a.push('if (' + code_spl.substr(2) + ') {\n');
       } else if (code_spl.startsWith('elseif')) {
-         this.code_a.push('} else if {\n');
+         this.code_a.push('} else if (' + code_spl.substr(6) + ') {\n');
       } else if (code_spl.startsWith('else')) {
          this.code_a.push('} else {\n');
       } else if (code_spl.startsWith('endif')) {

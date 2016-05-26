@@ -3,6 +3,7 @@
 __all__ = [
     "login",
     "race",
+    "station",
     "template",
     "user",
     "vehicle"

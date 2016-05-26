@@ -18,6 +18,7 @@
     </head>
     <body>
         <header>
+            <h1>Oldtimer Rennen</h1>
             <nav class="uk-navbar">
                 <ul class="uk-navbar-nav"></ul>
             </nav>
@@ -31,14 +32,14 @@
             </div>
         </div>
         <footer>
-            <span>© 2015 - Lukas Quast und Lukas Kropp</span>
+            <span>© 2016 - Lukas Quast und Lukas Kropp</span>
         </footer>
         <div id="registerModal" class="uk-modal">
             <div class="uk-modal-dialog">
                 <div class="uk-modal-header">
                     Registrierung
                 </div>
-                <form class="uk-form" action="/user" method="post" data-event="register">
+                <form class="uk-form" action="/user" method="post" data-event="response.register">
                     <div class="uk-form-row">
                         <input type="text" name="login" placeholder="Username"/>
                         <input type="password" name="password" placeholder="Passwort"/>
@@ -62,7 +63,7 @@
                 <div class="uk-modal-header">
                     Login
                 </div>
-                <form class="uk-form uk-form-row" action="/login" method="post" data-event="login">
+                <form class="uk-form uk-form-row" action="/login" method="post" data-event="response.login">
                     <div class="uk-form-row">
                         <input type="text" name="login" placeholder="Username"/>
                         <input type="password" name="password" placeholder="Passwort"/>

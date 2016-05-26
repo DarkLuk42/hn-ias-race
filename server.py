@@ -32,6 +32,9 @@ def main():
 
     # suppress traceback-info
     cherrypy.config.update({'request.show_tracebacks': False})
+    access_log = cherrypy.log.access_log
+    for handler in tuple(access_log.handlers):
+        access_log.removeHandler(handler)
 
     # Start server
     cherrypy.engine.start()

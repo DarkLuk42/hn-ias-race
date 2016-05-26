@@ -1,0 +1,84 @@
+@var vehicle = context;@
+@var users = LITAPP.users;@
+
+@if vehicle.id@
+    <h2>Fahrzeug bearbeiten</h2>
+
+    <form class="uk-form" action="/vehicle/#vehicle.id#" method="delete" data-event="response.vehicle.delete">
+        <input type="submit" value="Löschen" class="uk-button uk-button-danger"/>
+    </form>
+@else@
+    <h2>Fahrzeug erstellen</h2>
+@endif@
+
+@if vehicle.id@
+<form class="uk-form" action="/vehicle/#vehicle.id#" method="put" data-event="response.vehicle.update">
+@else@
+<form class="uk-form" action="/vehicle" method="post" data-event="response.vehicle.create">
+@endif@
+    <input type="hidden" name="owner_id" value="#LITAPP.user.id#"/>
+    <div class="uk-form-row">
+        <input type="text" name="brand" placeholder="Marke" value="#vehicle.brand#"/>
+    </div>
+    <div class="uk-form-row">
+        <input type="text" name="type" placeholder="Typ" value="#vehicle.type#"/>
+    </div>
+    <div class="uk-form-row">
+        <input type="text" name="year" placeholder="year" value="#vehicle.year#"/>
+    </div>
+    <div class="uk-form-row">
+        <input type="text" name="capacity_ccm" placeholder="capacity_ccm" value="#vehicle.capacity_ccm#"/>
+    </div>
+    <div class="uk-form-row">
+        <input type="text" name="power_kw" placeholder="power_kw" value="#vehicle.power_kw#"/>
+    </div>
+    <div class="uk-form-row">
+        <label class="uk-form-label" for="form-s-s">Fahrzeugklasse</label>
+        <div class="uk-form-controls">
+            <select id="form-s-s" name="category_id">
+                <option value="1">Klasse 1</option>
+            </select>
+        </div>
+    </div>
+    <div class="uk-form-row">
+        <label class="uk-form-label" for="form-s-s">Fahrer</label>
+        <div class="uk-form-controls">
+            <select id="form-s-s" name="driver_id">
+                @for u = 0; u < users.length; u++@
+                @var user = users[u];@
+                    <option value="#user.id#">#user.firstname# #user.lastname#</option>
+                @endfor@
+            </select>
+        </div>
+    </div>
+    <div class="uk-form-row">
+        <label class="uk-form-label" for="form-s-s">Beifahrer</label>
+        <div class="uk-form-controls">
+            <select id="form-s-s" name="passenger_id">
+                @for u = 0; u < users.length; u++@
+                @var user = users[u];@
+                    <option value="#user.id#">#user.firstname# #user.lastname#</option>
+                @endfor@
+            </select>
+        </div>
+    </div>
+    <div class="uk-form-row">
+        <label class="uk-form-label" for="form-s-s">Mechaniker</label>
+        <div class="uk-form-controls">
+            <select id="form-s-s" name="mechanic_id">
+                @for u = 0; u < users.length; u++@
+                @var user = users[u];@
+                    <option value="#user.id#">#user.firstname# #user.lastname#</option>
+                @endfor@
+            </select>
+        </div>
+    </div>
+    <div class="uk-form-row">
+        <button class="uk-modal-close uk-button" data-event="show.index">Zurück</button>
+        @if vehicle.id@
+            <input type="submit" value="Speichern" class="uk-button uk-button-primary"/>
+        @else@
+            <input type="submit" value="Erstellen" class="uk-button uk-button-primary"/>
+        @endif@
+    </div>
+</form>

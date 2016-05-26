@@ -12,16 +12,11 @@ class Resource(app.resource.Resource):
         self.resources = []
         self.load()
 
-    def GET(self, id=None):
-        if id is None:
-            return self.application.response(self.resources)
-        resource = self.find({"id": id})
-        if resource is not None:
-            return self.application.response(resource)
+    def sortfunction(self, resource):
+        return resource["login"]
 
-        Validator.fail_found()
-
-    def PUT(self, id, **data):
+    def api_update(self, id, **data):
+        id = Validator.require_int(id)
         Validator.require(data, "login", "password", "firstname", "lastname")
         self.validateunique("login", data["login"], {"id": id})
         resource = self.find({"id": id})
@@ -32,28 +27,20 @@ class Resource(app.resource.Resource):
             resource["firstname"] = data["firstname"]
             resource["lastname"] = data["lastname"]
             self.save()
-            return self.application.response(resource)
+            return resource
 
         Validator.fail_found()
 
-    def POST(self, **data):
+    def api_create(self, **data):
         Validator.require(data, "login", "password", "firstname", "lastname")
         self.validateunique("login", data["login"], {})
-        return self.application.response(self.create({
+        return self.create({
             "is_admin": False,
             "driver_license": "driver_license" in data and data["driver_license"] == "1",
             "login": data["login"],
             "password": data["password"],
             "firstname": data["firstname"],
             "lastname": data["lastname"]
-        }))
-
-    def DELETE(self, id):
-        resource = self.remove({"id": id})
-        if resource is not None:
-            resource.delete()
-            return self.application.response(resource)
-
-        Validator.fail_found()
+        })
 
 # EOF

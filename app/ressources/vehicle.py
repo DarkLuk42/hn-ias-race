@@ -12,16 +12,8 @@ class Resource(app.resource.Resource):
         self.resources = []
         self.load()
 
-    def GET(self, id=None):
-        if id is None:
-            return self.application.response(self.resources)
-        resource = self.find({"id": id})
-        if resource is not None:
-            return self.application.response(resource)
-
-        Validator.fail_found()
-
-    def PUT(self, id, **data):
+    def api_update(self, id, **data):
+        id = Validator.require_int(id)
         Validator.require(data, "brand", "type", "year", "capacity_ccm", "power_kw", "category_id", "owner_id",
                           "driver_id", "passenger_id", "mechanic_id")
 
@@ -41,11 +33,11 @@ class Resource(app.resource.Resource):
             resource["passenger_id"] = Validator.require_int(data["passenger_id"])
             resource["mechanic_id"] = Validator.require_int(data["mechanic_id"])
             self.save()
-            return self.application.response(resource)
+            return resource
 
         Validator.fail_found()
 
-    def POST(self, **data):
+    def api_create(self, **data):
         Validator.require(data, "brand", "type", "year", "capacity_ccm", "power_kw", "category_id", "owner_id",
                           "driver_id", "passenger_id", "mechanic_id")
         if "description" not in data:
@@ -61,14 +53,7 @@ class Resource(app.resource.Resource):
             "passenger_id": Validator.require_int(data["passenger_id"]),
             "mechanic_id": Validator.require_int(data["mechanic_id"])
         })
-        return self.application.response(resource)
+        return resource
 
-    def DELETE(self, id):
-        resource = self.remove({"id": id})
-        if resource is not None:
-            resource.delete()
-            return self.application.response(resource)
-
-        Validator.fail_found()
 
 # EOF

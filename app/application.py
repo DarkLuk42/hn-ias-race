@@ -16,6 +16,7 @@ class Application(object):
         self.login = login.Resource(self)
 
         self.user = user.Resource(self)
+        self.station = station.Resource(self)
         self.race = race.Resource(self)
         self.vehicle = vehicle.Resource(self)
 

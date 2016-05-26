@@ -1,7 +1,20 @@
-Rennen:
-@for r = 0; r < context.races.length; r++@
-    @var race = context.races[r];@
-    <tr id="race-#race.id#" data-id="#race.id#">
-        <td>#race.name#</td>
-    </tr>
-@endfor@
+@var races = LITAPP.races;@
+@var users = LITAPP.users;@
+@var vehicles = LITAPP.vehicles;@
+
+<h2>Rennen</h2>
+<button class="uk-button uk-button-primary" data-event="show.race">Rennen erstellen</button>
+
+<table class="uk-table">
+    @for r = 0; r < races.length; r++@
+        @var race = races[r];@
+        <tr id="race-#race.id#" data-id="#race.id#">
+            <td>#race.name#</td>
+            <td>#race.date#</td>
+            <td>#race.description#</td>
+            <td>
+                <button class="uk-button uk-button-primary" data-event="show.race" data-event-data='#JSON.stringify(race)#'>bearbeiten</button>
+            </td>
+        </tr>
+    @endfor@
+</table>

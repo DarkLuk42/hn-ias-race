@@ -1,3 +1,20 @@
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
 var LITAPP = {};
 LITAPP.showMessage = function(message){
     UIkit.modal.alert(message);
@@ -30,7 +47,7 @@ LITAPP.showModal = function(el, data)
 
 LITAPP.hideModal = function()
 {
-    if(LITAPP.modal)
+    if(LITAPP.modal && LITAPP.modal.active)
         LITAPP.modal.hide();
     LITAPP.modal = null;
 };
@@ -76,17 +93,32 @@ LITAPP.registerHandlers = function(element)
         e.preventDefault();
         e.stopPropagation();
         var form = $(this);
-        LITAPP.ajax(form.attr("method"), form.attr("action"), form.serializeArray(), function(data){
-            var event = form.attr("data-event");
-            if(event)
-                LITAPP.es_o.publish_px('app', [event, data]);
-        });
+        var sendEvent = form.attr("data-send-event");
+        if(sendEvent)
+        {
+            LITAPP.publishEvent(sendEvent, form.serializeObject());
+        }
+        else
+        {
+            LITAPP.ajax(form.attr("method"), form.attr("action"), form.serializeArray(), function (data) {
+                var event = form.attr("data-event");
+                if (event)
+                    LITAPP.publishEvent(event, data);
+            });
+        }
     });
 
     $ele.find("[data-event]:not(form)").click(function(e){
         e.preventDefault();
         e.stopPropagation();
-        LITAPP.es_o.publish_px('app', [$(this).attr("data-event"), $(this).attr("data-event-data")]);
+        var data = $(this).attr("data-event-data");
+        try {
+            data = JSON.parse(data);
+        }catch( e )
+        {
+            // ignore
+        }
+        LITAPP.es_o.publish_px('app', [$(this).attr("data-event"), data]);
     });
 
     $ele.find(".btn-delete").click(function(e){
@@ -97,13 +129,36 @@ LITAPP.registerHandlers = function(element)
     });
 };
 
+LITAPP.setContent = function(view, data){
+    try {
+        var html = LITAPP.tm_o.execute_px(view, data);
+        if(html!==null)
+        {
+            var content = $(".content");
+            content.html(html);
+            LITAPP.registerHandlers(content);
+        }
+        else
+        {
+            LITAPP.es_o.publish_px('app', ['error', 'Template not found.']);
+        }
+    }catch(e){
+        LITAPP.es_o.publish_px('app', ['error', 'Template is incorrect.', e]);
+        LITAPP.tm_o.execute_px(view, data);
+    }
+};
+
+LITAPP.publishEvent = function(name, data){
+    LITAPP.es_o.publish_px('app', [name, data])
+};
+
 LITAPP.Application_cl = Class.create({
     initialize: function () {
         LITAPP.es_o.subscribe_px(this, 'app');
-        LITAPP.es_o.subscribe_px(this, 'ajax');
         LITAPP.tm_o = new TELIB.TemplateManager_cl();
     },
     notify_px: function (self, message, data_arr) {
+        console.log('event', message, data_arr);
         switch (message) {
             case 'app':
                 var data = data_arr[1];
@@ -111,21 +166,50 @@ LITAPP.Application_cl = Class.create({
                     case 'init':
                         break;
                     case 'templates.loaded':
-                        this.setContent('loginView');
+                        LITAPP.setContent('loginView');
                         break;
-                    case 'login':
-                    case 'register':
-                        LITAPP.user = data;
+                    case 'show.index':
                         LITAPP.ajax('GET', 'race', null, function(data){
-                            LITAPP.app_o.setContent(LITAPP.user.is_admin ? 'adminView' : 'userView', { races: data });
-                            LITAPP.hideModal();
+                            LITAPP.races = data;
+                            LITAPP.ajax('GET', 'vehicle', null, function(data){
+                                LITAPP.vehicles = data;
+                                LITAPP.setContent(LITAPP.user.is_admin ? 'adminView' : 'userView', { });
+                                LITAPP.hideModal();
+                            });
                         });
                         break;
-                    case 'login.form':
+                    case 'show.login':
                         LITAPP.showModal('#loginModal');
                         break;
-                    case 'register.form':
+                    case 'show.register':
                         LITAPP.showModal('#registerModal');
+                        break;
+                    case 'show.race':
+                        LITAPP.setContent('raceView', data || {});
+                        break;
+                    case 'show.vehicle':
+                        LITAPP.ajax('GET', 'user', null, function(data){
+                            LITAPP.users = data;
+                            LITAPP.setContent('vehicleView', data);
+                        });
+                        break;
+                    case 'send.station.create':
+                        break;
+                    case 'response.login':
+                    case 'response.register':
+                        LITAPP.user = data;
+                        LITAPP.publishEvent('show.index');
+                        break;
+                    case 'response.race.create':
+                    case 'response.race.update':
+                        LITAPP.publishEvent('show.race', data);
+                        break;
+                    case 'response.race.delete':
+                        LITAPP.publishEvent('show.index');
+                        break;
+                    case 'response.vehicle.create':
+                    case 'response.vehicle.update':
+                        LITAPP.publishEvent('show.vehicle', data);
                         break;
                     case 'error':
                         LITAPP.showError(data_arr[1]);
@@ -138,19 +222,6 @@ LITAPP.Application_cl = Class.create({
             default:
                 console.error('[Application_cl] unbekannte Notification: ' + message);
                 break;
-        }
-    },
-    setContent: function(view, data){
-        var html = LITAPP.tm_o.execute_px(view, data);
-        if(html!==null)
-        {
-            var content = $(".content");
-            content.html(html);
-            LITAPP.registerHandlers(content);
-        }
-        else
-        {
-            LITAPP.es_o.publish_px('app', ['error', 'Template not found.']);
         }
     }
 });

@@ -1,0 +1,20 @@
+[
+  {
+    "lastname": "Quast",
+    "login": "quast",
+    "is_admin": true,
+    "id": 1,
+    "firstname": "Lukas",
+    "driver_license": false,
+    "password": "123"
+  },
+  {
+    "lastname": "Kropp",
+    "login": "kropp",
+    "is_admin": true,
+    "id": 2,
+    "firstname": "Lukas",
+    "driver_license": false,
+    "password": "123"
+  }
+]

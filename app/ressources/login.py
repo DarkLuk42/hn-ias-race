@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from app.validator import Validator
-from .user import User
+from .user import Resource as UserResource
 
 
 class Resource(object):
@@ -11,7 +11,8 @@ class Resource(object):
 
     def POST(self, **data):
         Validator.require(data, "login", "password")
-        user = User.select().where(User.login == data["login"], User.password == data["password"]).first()
+        userresource = UserResource(self.application)
+        user = userresource.find({"login": data["login"], "password": data["password"]})
         if user is not None:
             return self.application.response(user)
         Validator.fail("The username or password is wrong!")

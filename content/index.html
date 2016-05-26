@@ -9,11 +9,12 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.26.3/js/uikit.js"></script>
-        <script src="js/main.js"></script>
+
         <script src="js/inheritance.js"></script>
         <script src="js/es.js"></script>
         <script src="js/te.js"></script>
         <script src="js/tm.js"></script>
+        <script src="js/main.js"></script>
     </head>
     <body>
         <header>
@@ -22,9 +23,12 @@
             </nav>
             <ul class="uk-breadcrumb"></ul>
         </header>
-        <div class="content">
-            <button class="uk-button uk-button-primary" data-uk-modal="{target:'#registerModal'}">Registrieren</button>
-            <button class="uk-button uk-button-primary" data-uk-modal="{target:'#loginModal'}">Anmelden</button>
+        <div class="uk-grid">
+            <div class="uk-grid-1-1">
+                <div class="content">
+                    <h1>Loading...</h1>
+                </div>
+            </div>
         </div>
         <footer>
             <span>© 2015 - Lukas Quast und Lukas Kropp</span>
@@ -34,7 +38,7 @@
                 <div class="uk-modal-header">
                     Registrierung
                 </div>
-                <form class="uk-form" action="/user" method="post">
+                <form class="uk-form" action="/user" method="post" data-event="register">
                     <div class="uk-form-row">
                         <input type="text" name="login" placeholder="Username"/>
                         <input type="password" name="password" placeholder="Passwort"/>
@@ -58,7 +62,7 @@
                 <div class="uk-modal-header">
                     Login
                 </div>
-                <form class="uk-form uk-form-row" action="/login" method="post">
+                <form class="uk-form uk-form-row" action="/login" method="post" data-event="login">
                     <div class="uk-form-row">
                         <input type="text" name="login" placeholder="Username"/>
                         <input type="password" name="password" placeholder="Passwort"/>

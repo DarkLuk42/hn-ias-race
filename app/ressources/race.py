@@ -8,7 +8,7 @@ class Resource(app.resource.Resource):
 
     def __init__(self, application):
         self.application = application
-        self.filename = "user"
+        self.filename = "race"
         self.resources = []
         self.load()
 
@@ -22,31 +22,31 @@ class Resource(app.resource.Resource):
         Validator.fail_found()
 
     def PUT(self, id, **data):
-        Validator.require(data, "login", "password", "firstname", "lastname")
-        self.validateunique("login", data["login"], {"id": id})
+        Validator.require(data, "name", "date", "leader_id")
+        if "description" not in data:
+            data["description"] = ""
         resource = self.find({"id": id})
         if resource is not None:
-            resource["driver_license"] = "driver_license" in data and data["driver_license"] == "1"
-            resource["login"] = data["login"]
-            resource["password"] = data["password"]
-            resource["firstname"] = data["firstname"]
-            resource["lastname"] = data["lastname"]
+            resource["name"] = data["name"]
+            resource["date"] = data["date"]
+            resource["description"] = data["description"]
+            resource["leader_id"] = Validator.require_int(data["leader_id"])
             self.save()
             return self.application.response(resource)
 
         Validator.fail_found()
 
     def POST(self, **data):
-        Validator.require(data, "login", "password", "firstname", "lastname")
-        self.validateunique("login", data["login"], {})
-        return self.application.response(self.create({
-            "is_admin": False,
-            "driver_license": "driver_license" in data and data["driver_license"] == "1",
-            "login": data["login"],
-            "password": data["password"],
-            "firstname": data["firstname"],
-            "lastname": data["lastname"]
-        }))
+        Validator.require(data, "name", "date", "leader_id")
+        if "description" not in data:
+            data["description"] = ""
+        resource = self.create({
+            "name": data["name"],
+            "date": data["date"],
+            "description": data["description"],
+            "leader_id": Validator.require_int(data["leader_id"])
+        })
+        return self.application.response(resource)
 
     def DELETE(self, id):
         resource = self.remove({"id": id})

@@ -2,8 +2,10 @@
 
 __all__ = [
     "login",
+    "race",
     "template",
-    "user"
+    "user",
+    "vehicle"
 ]
 
 # EOF

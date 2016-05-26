@@ -1,0 +1,7 @@
+Rennen:
+@for r = 0; r < context.races.length; r++@
+    @var race = context.races[r];@
+    <tr id="race-#race.id#" data-id="#race.id#">
+        <td>#race.name#</td>
+    </tr>
+@endfor@

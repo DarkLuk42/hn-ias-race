@@ -4,23 +4,24 @@ import cherrypy
 import json
 from .validator import Validator
 from app.ressources import *
-from .database import Database
-import peewee
+from .resource import Resource
 from playhouse.shortcuts import model_to_dict
 
 
 class Application(object):
     def __init__(self, application_dir):
         self.application_dir = application_dir
-        self.db = Database()
 
         self.template = template.Resource(self)
-        self.user = user.Resource(self)
         self.login = login.Resource(self)
+
+        self.user = user.Resource(self)
+        self.race = race.Resource(self)
+        self.vehicle = vehicle.Resource(self)
 
     @staticmethod
     def response(data=None):
-        if isinstance(data, peewee.Model):
+        if isinstance(data, Resource):
             data = model_to_dict(data, exclude=data.hidden)
         return json.dumps(data)
 
@@ -40,8 +41,9 @@ class Application(object):
             "message": message
         }), "UTF-8")
 
+
     def default(self, *arglist, **kwargs):
-        if len(arglist) == 0 and len(kwargs) == 0:
+        if len(arglist) == 0:
             raise cherrypy.HTTPRedirect("index.html")
         msg_s = "unbekannte Anforderung: " + \
                 repr(arglist) + \

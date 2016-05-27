@@ -85,137 +85,48 @@ LITAPP.ajax = function(type, url, data, success){
     });
 };
 
-LITAPP.registerHandlers = function(element)
-{
-    var $ele = $(element);
-
-    $ele.find("form").submit(function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        var form = $(this);
-        var sendEvent = form.attr("data-send-event");
-        if(sendEvent)
-        {
-            LITAPP.publishEvent(sendEvent, form.serializeObject());
-        }
-        else
-        {
-            LITAPP.ajax(form.attr("method"), form.attr("action"), form.serializeArray(), function (data) {
-                var event = form.attr("data-event");
-                if (event)
-                    LITAPP.publishEvent(event, data);
-            });
-        }
-    });
-
-    $ele.find("[data-event]:not(form)").click(function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        var data = $(this).attr("data-event-data");
-        try {
-            data = JSON.parse(data);
-        }catch( e )
-        {
-            // ignore
-        }
-        LITAPP.es_o.publish_px('app', [$(this).attr("data-event"), data]);
-    });
-
-    $ele.find(".btn-delete").click(function(e){
-        if( !UIkit.modal.confirm("Wirklich löschen?") )
-        {
-            e.preventDefault()
-        }
-    });
-};
-
-LITAPP.setContent = function(view, data){
-    try {
-        var html = LITAPP.tm_o.execute_px(view, data);
-        if(html!==null)
-        {
-            var content = $(".content");
-            content.html(html);
-            LITAPP.registerHandlers(content);
-        }
-        else
-        {
-            LITAPP.es_o.publish_px('app', ['error', 'Template not found.']);
-        }
-    }catch(e){
-        LITAPP.es_o.publish_px('app', ['error', 'Template is incorrect.', e]);
-        LITAPP.tm_o.execute_px(view, data);
-    }
-};
-
-LITAPP.publishEvent = function(name, data){
-    LITAPP.es_o.publish_px('app', [name, data])
-};
-
-LITAPP.Application_cl = Class.create({
+App = Class.create({
+    data: {
+        current_user: {},
+        users: [],
+        races: [],
+        vehicles: []
+    },
     initialize: function () {
         LITAPP.es_o.subscribe_px(this, 'app');
-        LITAPP.tm_o = new TELIB.TemplateManager_cl();
+    },
+    render: function(template, data){
+        var template_data = $.extend(true, {}, this.data);
+        template_data.data = data;
+        return LITAPP.tm_o.execute_px(template, template_data)
+    },
+    showView: function(view){
+        this.activeView = view;
+        //if(!view.rendered)
+            view.render();
+        var content = $(".content");
+        content.html(view.rendered);
+        content.find("[data-submit]").submit(function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var el = $(this);
+            view.handleEvent(el.attr("data-submit"), el);
+        });
+        content.find("[data-click]").click(function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var el = $(this);
+            view.handleEvent(el.attr("data-click"), el);
+        });
     },
     notify_px: function (self, message, data_arr) {
         console.log('event', message, data_arr);
         switch (message) {
             case 'app':
-                var data = data_arr[1];
                 switch (data_arr[0]) {
                     case 'init':
-                        break;
                     case 'templates.loaded':
-                        LITAPP.setContent('loginView');
-                        break;
-                    case 'show.index':
-                        LITAPP.ajax('GET', 'race', null, function(data){
-                            LITAPP.races = data;
-                            LITAPP.ajax('GET', 'vehicle', null, function(data){
-                                LITAPP.vehicles = data;
-                                LITAPP.setContent(LITAPP.user.is_admin ? 'adminView' : 'userView', { });
-                                LITAPP.hideModal();
-                            });
-                        });
-                        break;
-                    case 'show.login':
-                        LITAPP.showModal('#loginModal');
-                        break;
-                    case 'show.register':
-                        LITAPP.showModal('#registerModal');
-                        break;
-                    case 'show.race':
-                        LITAPP.setContent('raceView', data || {});
-                        break;
-                    case 'show.vehicle':
-                        LITAPP.ajax('GET', 'user', null, function(data){
-                            LITAPP.users = data;
-                            LITAPP.setContent('vehicleView', data);
-                        });
-                        break;
-                    case 'send.station.create':
-                        break;
-                    case 'response.login':
-                    case 'response.register':
-                        LITAPP.user = data;
-                        LITAPP.publishEvent('show.index');
-                        break;
-                    case 'response.race.create':
-                    case 'response.race.update':
-                        LITAPP.publishEvent('show.race', data);
-                        break;
-                    case 'response.race.delete':
-                        LITAPP.publishEvent('show.index');
-                        break;
-                    case 'response.vehicle.create':
-                    case 'response.vehicle.update':
-                        LITAPP.publishEvent('show.vehicle', data);
-                        break;
-                    case 'error':
-                        LITAPP.showError(data_arr[1]);
-                        break;
-                    default:
-                        console.error('[Application_cl] unbekannte app-Notification: ' + data_arr[0]);
+                        app.showView(VIEWS.init);
                         break;
                 }
                 break;
@@ -223,13 +134,42 @@ LITAPP.Application_cl = Class.create({
                 console.error('[Application_cl] unbekannte Notification: ' + message);
                 break;
         }
+    },
+    load: {
+        users: function(callback){
+            LITAPP.ajax('GET', '/user', null, function(data){
+                app.data.users = data;
+                callback();
+            });
+        },
+        races: function(callback){
+            LITAPP.ajax('GET', '/race', null, function(data){
+                app.data.races = data;
+                callback();
+            });
+        },
+        vehicles: function(callback){
+            LITAPP.ajax('GET', '/vehicle', null, function(data){
+                app.data.vehicles = data;
+                callback();
+            });
+        }
+    },
+    findVehicle: function(vehicle_id){
+        for(var v in this.data.vehicles)
+        {
+            if(this.data.vehicles.hasOwnProperty(v)) {
+                var vehicle = this.data.vehicles[v];
+                if (vehicle.id == vehicle_id)
+                    return vehicle;
+            }
+        }
+    },
+    refreshView: function(){
+        this.showView(this.activeView);
     }
 });
 
 LITAPP.es_o = new EventService_cl();
-LITAPP.app_o = new LITAPP.Application_cl();
-LITAPP.es_o.publish_px('app', ['init']);
-
-$(function(){
-    LITAPP.registerHandlers('body');
-});
+app = new App();
+LITAPP.tm_o = new TELIB.TemplateManager_cl();

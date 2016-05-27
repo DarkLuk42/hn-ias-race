@@ -19,6 +19,8 @@ class Resource(app.resource.Resource):
 
         if "description" not in data:
             data["description"] = ""
+        if "race_id" not in data:
+            data["race_id"] = 0
         resource = self.find({"id": id})
         if resource is not None:
             resource["brand"] = data["brand"]
@@ -32,6 +34,7 @@ class Resource(app.resource.Resource):
             resource["driver_id"] = Validator.require_int(data["driver_id"])
             resource["passenger_id"] = Validator.require_int(data["passenger_id"])
             resource["mechanic_id"] = Validator.require_int(data["mechanic_id"])
+            resource["race_id"] = Validator.require_int(data["race_id"])
             self.save()
             return resource
 
@@ -42,6 +45,8 @@ class Resource(app.resource.Resource):
                           "driver_id", "passenger_id", "mechanic_id")
         if "description" not in data:
             data["description"] = ""
+        if "race_id" not in data:
+            data["race_id"] = 0
         resource = self.create({
             "brand": data["brand"], "type": data["type"], "description": data["description"],
             "year": Validator.require_int(data["year"]),
@@ -51,7 +56,8 @@ class Resource(app.resource.Resource):
             "owner_id": Validator.require_int(data["owner_id"]),
             "driver_id": Validator.require_int(data["driver_id"]),
             "passenger_id": Validator.require_int(data["passenger_id"]),
-            "mechanic_id": Validator.require_int(data["mechanic_id"])
+            "mechanic_id": Validator.require_int(data["mechanic_id"]),
+            "race_id": Validator.require_int(data["race_id"])
         })
         return resource
 

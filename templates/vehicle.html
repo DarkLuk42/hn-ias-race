@@ -1,5 +1,6 @@
-@var vehicle = context;@
-@var users = LITAPP.users;@
+@;for(i in context){if(context.hasOwnProperty(i)){eval("var "+i+" = "+JSON.stringify(context[i])+";");}}@
+
+@var vehicle = data;@
 
 @if vehicle.id@
     <h2>Fahrzeug bearbeiten</h2>
@@ -8,7 +9,7 @@
         <input type="submit" value="Löschen" class="uk-button uk-button-danger"/>
     </form>
 @else@
-    <h2>Fahrzeug erstellen</h2>
+    <h2>Fahrzeug anlegen</h2>
 @endif@
 
 @if vehicle.id@
@@ -16,7 +17,7 @@
 @else@
 <form class="uk-form" action="/vehicle" method="post" data-event="response.vehicle.create">
 @endif@
-    <input type="hidden" name="owner_id" value="#LITAPP.user.id#"/>
+    <input type="hidden" name="owner_id" value="#current_user.id#"/>
     <div class="uk-form-row">
         <input type="text" name="brand" placeholder="Marke" value="#vehicle.brand#"/>
     </div>

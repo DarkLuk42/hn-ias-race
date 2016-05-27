@@ -1,0 +1,61 @@
+@;for(i in context){if(context.hasOwnProperty(i)){eval("var "+i+" = "+JSON.stringify(context[i])+";");}}@
+
+<h2>Fahrzeuge</h2>
+
+<button class="uk-button uk-button-primary" data-click="addVehicle">Fahrzeuge anlegen</button>
+
+<table class="uk-table">
+    @for r = 0; r < vehicles.length; r++@
+        @var vehicle = vehicles[r];@
+        <tr data-id="#vehicle.id#">
+            <td>#vehicle.type#</td>
+            <td>#vehicle.brand#</td>
+            <td>#vehicle.description#</td>
+            <td>
+                @if vehicle.race_id@
+                    #vehicle.race.name#
+                @else@
+                    <button class="uk-button uk-button-primary uk-button-mini" data-click="registerVehicle">zum Rennen anmelden</button>
+                @endif@
+            </td>
+        </tr>
+    @endfor@
+</table>
+
+<hr>
+
+<h2>Rennen</h2>
+<table class="uk-table">
+    @for r = 0; r < races.length; r++@
+        @var race = races[r];@
+        <tr data-id="#race.id#">
+            <td>#race.name#</td>
+            <td>#race.date#</td>
+            <td>#race.description#</td>
+        </tr>
+    @endfor@
+</table>
+
+<div id="registerVehicleModal" class="uk-modal">
+    <div class="uk-modal-dialog">
+        <div class="uk-modal-header">
+            Fahrzeug zum Rennen anmelden
+        </div>
+        <form class="uk-form" data-submit="registerVehicleSubmit">
+            <div class="uk-form-row">
+                <input type="hidden" name="vehicle_id" value="">
+                <label class="uk-form-label" for="form-race_id">Rennen</label>
+                <div class="uk-form-controls">
+                    <select id="form-race_id" name="race_id">
+                        @for u = 0; u < data.races.length; u++@
+                        @var race = data.races[u];@
+                            <option value="#race.id#">#race.name#</option>
+                        @endfor@
+                    </select>
+                </div>
+                <button class="uk-modal-close uk-button">Abbrechen</button>
+                <input type="submit" value="Anmelden" class="uk-button uk-button-primary"/>
+            </div>
+        </form>
+    </div>
+</div>

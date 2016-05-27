@@ -1,0 +1,53 @@
+@;for(i in context){if(context.hasOwnProperty(i)){eval("var "+i+" = "+JSON.stringify(context[i])+";");}}@
+
+@var race = data@
+
+@if race.id@
+    <h2>Rennen bearbeiten</h2>
+
+    <input type="submit" value="Löschen" class="uk-button uk-button-danger" data-click="remove"/>
+@else@
+    <h2>Rennen erstellen</h2>
+@endif@
+
+<form class="uk-form" data-submit="save">
+    <input type="hidden" name="leader_id" value="#current_user.id#"/>
+    <div class="uk-form-row">
+        <input type="text" name="name" placeholder="Name" value="#race.name#"/>
+    </div>
+    <div class="uk-form-row">
+        <input type="text" name="date" placeholder="Datum" value="#race.date#"/>
+    </div>
+    <div class="uk-form-row">
+        <input type="text" name="description" placeholder="Beschreibung" value="#race.description#"/>
+    </div>
+    @if race.id@
+        <fieldset data-uk-margin>
+            <legend>Stationen</legend>
+            @for var s = 0; s < race.stations.length; s++@
+                @var station = race.stations[s]@
+
+                <div class="uk-form-row" data-id="#station.id#">
+                    <input type="hidden" name="stations[]race_id" value="#race.id#"/>
+                    <input type="hidden" name="stations[]station_id" value="#station.id#"/>
+                    <input type="text" name="stations[]name" placeholder="Name"/>
+                    <input type="text" name="stations[]description" placeholder="Beschreibung"/>
+                    @if s > 0@
+                        <button class="uk-button uk-button-danger" data-click="removeStation">Löschen</button>
+                    @endif@
+                </div>
+            @endfor@
+            <div class="uk-form-row">
+                <button class="uk-button uk-button-primary" data-click="addStation">Station hinzufügen</button>
+            </div>
+        </fieldset>
+    @endif@
+    <div class="uk-form-row">
+        <button class="uk-button" data-click="return">Zurück</button>
+        @if race.id@
+            <input type="submit" value="Speichern" class="uk-button uk-button-primary"/>
+        @else@
+            <input type="submit" value="Erstellen" class="uk-button uk-button-primary"/>
+        @endif@
+    </div>
+</form>

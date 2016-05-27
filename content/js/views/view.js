@@ -11,10 +11,14 @@ View = Class.create({
     },
     prepareView: function(data){},
     handleEvent: function(name, el){
-        if(this.events[name])
-            this.events[name](el);
-        else
-            console.error('Unknown event '+name+'.');
+        if(name == 'return') {
+            app.showPreviousView();
+        }else{
+            if(this.events[name])
+                this.events[name](el);
+            else
+                console.error('Unknown event '+name+'.');
+        }
     },
     events: {}
 });

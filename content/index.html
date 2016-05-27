@@ -4,11 +4,11 @@
         <title>Oldtimer Rennen</title>
         <meta charset="UTF-8"/>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.26.3/css/uikit.min.css" />
+        <link rel="stylesheet" href="uikit.css" />
         <link rel="stylesheet" href="main.css"/>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.26.3/js/uikit.js"></script>
+        <script src="js/jquery.js"></script>
+        <script src="js/uikit.js"></script>
 
         <script src="js/inheritance.js"></script>
         <script src="js/es.js"></script>
@@ -17,6 +17,8 @@
         <script src="js/views/view.js"></script>
         <script src="js/views/init.js"></script>
         <script src="js/views/user.js"></script>
+        <script src="js/views/admin.js"></script>
+        <script src="js/views/race.js"></script>
         <script src="js/views/vehicle.js"></script>
     </head>
     <body>
@@ -28,7 +30,8 @@
             <ul class="uk-breadcrumb"></ul>
         </header>
         <div class="uk-grid">
-            <div class="uk-grid-1-1">
+            <div id="alert-box" style="position:fixed;top:0;right:0;"></div>
+            <div class="uk-width-3-4">
                 <div class="content">
                     <h1>Loading...</h1>
                 </div>

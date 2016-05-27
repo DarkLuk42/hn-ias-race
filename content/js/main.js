@@ -16,13 +16,6 @@ $.fn.serializeObject = function()
 };
 
 var LITAPP = {};
-LITAPP.showMessage = function(message){
-    UIkit.modal.alert(message);
-};
-
-LITAPP.showError = function(message){
-    UIkit.modal.alert(message);
-};
 
 LITAPP.setNav = function(list)
 {
@@ -64,21 +57,34 @@ LITAPP.ajax = function(type, url, data, success){
         "data": data,
         "dataType": "json",
         "success": function(data){
+            $("[name]").removeClass("uk-form-danger");
             if( success )
                 success(data);
             if(data.message)
-                helper.showMessage(data.message);
+                app.alertSuccess(data.message);
             loading.hide();
         },
         "error": function(error){
-            if( error.responseJSON && error.responseJSON.message )
+            if( error.responseJSON && error.responseJSON.fields )
             {
-                LITAPP.showError( error.responseJSON.message );
+                var fields = error.responseJSON.fields;
+                for( var f in fields )
+                {
+                    var field = fields[f];
+                    if(field.hasOwnProperty(f))
+                    {
+                        $("[name='"+field+"']").addClass("uk-form-danger");
+                    }
+                }
+            }
+            else if( error.responseJSON && error.responseJSON.message )
+            {
+                app.alertError( error.responseJSON.message );
             }
             else
             {
                 console.log( error );
-                LITAPP.showError( "Es ist leider etwas schief gelaufen..." );
+                app.alertError( "Es ist leider etwas schief gelaufen..." );
             }
             loading.hide();
         }
@@ -100,9 +106,14 @@ App = Class.create({
         template_data.data = data;
         return LITAPP.tm_o.execute_px(template, template_data)
     },
-    showView: function(view){
+    showView: function(view, data){
+        $('html').removeClass('uk-modal-page');
+        if(this.activeView != view)
+            view.previousView = this.activeView;
         this.activeView = view;
-        //if(!view.rendered)
+        if(data)
+            view.data = data;
+        if(true || !view.rendered) // render always new
             view.render();
         var content = $(".content");
         content.html(view.rendered);
@@ -118,6 +129,9 @@ App = Class.create({
             var el = $(this);
             view.handleEvent(el.attr("data-click"), el);
         });
+    },
+    showPreviousView: function(){
+        this.showView(this.activeView.previousView || VIEWS.init);
     },
     notify_px: function (self, message, data_arr) {
         console.log('event', message, data_arr);
@@ -165,8 +179,30 @@ App = Class.create({
             }
         }
     },
+    findRace: function(race_id){
+        for(var v in this.data.races)
+        {
+            if(this.data.races.hasOwnProperty(v)) {
+                var race = this.data.races[v];
+                if (race.id == race_id)
+                    return race;
+            }
+        }
+    },
     refreshView: function(){
         this.showView(this.activeView);
+    },
+    alertSuccess: function(message){
+        $("#alert-box").prepend($('<div class="uk-alert" data-uk-alert>'+
+        '<a href="" class="uk-alert-close uk-close"></a>'+
+        $('<p></p>').text(message).html()+
+        '</div>'));
+    },
+    alertError: function(message){
+        $("#alert-box").prepend($('<div class="uk-alert" data-uk-alert>'+
+        '<a href="" class="uk-alert-close uk-close"></a>'+
+        $('<p></p>').text(message).html()+
+        '</div>'));
     }
 });
 

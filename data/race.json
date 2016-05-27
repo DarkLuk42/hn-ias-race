@@ -1,9 +1,18 @@
 [
   {
-    "description": "",
+    "date": "heute",
+    "name": "Rennen",
+    "description": "test",
     "leader_id": 1,
-    "date": "d",
-    "id": 1,
-    "name": "a"
+    "id": 4,
+    "state": "EVALUATION"
+  },
+  {
+    "date": "morgen",
+    "description": "",
+    "name": "Neu",
+    "leader_id": 1,
+    "id": 5,
+    "state": "PREPARE"
   }
 ]

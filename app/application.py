@@ -30,17 +30,21 @@ class Application(object):
     def handle_error():
         exception = cherrypy._cperror._exc_info()[1]
         message = repr(exception)
+        data = {"message": message}
 
         cherrypy.response.status = 500
         if isinstance(exception, cherrypy.NotFound):
             cherrypy.response.status = 404
+        elif isinstance(exception, Validator.ValidationFailedRequire):
+            cherrypy.response.status = 400
+            message = str(exception)
+            data = {"message": message, "fields": exception.required_fields}
         elif isinstance(exception, Validator.ValidationFailed):
             cherrypy.response.status = 400
             message = str(exception)
+            data = {"message": message}
 
-        cherrypy.response.body = bytes(json.dumps({
-            "message": message
-        }), "UTF-8")
+        cherrypy.response.body = bytes(json.dumps(data), "UTF-8")
 
 
     def default(self, *arglist, **kwargs):

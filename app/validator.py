@@ -8,10 +8,13 @@ class Validator(object):
         pass
 
     @staticmethod
-    def require(data, *fields):
+    def require(data, *fields, require_exist=True):
         empty_fields = list()
         for field in fields:
-            if field not in data or data[field] is None or data[field].strip() == "":
+            if field not in data:
+                if require_exist:
+                    empty_fields.append(field)
+            elif data[field] is None or data[field].strip() == "":
                 empty_fields.append(field)
         if len(empty_fields) > 0:
             raise Validator.ValidationFailedRequire(empty_fields)

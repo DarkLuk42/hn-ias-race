@@ -5,14 +5,34 @@
 <button class="uk-button uk-button-primary" data-click="addRace">Rennen anlegen</button>
 
 <table class="uk-table">
+    <tr>
+        <th>Rennen</th>
+        <th>Datum</th>
+        <th>Beschreibung</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
     @for r = 0; r < races.length; r++@
         @var race = races[r];@
         <tr data-id="#race.id#">
             <td>#race.name#</td>
             <td>#race.date#</td>
             <td>#race.description#</td>
+            <td>#race.state#</td>
             <td>
-                <button class="uk-button uk-button-primary" data-click="editRace">bearbeiten</button>
+                @if race.state == 'PREPARE'@
+                    <button class="uk-button uk-button-primary" data-click="editRace">bearbeiten</button>
+                    <button class="uk-button uk-button-primary" data-click="editRaceState" data-state="REGISTRATION">Anmeldephase starten</button>
+                @elseif race.state == 'REGISTRATION'@
+                    <button class="uk-button uk-button-primary" data-click="editRace">bearbeiten</button>
+                    <button class="uk-button uk-button-primary" data-click="editRaceState" data-state="QUALIFIYNG">Anmeldephase schließen</button>
+                @elseif race.state == 'QUALIFIYNG'@
+                    <button class="uk-button uk-button-primary" data-click="editRaceState" data-state="RACE">Qualifying schließen</button>
+                @elseif race.state == 'RACE'@
+                    <button class="uk-button uk-button-primary" data-click="editRaceState" data-state="EVALUATION">Rennen ist vorbei</button>
+                @elseif race.state == 'EVALUATION'@
+
+                @endif@
             </td>
         </tr>
     @endfor@

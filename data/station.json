@@ -1,8 +1,23 @@
 [
   {
-    "race_id": 1,
     "position": 0,
     "description": "",
-    "name": "Start"
+    "race_id": 5,
+    "id": 2,
+    "name": "Station 1"
+  },
+  {
+    "name": "Station 1",
+    "description": "",
+    "race_id": 5,
+    "id": 3,
+    "position": 0
+  },
+  {
+    "position": 1,
+    "description": "",
+    "race_id": 4,
+    "id": 1,
+    "name": "Station 3"
   }
 ]

@@ -6,21 +6,17 @@ AdminView = Class.extend(View, {
         data.races = app.data.races;
     },
     events: {
-        addVehicle: function(){
-            app.showView(VIEWS.vehicle, {});
+        addRace: function(){
+            app.showView(VIEWS.race, {});
         },
-        registerVehicle: function(el){
-            $('#registerVehicleModal').find("[name='vehicle_id']").val(el.closest("[data-id]").attr("data-id"));
-            UIkit.modal('#registerVehicleModal').show();
+        editRace: function(el){
+            app.showView(VIEWS.race, app.findRace(el.closest("[data-id]").attr("data-id")));
         },
-        registerVehicleSubmit: function(el){
-            var data = el.serializeObject();
-            var vehicle = app.findVehicle(data.vehicle_id);
-            vehicle.race_id = data.race_id;
-            delete vehicle.id;
-            LITAPP.ajax('PUT', '/vehicle/'+data.vehicle_id, vehicle, function(){
-                UIkit.modal('#registerVehicleModal').hide();
-                app.load.vehicles(function(){
+        editRaceState: function(el){
+            var state = el.attr("data-state");
+            var race_id = el.closest("[data-id]").attr("data-id");
+            LITAPP.ajax('PUT', '/race/'+race_id, {"state": state}, function(){
+                app.load.races(function(){
                     app.refreshView();
                 });
             });

@@ -1,23 +1,23 @@
 [
   {
-    "position": 0,
-    "description": "",
-    "race_id": 5,
-    "id": 2,
-    "name": "Station 1"
-  },
-  {
     "name": "Station 1",
-    "description": "",
+    "id": 2,
     "race_id": 5,
-    "id": 3,
-    "position": 0
+    "position": 0,
+    "description": "test1"
   },
   {
-    "position": 1,
-    "description": "",
-    "race_id": 4,
+    "name": "Station 3",
     "id": 1,
-    "name": "Station 3"
+    "race_id": 4,
+    "position": 1,
+    "description": ""
+  },
+  {
+    "name": "Station 3",
+    "id": 3,
+    "race_id": 5,
+    "position": 1,
+    "description": ""
   }
 ]

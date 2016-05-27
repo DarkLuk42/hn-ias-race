@@ -188,6 +188,7 @@ App = Class.create({
                     return race;
             }
         }
+        console.log(race_id, this.data.races);
     },
     refreshView: function(){
         this.showView(this.activeView);

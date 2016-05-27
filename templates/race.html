@@ -30,8 +30,8 @@
                 <div class="uk-form-row" data-id="#station.id#">
                     <input type="hidden" name="stations[]race_id" value="#race.id#"/>
                     <input type="hidden" name="stations[]station_id" value="#station.id#"/>
-                    <input type="text" name="stations[]name" placeholder="Name"/>
-                    <input type="text" name="stations[]description" placeholder="Beschreibung"/>
+                    <input type="text" name="stations[]name" value="#station.name#" placeholder="Name"/>
+                    <input type="text" name="stations[]description" value="#station.description#" placeholder="Beschreibung"/>
                     @if s > 0@
                         <button class="uk-button uk-button-danger" data-click="removeStation">Löschen</button>
                     @endif@

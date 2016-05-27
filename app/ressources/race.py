@@ -32,9 +32,41 @@ class Resource(app.resource.Resource):
             if "leader_id" in data:
                 resource["leader_id"] = Validator.require_int(data["leader_id"])
             self.save()
+
+            self.sync_stations(resource, data)
+
             return resource
 
         Validator.fail_found()
+
+    def sync_stations(self, resource, data):
+        stations = self.application.station.findall({"race_id": resource["id"]})
+
+        if "stations[]name[]" in data:
+            stations = []
+            for i in range(0, len(data["stations[]name[]"])):
+                station = {
+                    "name": data["stations[]name[]"][i],
+                    "description": data["stations[]description[]"][i],
+                    "race_id": resource["id"],
+                    "position": i
+                }
+                stations.append(station)
+
+        if len(stations) == 0:
+            stations.append({
+                "name": "Station 1",
+                "description": "",
+                "race_id": resource["id"],
+                "position": 0
+            })
+
+        self.application.station.removeall({"race_id": resource["id"]})
+
+        for station in stations:
+            self.application.station.create(station)
+
+        self.application.station.save()
 
     def api_create(self, **data):
         Validator.require(data, "name", "date", "leader_id")
@@ -47,13 +79,8 @@ class Resource(app.resource.Resource):
             "description": data["description"],
             "leader_id": Validator.require_int(data["leader_id"])
         })
-        self.application.station.create({
-            "name": "Station 1",
-            "description": "",
-            "race_id": resource["id"],
-            "position": 0
-        })
-        self.application.station.save()
+
+        self.sync_stations(resource, data)
         return resource
 
     def append_data_to_resource(self, data):

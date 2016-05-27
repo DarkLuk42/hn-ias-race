@@ -10,6 +10,7 @@
         <th>Marke</th>
         <th>Beschreibung</th>
         <th>Rennen (wenn angemeldet)</th>
+        <th></th>
     </tr>
     @for r = 0; r < vehicles.length; r++@
         @var vehicle = vehicles[r];@
@@ -18,11 +19,19 @@
             <td>#vehicle.brand#</td>
             <td>#vehicle.description#</td>
             <td>
-                @if vehicle.race_id@
-                    #app.findRace(vehicle.race_id).name#
+                @var race;@
+                @if vehicle.race_id && (race = app.findRace(vehicle.race_id))@
+                    #race.name#
+                    @if race.state == 'REGISTRATION'@
+                        <button class="uk-button uk-button-danger uk-button-mini" data-click="unregisterVehicle">abmelden</button>
+                    @endif@
                 @else@
-                    <button class="uk-button uk-button-primary uk-button-mini" data-click="registerVehicle">zum Rennen anmelden</button>
+                    <button class="uk-button uk-button-primary uk-button-mini" data-click="registerVehicle">anmelden</button>
                 @endif@
+            </td>
+            <td>
+                <button class="uk-button uk-button-primary uk-button-mini" data-click="editVehicle">bearbeiten</button>
+                <button class="uk-button uk-button-danger uk-button-mini" data-click="removeVehicle">löschen</button>
             </td>
         </tr>
     @endfor@
@@ -59,8 +68,10 @@
                 <div class="uk-form-controls">
                     <select id="form-race_id" name="race_id">
                         @for u = 0; u < data.races.length; u++@
-                        @var race = data.races[u];@
-                            <option value="#race.id#">#race.name#</option>
+                            @var race = data.races[u];@
+                            @if race.state == 'REGISTRATION'@
+                                <option value="#race.id#">#race.name#</option>
+                            @endif@
                         @endfor@
                     </select>
                 </div>

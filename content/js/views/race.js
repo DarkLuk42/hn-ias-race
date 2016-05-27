@@ -36,17 +36,57 @@ RaceView = Class.extend(View, {
             });
         },
         removeStation: function(el){
+            var form = el.closest("form");
             el.parent().remove();
-            VIEWS.race.data.stations = el.closest("form").serializeObject().stations;
+            var data = form.serializeObject();
+            var stations = [];
+            var race_id = el.parent().attr("data-id");
+            if(typeof data["stations[]name"] == "string")
+            {
+                data["stations[]name"] = [data["stations[]name"]];
+                data["stations[]description"] = [data["stations[]description"]];
+            }
+            for(var i = 0; i < data["stations[]name"].length; i++)
+            {
+                var name = data["stations[]name"][i];
+                var description = data["stations[]description"][i];
+                stations.push({
+                    "name": name,
+                    "position": i,
+                    "description": description,
+                    "race_id": race_id
+                });
+            }
+            VIEWS.race.data.stations = stations;
+            console.log(VIEWS.race.data.stations);
             app.refreshView();
         },
         addStation: function(el){
-            var data = VIEWS.race.data;
-            data.stations = el.closest("form").serializeObject().stations;
-            data.stations.push({
-                "race_id": data.id,
-                "name": "Station "+(data.stations.length+1)
+            var form = el.closest("form");
+            var data = form.serializeObject();
+            var stations = [];
+            var race_id = el.parent().attr("data-id");
+            if(typeof data["stations[]name"] == "string")
+            {
+                data["stations[]name"] = [data["stations[]name"]];
+                data["stations[]description"] = [data["stations[]description"]];
+            }
+            for(var i = 0; i < data["stations[]name"].length; i++)
+            {
+                var name = data["stations[]name"][i];
+                var description = data["stations[]description"][i];
+                stations.push({
+                    "name": name,
+                    "position": i,
+                    "description": description,
+                    "race_id": race_id
+                });
+            }
+            stations.push({
+                "race_id": race_id,
+                "name": "Station "+(stations.length+1)
             });
+            VIEWS.race.data.stations = stations;
             app.refreshView();
         }
     }

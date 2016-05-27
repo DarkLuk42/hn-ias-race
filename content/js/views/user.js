@@ -9,9 +9,31 @@
         addVehicle: function(){
             app.showView(VIEWS.vehicle, {});
         },
+        editVehicle: function(el){
+            app.showView(VIEWS.vehicle, app.findVehicle(el.closest("[data-id]").attr("data-id")));
+        },
         registerVehicle: function(el){
             $('#registerVehicleModal').find("[name='vehicle_id']").val(el.closest("[data-id]").attr("data-id"));
             UIkit.modal('#registerVehicleModal').show();
+        },
+        unregisterVehicle: function(el){
+            var vehicle_id = el.closest("[data-id]").attr("data-id");
+            var vehicle = app.findVehicle(vehicle_id);
+            vehicle.race_id = 0;
+            delete vehicle.id;
+            LITAPP.ajax('PUT', '/vehicle/'+vehicle_id, vehicle, function(){
+                app.load.vehicles(function(){
+                    app.refreshView();
+                });
+            });
+        },
+        removeVehicle: function(el){
+            var vehicle_id = el.closest("[data-id]").attr("data-id");
+            LITAPP.ajax('DELETE', '/vehicle/'+vehicle_id, null, function(){
+                app.load.vehicles(function(){
+                    app.refreshView();
+                });
+            });
         },
         registerVehicleSubmit: function(el){
             var data = el.serializeObject();

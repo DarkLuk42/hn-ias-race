@@ -27,7 +27,7 @@
                     <button class="uk-button uk-button-primary" data-click="editRace">bearbeiten</button>
                     <button class="uk-button uk-button-primary" data-click="editRaceState" data-state="QUALIFIYNG">Anmeldephase schließen</button>
                 @elseif race.state == 'QUALIFIYNG'@
-                    <button class="uk-button uk-button-primary" data-click="editRaceState" data-state="RACE">Qualifying schließen</button>
+                    <button class="uk-button uk-button-primary" data-click="showQualifying">Ergebnisse eintragen</button>
                 @elseif race.state == 'RACE'@
                     <button class="uk-button uk-button-primary" data-click="editRaceState" data-state="EVALUATION">Rennen ist vorbei</button>
                 @elseif race.state == 'EVALUATION'@
@@ -37,3 +37,66 @@
         </tr>
     @endfor@
 </table>
+
+<hr>
+
+<h2>Fahrzeuge</h2>
+
+<table class="uk-table">
+    <tr>
+        <th>Typ</th>
+        <th>Marke</th>
+        <th>Beschreibung</th>
+        <th>Rennen (wenn angemeldet)</th>
+        <th></th>
+    </tr>
+    @for r = 0; r < vehicles.length; r++@
+        @var vehicle = vehicles[r];@
+        <tr data-id="#vehicle.id#">
+            <td>#vehicle.type#</td>
+            <td>#vehicle.brand#</td>
+            <td>#vehicle.description#</td>
+            <td>
+                @var race;@
+                @if vehicle.race_id && (race = app.findRace(vehicle.race_id))@
+                    #race.name#
+                    @if race.state == 'REGISTRATION'@
+                        <button class="uk-button uk-button-danger uk-button-mini" data-click="unregisterVehicle">abmelden</button>
+                    @endif@
+                @else@
+                    <button class="uk-button uk-button-primary uk-button-mini" data-click="registerVehicle">anmelden</button>
+                @endif@
+            </td>
+            <td>
+                <button class="uk-button uk-button-primary uk-button-mini" data-click="editVehicle">bearbeiten</button>
+                <button class="uk-button uk-button-danger uk-button-mini" data-click="removeVehicle">löschen</button>
+            </td>
+        </tr>
+    @endfor@
+</table>
+
+<div id="registerVehicleModal" class="uk-modal">
+    <div class="uk-modal-dialog">
+        <div class="uk-modal-header">
+            Fahrzeug zum Rennen anmelden
+        </div>
+        <form class="uk-form" data-submit="registerVehicleSubmit">
+            <div class="uk-form-row">
+                <input type="hidden" name="vehicle_id" value="">
+                <label class="uk-form-label" for="form-race_id">Rennen</label>
+                <div class="uk-form-controls">
+                    <select id="form-race_id" name="race_id">
+                        @for u = 0; u < data.races.length; u++@
+                            @var race = data.races[u];@
+                            @if race.state == 'REGISTRATION'@
+                                <option value="#race.id#">#race.name#</option>
+                            @endif@
+                        @endfor@
+                    </select>
+                </div>
+                <button class="uk-modal-close uk-button">Abbrechen</button>
+                <input type="submit" value="Anmelden" class="uk-button uk-button-primary"/>
+            </div>
+        </form>
+    </div>
+</div>

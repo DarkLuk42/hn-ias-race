@@ -81,6 +81,10 @@ class Resource(object):
                 return model
         return None
 
+    def removeall(self, data):
+        while self.remove(data) is not None:
+            pass
+
     def validateunique(self, field, value, exclude):
         records = self.findall(exclude, inverse=True)
         for record in records:

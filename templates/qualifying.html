@@ -1,0 +1,24 @@
+@;for(i in context){if(context.hasOwnProperty(i)){eval("var "+i+" = "+JSON.stringify(context[i])+";");}}@
+
+@var race = data@
+
+<h2>Qualifying</h2>
+<table class="uk-table">
+    <tr>
+        <th>Fahrzeug</th>
+        <th>Zeit</th>
+    </tr>
+    @for v = 0; v < vehicles.length; v++@
+        @vehicle = vehicles[v]@
+        @if vehicle.race_id == race.id@
+            <tr>
+                <td>#vehicle.brand# #vehicle.type#</td>
+                <td>
+                    <input type="text" name="#vehicle.id#">
+                </td>
+            </tr>
+        @endif@
+    @endfor@
+</table>
+
+

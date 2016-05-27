@@ -4,40 +4,37 @@
 
 @if vehicle.id@
     <h2>Fahrzeug bearbeiten</h2>
-
-    <form class="uk-form" action="/vehicle/#vehicle.id#" method="delete" data-event="response.vehicle.delete">
-        <input type="submit" value="Löschen" class="uk-button uk-button-danger"/>
-    </form>
 @else@
     <h2>Fahrzeug anlegen</h2>
 @endif@
 
-@if vehicle.id@
-<form class="uk-form" action="/vehicle/#vehicle.id#" method="put" data-event="response.vehicle.update">
-@else@
-<form class="uk-form" action="/vehicle" method="post" data-event="response.vehicle.create">
-@endif@
+<form class="uk-form" data-submit="save">
     <input type="hidden" name="owner_id" value="#current_user.id#"/>
     <div class="uk-form-row">
-        <input type="text" name="brand" placeholder="Marke" value="#vehicle.brand#"/>
+        <label class="uk-form-label">Marke</label>
+        <input type="text" name="brand" value="#vehicle.brand#"/>
     </div>
     <div class="uk-form-row">
-        <input type="text" name="type" placeholder="Typ" value="#vehicle.type#"/>
+        <label class="uk-form-label">Typ</label>
+        <input type="text" name="type" value="#vehicle.type#"/>
     </div>
     <div class="uk-form-row">
-        <input type="text" name="year" placeholder="year" value="#vehicle.year#"/>
+        <label class="uk-form-label">Erstzulassung</label>
+        <input type="text" name="year" value="#vehicle.year#"/>
     </div>
     <div class="uk-form-row">
-        <input type="text" name="capacity_ccm" placeholder="capacity_ccm" value="#vehicle.capacity_ccm#"/>
+        <label class="uk-form-label">Hubraum (ccm)</label>
+        <input type="text" name="capacity_ccm" value="#vehicle.capacity_ccm#"/>
     </div>
     <div class="uk-form-row">
+        <label class="uk-form-label">Leistung (kw)</label>
         <input type="text" name="power_kw" placeholder="power_kw" value="#vehicle.power_kw#"/>
     </div>
     <div class="uk-form-row">
         <label class="uk-form-label" for="form-s-s">Fahrzeugklasse</label>
         <div class="uk-form-controls">
             <select id="form-s-s" name="category_id">
-                <option value="1">Klasse 1</option>
+                <option value="1" @if 1 == vehicle.category_id@selected@endif@>Klasse 1</option>
             </select>
         </div>
     </div>
@@ -47,7 +44,7 @@
             <select id="form-s-s" name="driver_id">
                 @for u = 0; u < users.length; u++@
                 @var user = users[u];@
-                    <option value="#user.id#">#user.firstname# #user.lastname#</option>
+                    <option value="#user.id#" @if user.id == vehicle.driver_id@selected@endif@>#user.firstname# #user.lastname#</option>
                 @endfor@
             </select>
         </div>
@@ -58,7 +55,7 @@
             <select id="form-s-s" name="passenger_id">
                 @for u = 0; u < users.length; u++@
                 @var user = users[u];@
-                    <option value="#user.id#">#user.firstname# #user.lastname#</option>
+                    <option value="#user.id#" @if user.id == vehicle.passenger_id@selected@endif@>#user.firstname# #user.lastname#</option>
                 @endfor@
             </select>
         </div>
@@ -69,7 +66,7 @@
             <select id="form-s-s" name="mechanic_id">
                 @for u = 0; u < users.length; u++@
                 @var user = users[u];@
-                    <option value="#user.id#">#user.firstname# #user.lastname#</option>
+                    <option value="#user.id#" @if user.id == vehicle.mechanic_id@selected@endif@>#user.firstname# #user.lastname#</option>
                 @endfor@
             </select>
         </div>

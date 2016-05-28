@@ -16,7 +16,7 @@ class VehicleCategory(app.resource.IdResource):
 
     def __init__(self, application):
         self.filename = "vehicle_category"
-        super(self.__class__, self).__init__(application)
+        super().__init__(application)
 
 
 # EOF

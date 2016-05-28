@@ -1,11 +1,9 @@
 #  coding: utf-8
 
-from app.validator import Validator
 import app.resource
-from copy import deepcopy
 
 
-class Resource(app.resource.Resource):
+class Race(app.resource.Resource):
 
     fields = {
         "name": str,
@@ -28,13 +26,13 @@ class Resource(app.resource.Resource):
         return resource["date"]
 
     def api_update(self, id, **data):
-        resource = super(Resource, self).api_update(id, **data)
+        resource = super(self.__class__, self).api_update(id, **data)
         self.sync_stations(resource, data)
         return resource
 
     def api_create(self, **data):
         data["state"] = "PREPARE"
-        resource = super(Resource, self).api_create(**data)
+        resource = super(self.__class__, self).api_create(**data)
         self.sync_stations(resource, data)
         return resource
 

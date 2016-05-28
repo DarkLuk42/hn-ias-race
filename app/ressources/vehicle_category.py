@@ -1,10 +1,9 @@
 #  coding: utf-8
 
-from app.validator import Validator
 import app.resource
 
 
-class Vehicle(app.resource.Resource):
+class VehicleCategory(app.resource.Resource):
 
     fields = {
         "brand": str,
@@ -26,7 +25,7 @@ class Vehicle(app.resource.Resource):
 
     def __init__(self, application):
         self.application = application
-        self.filename = "vehicle"
+        self.filename = "vehicle_category"
         self.resources = []
         self.load()
 

@@ -4,26 +4,23 @@ import cherrypy
 import json
 from .validator import Validator
 from app.ressources import *
-from .resource import Resource
-from playhouse.shortcuts import model_to_dict
 
 
 class Application(object):
     def __init__(self, application_dir):
         self.application_dir = application_dir
 
-        self.template = template.Resource(self)
-        self.login = login.Resource(self)
+        self.template = template.Template(self)
+        self.login = login.Login(self)
 
-        self.user = user.Resource(self)
-        self.station = station.Resource(self)
-        self.race = race.Resource(self)
-        self.vehicle = vehicle.Resource(self)
+        self.user = user.User(self)
+        self.station = station.Station(self)
+        self.race = race.Race(self)
+        self.vehicle = vehicle.Vehicle(self)
+        self.vehicle_category = vehicle_category.VehicleCategory(self)
 
     @staticmethod
     def response(data=None):
-        if isinstance(data, Resource):
-            data = model_to_dict(data, exclude=data.hidden)
         return json.dumps(data)
 
     @staticmethod
@@ -49,7 +46,6 @@ class Application(object):
             data = {"message": message}
 
         cherrypy.response.body = bytes(json.dumps(data), "UTF-8")
-
 
     def default(self, *arglist, **kwargs):
         if len(arglist) == 0:

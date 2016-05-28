@@ -6,7 +6,8 @@ __all__ = [
     "station",
     "template",
     "user",
-    "vehicle"
+    "vehicle",
+    "vehicle_category"
 ]
 
 # EOF

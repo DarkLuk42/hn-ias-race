@@ -1,10 +1,9 @@
 #  coding: utf-8
 
-from app.validator import Validator
 import app.resource
 
 
-class Resource(app.resource.Resource):
+class User(app.resource.Resource):
 
     fields = {
         "login": str,

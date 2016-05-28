@@ -13,12 +13,6 @@ class Resource(object):
     }
     defaults = {}
 
-    def __init__(self, application):
-        self.application = application
-        self.filename = "data"
-        self.resources = []
-        self.load()
-
     def sortfunction(self, resource):
         return resource["id"]
 

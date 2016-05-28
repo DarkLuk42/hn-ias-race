@@ -3,7 +3,7 @@
 import cherrypy
 import json
 from .validator import Validator
-from app.ressources import *
+from app.resources import *
 
 
 class Application(object):

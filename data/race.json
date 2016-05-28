@@ -2,25 +2,25 @@
   {
     "id": 4,
     "date": "heute",
-    "leader_id": 1,
-    "name": "Rennen",
+    "description": "test",
     "state": "EVALUATION",
-    "description": "test"
+    "leader_id": 1,
+    "name": "Rennen"
   },
   {
     "id": 5,
     "date": "morgen",
-    "leader_id": 1,
-    "name": "Neu",
+    "description": "",
     "state": "QUALIFIYNG",
-    "description": ""
+    "leader_id": 1,
+    "name": "Neu"
   },
   {
     "id": 6,
     "date": "morgen",
+    "description": "",
+    "state": "REGISTRATION",
     "leader_id": 1,
-    "name": "Testrennen",
-    "state": "PREPARE",
-    "description": "Test 123"
+    "name": "Testrennen"
   }
 ]

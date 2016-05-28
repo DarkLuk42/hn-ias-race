@@ -26,15 +26,6 @@ RaceView = Class.extend(View, {
                 });
             }
         },
-        remove: function(){
-            var data = VIEWS.race.data;
-            LITAPP.ajax('DELETE', '/race/'+data.id, null, function(){
-                app.load.races(function(){
-                    app.alertSuccess('Rennen wurde entfernt.');
-                    app.showPreviousView();
-                });
-            });
-        },
         removeStation: function(el){
             var form = el.closest("form");
             el.parent().remove();
@@ -58,11 +49,11 @@ RaceView = Class.extend(View, {
                 });
             }
             VIEWS.race.data.stations = stations;
-            console.log(VIEWS.race.data.stations);
             app.refreshView();
         },
         addStation: function(el){
             var form = el.closest("form");
+            $(el).parent().clone().insertAfter($(el).parent());
             var data = form.serializeObject();
             var stations = [];
             var race_id = el.parent().attr("data-id");
@@ -82,10 +73,6 @@ RaceView = Class.extend(View, {
                     "race_id": race_id
                 });
             }
-            stations.push({
-                "race_id": race_id,
-                "name": "Station "+(stations.length+1)
-            });
             VIEWS.race.data.stations = stations;
             app.refreshView();
         }

@@ -96,7 +96,8 @@ App = Class.create({
         current_user: {},
         users: [],
         races: [],
-        vehicles: []
+        vehicles: [],
+        vehicle_categories: []
     },
     initialize: function () {
         LITAPP.es_o.subscribe_px(this, 'app');
@@ -140,7 +141,9 @@ App = Class.create({
                 switch (data_arr[0]) {
                     case 'init':
                     case 'templates.loaded':
-                        app.showView(VIEWS.init);
+                        app.load.races(function(){
+                            app.showView(VIEWS.init);
+                        });
                         break;
                 }
                 break;
@@ -165,6 +168,12 @@ App = Class.create({
         vehicles: function(callback){
             LITAPP.ajax('GET', '/vehicle', null, function(data){
                 app.data.vehicles = data;
+                callback();
+            });
+        },
+        vehicle_categories: function(callback){
+            LITAPP.ajax('GET', '/vehicle_category', null, function(data){
+                app.data.vehicle_categories = data;
                 callback();
             });
         }

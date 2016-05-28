@@ -4,8 +4,6 @@
 
 @if race.id@
     <h2>Rennen bearbeiten</h2>
-
-    <input type="submit" value="Löschen" class="uk-button uk-button-danger" data-click="remove"/>
 @else@
     <h2>Rennen erstellen</h2>
 @endif@
@@ -13,16 +11,25 @@
 <form class="uk-form" data-submit="save">
     <input type="hidden" name="leader_id" value="#current_user.id#"/>
     <div class="uk-form-row">
-        <input type="text" name="name" placeholder="Name" value="#race.name#"/>
+        <label class="uk-form-label">Name</label>
+        <div class="uk-form-controls">
+            <input type="text" name="name" value="#race.name#"/>
+        </div>
     </div>
     <div class="uk-form-row">
-        <input type="text" name="date" placeholder="Datum" value="#race.date#"/>
+        <label class="uk-form-label">Datum</label>
+        <div class="uk-form-controls">
+            <input type="text" name="date" value="#race.date#"/>
+        </div>
     </div>
     <div class="uk-form-row">
-        <input type="text" name="description" placeholder="Beschreibung" value="#race.description#"/>
+        <label class="uk-form-label">Beschreibung</label>
+        <div class="uk-form-controls">
+            <input type="text" name="description" value="#race.description#"/>
+        </div>
     </div>
-    @if race.id@
-        <fieldset data-uk-margin>
+    <div class="uk-form-row">
+        <fieldset>
             <legend>Stationen</legend>
             @for var s = 0; s < race.stations.length; s++@
                 @var station = race.stations[s]@
@@ -32,16 +39,14 @@
                     <input type="hidden" name="stations[]station_id" value="#station.id#"/>
                     <input type="text" name="stations[]name" value="#station.name#" placeholder="Name"/>
                     <input type="text" name="stations[]description" value="#station.description#" placeholder="Beschreibung"/>
+                    <button class="uk-button uk-button-primary" data-click="addStation">+</button>
                     @if s > 0@
-                        <button class="uk-button uk-button-danger" data-click="removeStation">Löschen</button>
+                        <button class="uk-button uk-button-danger" data-click="removeStation">-</button>
                     @endif@
                 </div>
             @endfor@
-            <div class="uk-form-row">
-                <button class="uk-button uk-button-primary" data-click="addStation">Station hinzufügen</button>
-            </div>
         </fieldset>
-    @endif@
+    </div>
     <div class="uk-form-row">
         <button class="uk-button" data-click="return">Zurück</button>
         @if race.id@

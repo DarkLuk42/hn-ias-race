@@ -1,23 +1,30 @@
 [
   {
-    "name": "Station 1",
-    "id": 2,
-    "race_id": 5,
     "position": 0,
-    "description": "test1"
-  },
-  {
-    "name": "Station 3",
-    "id": 1,
-    "race_id": 4,
-    "position": 1,
-    "description": ""
-  },
-  {
-    "name": "Station 3",
-    "id": 3,
+    "description": "test1",
+    "name": "Station 1",
     "race_id": 5,
+    "id": 2
+  },
+  {
+    "position": 0,
+    "description": "",
+    "name": "Station 1",
+    "race_id": 6,
+    "id": 4
+  },
+  {
     "position": 1,
-    "description": ""
+    "description": "",
+    "name": "Station 3",
+    "race_id": 4,
+    "id": 1
+  },
+  {
+    "position": 1,
+    "description": "",
+    "name": "Station 3",
+    "race_id": 5,
+    "id": 3
   }
 ]

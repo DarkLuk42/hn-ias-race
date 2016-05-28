@@ -38,7 +38,11 @@ class Application(object):
         elif isinstance(exception, Validator.ValidationFailedRequire):
             cherrypy.response.status = 400
             message = str(exception)
-            data = {"message": message, "fields": exception.required_fields}
+            data = {"message": message, "fields": exception.get_fields()}
+        elif isinstance(exception, Validator.ValidationFailedFields):
+            cherrypy.response.status = 400
+            message = str(exception)
+            data = {"message": message, "fields": exception.get_fields()}
         elif isinstance(exception, Validator.ValidationFailed):
             cherrypy.response.status = 400
             message = str(exception)

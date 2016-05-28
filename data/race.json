@@ -1,18 +1,26 @@
 [
   {
     "name": "Rennen",
-    "leader_id": 1,
-    "id": 4,
+    "description": "test",
     "date": "heute",
     "state": "EVALUATION",
-    "description": "test"
+    "leader_id": 1,
+    "id": 4
   },
   {
     "name": "Neu",
-    "leader_id": 1,
-    "id": 5,
+    "description": "",
     "date": "morgen",
     "state": "QUALIFIYNG",
-    "description": ""
+    "leader_id": 1,
+    "id": 5
+  },
+  {
+    "name": "Testrennen",
+    "description": "Test 123",
+    "date": "morgen",
+    "state": "PREPARE",
+    "leader_id": 1,
+    "id": 6
   }
 ]

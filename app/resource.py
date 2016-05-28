@@ -8,7 +8,10 @@ from copy import deepcopy
 class Resource(object):
 
     exposed = True
-    hidden = []
+    fields = {
+        "name": str
+    }
+    defaults = {}
 
     def __init__(self, application):
         self.application = application
@@ -121,13 +124,24 @@ class Resource(object):
         Validator.fail_found()
 
     def api_list(self, **data):
-        return self.resources
+        return self.findall(data)
 
     def api_update(self, id, **data):
+        id = Validator.require_int(id)
+        fillable = Validator.validate(data, self.__class__.fields, self.__class__.defaults, require_all=False)
+        resource = self.find({"id": id})
+        if resource is not None:
+            for field in fillable:
+                resource[field] = fillable[field]
+
+            return resource
+
         Validator.fail_found()
 
     def api_create(self, **data):
-        Validator.fail_found()
+        fillable = Validator.validate(data, self.__class__.fields, self.__class__.defaults)
+        resource = self.create(fillable)
+        return resource
 
     def api_remove(self, id, **data):
         id = Validator.require_int(id)
@@ -137,16 +151,16 @@ class Resource(object):
 
         Validator.fail_found()
 
-    def append_data_to_resource(self, data):
+    def prepare_response(self, resource):
         pass
 
     def response(self, data):
         data = deepcopy(data)
-        if isinstance(data, self.resources.__class__):
+        if isinstance(data, list):
             for resource in data:
-                self.append_data_to_resource(resource)
+                self.prepare_response(resource)
         else:
-            self.append_data_to_resource(data)
+            self.prepare_response(data)
 
         return self.application.response(data)
 

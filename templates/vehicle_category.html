@@ -1,0 +1,39 @@
+@;for(i in context){if(context.hasOwnProperty(i)){eval("var "+i+" = "+JSON.stringify(context[i])+";");}}@
+
+@var vehicle_category = data;@
+
+@if vehicle_category.id@
+    <h2>Fahrzeug bearbeiten</h2>
+@else@
+    <h2>Fahrzeug anlegen</h2>
+@endif@
+
+<form class="uk-form" data-submit="save">
+    <input type="hidden" name="owner_id" value="#current_user.id#"/>
+    <div class="uk-form-row">
+        <label class="uk-form-label">Name</label>
+        <div class="uk-form-controls">
+            <input type="text" name="name" value="#vehicle_category.name#"/>
+        </div>
+    </div>
+    <div class="uk-form-row">
+        <label class="uk-form-label">Beschreibung</label>
+        <div class="uk-form-controls">
+            <input type="text" name="description" value="#vehicle_category.description#"/>
+        </div>
+    </div>
+    <div class="uk-form-row">
+        <label class="uk-form-label">Qualifikationszeit (in Sekunden)</label>
+        <div class="uk-form-controls">
+            <input type="text" name="qualifying_time_s" value="#vehicle_category.qualifying_time_s#"/>
+        </div>
+    </div>
+    <div class="uk-form-row">
+        <button class="uk-button" data-click="return">Zurück</button>
+        @if vehicle_category.id@
+            <input type="submit" value="Speichern" class="uk-button uk-button-primary"/>
+        @else@
+            <input type="submit" value="Erstellen" class="uk-button uk-button-primary"/>
+        @endif@
+    </div>
+</form>

@@ -4,7 +4,7 @@ from app.validator import Validator
 import app.resource
 
 
-class Vehicle(app.resource.Resource):
+class Vehicle(app.resource.IdResource):
 
     fields = {
         "brand": str,
@@ -25,10 +25,8 @@ class Vehicle(app.resource.Resource):
     }
 
     def __init__(self, application):
-        self.application = application
         self.filename = "vehicle"
-        self.resources = []
-        self.load()
+        super(self.__class__, self).__init__(application)
 
 
 # EOF

@@ -3,7 +3,7 @@
 import app.resource
 
 
-class User(app.resource.Resource):
+class User(app.resource.IdResource):
 
     fields = {
         "login": str,
@@ -17,10 +17,8 @@ class User(app.resource.Resource):
     }
 
     def __init__(self, application):
-        self.application = application
         self.filename = "user"
-        self.resources = []
-        self.load()
+        super(self.__class__, self).__init__(application)
 
     def sortfunction(self, resource):
         return resource["login"]

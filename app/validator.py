@@ -20,7 +20,7 @@ class Validator(object):
             raise Validator.ValidationFailedRequire(empty_fields)
 
     @staticmethod
-    def validate(data, fields, defaults, overwrite_data=True, require_all=True):
+    def validate(data, fields, defaults, overwrite_data=False, require_all=True):
         response = {}
         missing_fields = []
         empty_fields = []

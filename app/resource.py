@@ -13,6 +13,15 @@ class Resource(object):
     }
     defaults = {}
 
+    def __init__(self, application):
+        if self.filename is not None:
+            self.filename = self.filename
+        else:
+            self.filename = "data"
+        self.application = application
+        self.resources = []
+        self.load()
+
     def sortfunction(self, resource):
         return resource["id"]
 
@@ -58,13 +67,6 @@ class Resource(object):
             maxvalue = max(maxvalue, model[field])
         return maxvalue
 
-    def create(self, data):
-        data["id"] = self.maxvalue("id") + 1
-        self.resources.append(data)
-        self.resources = self.sort(self.resources)
-        self.save()
-        return data
-
     def remove(self, data):
         for model in self.resources:
             found = True
@@ -88,6 +90,25 @@ class Resource(object):
             if record[field] == value:
                 Validator.fail('Value '+value+' for field '+field+' is already in use.')
 
+    def prepare_response(self, resource):
+        pass
+
+    def response(self, data):
+        data = deepcopy(data)
+        if isinstance(data, list):
+            for resource in data:
+                self.prepare_response(resource)
+        else:
+            self.prepare_response(data)
+
+        return self.application.response(data)
+
+
+class IdResource(Resource):
+
+    def __init__(self, application):
+        super(self.__class__, self).__init__(application)
+
     def GET(self, id=None, **data):
         if id is None:
             return self.response(self.api_list(**data))
@@ -107,6 +128,13 @@ class Resource(object):
         result = self.response(self.api_remove(id, **data))
         self.save()
         return result
+
+    def create(self, data):
+        data["id"] = self.maxvalue("id") + 1
+        self.resources.append(data)
+        self.resources = self.sort(self.resources)
+        self.save()
+        return data
 
     # default api methods
     def api_get(self, id, **data):
@@ -144,19 +172,5 @@ class Resource(object):
             return resource
 
         Validator.fail_found()
-
-    def prepare_response(self, resource):
-        pass
-
-    def response(self, data):
-        data = deepcopy(data)
-        if isinstance(data, list):
-            for resource in data:
-                self.prepare_response(resource)
-        else:
-            self.prepare_response(data)
-
-        return self.application.response(data)
-
 
 # EOF

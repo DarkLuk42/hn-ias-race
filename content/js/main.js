@@ -49,7 +49,7 @@ LITAPP.snakeToCamel = function(s){
     return s.replace(/(_\w)/g, function(m){return m[1].toUpperCase();});
 };
 
-LITAPP.ajax = function(type, url, data, success){
+LITAPP.ajax = function(type, url, data, success, error_callback){
     var loading = UIkit.modal.blockUI('Loading...');
     $.ajax({
         "url": url,
@@ -57,7 +57,6 @@ LITAPP.ajax = function(type, url, data, success){
         "data": data,
         "dataType": "json",
         "success": function(data){
-            $("[name]").removeClass("uk-form-danger");
             if( success )
                 success(data);
             if(data.message)
@@ -65,6 +64,8 @@ LITAPP.ajax = function(type, url, data, success){
             loading.hide();
         },
         "error": function(error){
+            if(error_callback)
+                error_callback();
             if( error.responseJSON && error.responseJSON.fields )
             {
                 var fields = error.responseJSON.fields;
@@ -90,6 +91,35 @@ LITAPP.ajax = function(type, url, data, success){
         }
     });
 };
+LITAPP.ajaxMany = function(type, urls, datas, success_callback, error_callback){
+    var success = 0;
+    var error = 0;
+    var fn_success = function(){
+        success++;
+        fn_done();
+    };
+    var fn_error = function(){
+        error++;
+        fn_done();
+    };
+    var fn_done = function(){
+        if(error+success == urls.length)
+        {
+            if(error == 0 && success_callback)
+                success_callback();
+            else if(error != 0 && error_callback)
+                error_callback();
+        }
+    };
+    for(var i in urls){
+        if(urls.hasOwnProperty(i))
+        {
+            var url = urls[i];
+            var data = datas[i];
+            LITAPP.ajax(type, url, data, fn_success, fn_error);
+        }
+    }
+};
 
 App = Class.create({
     data: {
@@ -97,7 +127,8 @@ App = Class.create({
         users: [],
         races: [],
         vehicles: [],
-        vehicle_categories: []
+        vehicle_categories: [],
+        race_qualifyings: []
     },
     initialize: function () {
         LITAPP.es_o.subscribe_px(this, 'app');
@@ -107,9 +138,10 @@ App = Class.create({
         template_data.data = data;
         return LITAPP.tm_o.execute_px(template, template_data)
     },
-    showView: function(view, data){
+    showView: function(view, data, setPreviousView){
+        setPreviousView = typeof(setPreviousView) == "undefined" ? true : setPreviousView == true;
         $('html').removeClass('uk-modal-page');
-        if(this.activeView != view)
+        if(setPreviousView && this.activeView != view)
             view.previousView = this.activeView;
         this.activeView = view;
         if(data)
@@ -130,9 +162,20 @@ App = Class.create({
             var el = $(this);
             view.handleEvent(el.attr("data-click"), el);
         });
+        content.find(".uk-modal input").on("keydown", function(e){
+            if(e.keyCode == 13)
+            {
+                e.preventDefault();
+                e.stopPropagation();
+                $(e.target).closest("form").submit()
+            }
+        });
+        content.find("input").on("change", function(e){
+            $(this).removeClass("uk-form-danger");
+        });
     },
     showPreviousView: function(){
-        this.showView(this.activeView.previousView || VIEWS.init);
+        this.showView(this.activeView.previousView || VIEWS.init, null, false);
     },
     notify_px: function (self, message, data_arr) {
         console.log('event', message, data_arr);
@@ -142,7 +185,9 @@ App = Class.create({
                     case 'init':
                     case 'templates.loaded':
                         app.load.races(function(){
-                            app.showView(VIEWS.init);
+                            app.load.vehicle_categories(function(){
+                                app.showView(VIEWS.init);
+                            });
                         });
                         break;
                 }
@@ -176,6 +221,12 @@ App = Class.create({
                 app.data.vehicle_categories = data;
                 callback();
             });
+        },
+        race_qualifying: function(callback){
+            LITAPP.ajax('GET', '/race_qualifying', null, function(data){
+                app.data.race_qualifyings = data;
+                callback();
+            });
         }
     },
     findVehicle: function(vehicle_id){
@@ -185,6 +236,16 @@ App = Class.create({
                 var vehicle = this.data.vehicles[v];
                 if (vehicle.id == vehicle_id)
                     return vehicle;
+            }
+        }
+    },
+    findVehicleCategory: function(vehicle_category_id){
+        for(var v in this.data.vehicle_categories)
+        {
+            if(this.data.vehicle_categories.hasOwnProperty(v)) {
+                var vehicle_category = this.data.vehicle_categories[v];
+                if (vehicle_category.id == vehicle_category_id)
+                    return vehicle_category;
             }
         }
     },
@@ -203,16 +264,26 @@ App = Class.create({
         this.showView(this.activeView);
     },
     alertSuccess: function(message){
-        $("#alert-box").prepend($('<div class="uk-alert" data-uk-alert>'+
+        var alertBox = $("#alert-box");
+        var alert = $('<div class="uk-alert uk-alert-success" data-uk-alert>'+
         '<a href="" class="uk-alert-close uk-close"></a>'+
         $('<p></p>').text(message).html()+
-        '</div>'));
+        '</div>');
+        setTimeout(function(){
+            alert.fadeOut();
+        }, 3000);
+        alertBox.prepend(alert);
     },
     alertError: function(message){
-        $("#alert-box").prepend($('<div class="uk-alert" data-uk-alert>'+
+        var alertBox = $("#alert-box");
+        var alert = $('<div class="uk-alert uk-alert-danger" data-uk-alert>'+
         '<a href="" class="uk-alert-close uk-close"></a>'+
         $('<p></p>').text(message).html()+
-        '</div>'));
+        '</div>');
+        setTimeout(function(){
+            alert.fadeOut();
+        }, 3000);
+        alertBox.prepend(alert);
     }
 });
 

@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "qualifying_time_s": 120,
+    "description": "",
+    "id": 1,
+    "name": "Trecker"
+  }
+]

@@ -44,7 +44,10 @@
         <label class="uk-form-label" for="form-s-s">Fahrzeugklasse</label>
         <div class="uk-form-controls">
             <select id="form-s-s" name="category_id">
-                <option value="1" @if 1 == vehicle.category_id@selected@endif@>Klasse 1</option>
+                @for u = 0; u < vehicle_categories.length; u++@
+                @var vehicle_category = vehicle_categories[u];@
+                    <option value="#vehicle_category.id#" @if vehicle_category.id == vehicle.category_id@selected@endif@>#vehicle_category.name#</option>
+                @endfor@
             </select>
         </div>
     </div>

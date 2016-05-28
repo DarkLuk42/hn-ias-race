@@ -52,6 +52,20 @@ AdminView = Class.extend(View, {
                     app.refreshView();
                 });
             });
+        },
+        addVehicleCategory: function(){
+            app.showView(VIEWS.vehicle_category, {});
+        },
+        editVehicleCategory: function(el){
+            app.showView(VIEWS.vehicle_category, app.findVehicleCategory(el.closest("[data-id]").attr("data-id")));
+        },
+        removeVehicleCategory: function(el){
+            var vehicle_category_id = el.closest("[data-id]").attr("data-id");
+            LITAPP.ajax('DELETE', '/vehicle_category/'+vehicle_category_id, null, function(){
+                app.load.vehicle_categories(function(){
+                    app.refreshView();
+                });
+            });
         }
     }
 });

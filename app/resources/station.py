@@ -3,7 +3,7 @@
 import app.resource
 
 
-class Station(app.resource.Resource):
+class Station(app.resource.IdResource):
 
     fields = {
         "name": str,
@@ -16,10 +16,8 @@ class Station(app.resource.Resource):
     }
 
     def __init__(self, application):
-        self.application = application
         self.filename = "station"
-        self.resources = []
-        self.load()
+        super(self.__class__, self).__init__(application)
 
     def sortfunction(self, resource):
         return resource["position"]

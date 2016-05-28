@@ -7,3 +7,10 @@ body{
 {
     min-height: 100px;
 }
+#alert-box
+{
+    position:fixed;
+    top: 10px;
+    right: 26px;
+    z-index: 1020;
+}

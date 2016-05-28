@@ -3,31 +3,20 @@
 import app.resource
 
 
-class VehicleCategory(app.resource.Resource):
+class VehicleCategory(app.resource.IdResource):
 
     fields = {
-        "brand": str,
-        "type": str,
-        "year": int,
-        "capacity_ccm": int,
-        "power_kw": int,
-        "category_id": int,
-        "owner_id": int,
-        "race_id": int,
+        "name": str,
         "description": str,
-        "driver_id": int,
-        "passenger_id": int,
-        "mechanic_id": int
+        "qualifying_time_s": int
     }
     defaults = {
         "description": ""
     }
 
     def __init__(self, application):
-        self.application = application
         self.filename = "vehicle_category"
-        self.resources = []
-        self.load()
+        super(self.__class__, self).__init__(application)
 
 
 # EOF

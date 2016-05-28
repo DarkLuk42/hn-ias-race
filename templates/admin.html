@@ -59,3 +59,27 @@
         </tr>
     @endfor@
 </table>
+
+
+<h2>Fahrzeugklassen <button class="uk-button uk-button-primary uk-button-small" data-click="addVehicleCategory">neue Fahrzeugklasse anlegen</button></h2>
+
+<table class="uk-table">
+    <tr>
+        <th>Fahrzeugklasse</th>
+        <th>Beschreibung</th>
+        <th>Qualifyingtime (in Sekunden)</th>
+        <th></th>
+    </tr>
+    @for r = 0; r < vehicle_categories.length; r++@
+        @var vehicle_category = vehicle_categories[r];@
+        <tr data-id="#vehicle_category.id#">
+            <td>#vehicle_category.name#</td>
+            <td>#vehicle_category.description#</td>
+            <td>#vehicle_category.qualifying_time_s#</td>
+            <td>
+                <button class="uk-button uk-button-primary uk-button-mini" data-click="editVehicleCategory">bearbeiten</button>
+                <button class="uk-button uk-button-danger uk-button-mini" data-click="removeVehicleCategory">löschen</button>
+            </td>
+        </tr>
+    @endfor@
+</table>

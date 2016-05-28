@@ -10,11 +10,13 @@ InitView = Class.extend(View, {
             UIkit.modal('#registerModal').show();
         },
         registerSubmit: function(el){
-            LITAPP.ajax('POST', '/register', el.serializeObject(), function(data){
+            LITAPP.ajax('POST', '/user', el.serializeObject(), function(data){
                 app.data.current_user = data;
                 app.load.users(function(){
                     app.load.vehicles(function(){
-                        app.showView(app.data.current_user.is_admin ? VIEWS.admin : VIEWS.user);
+                        app.load.race_qualifying(function(){
+                            app.showView(app.data.current_user.is_admin ? VIEWS.admin : VIEWS.user);
+                        });
                     });
                 });
             });

@@ -3,22 +3,40 @@
 @var race = data@
 
 <h2>Qualifying</h2>
+
 <table class="uk-table">
     <tr>
+        <th>Fahrzeugklasse</th>
         <th>Fahrzeug</th>
-        <th>Zeit</th>
+        <th>Zeit (in Millisekunden)</th>
+        <th>Startposition</th>
     </tr>
-    @for v = 0; v < vehicles.length; v++@
-        @vehicle = vehicles[v]@
-        @if vehicle.race_id == race.id@
-            <tr>
-                <td>#vehicle.brand# #vehicle.type#</td>
-                <td>
-                    <input type="text" name="#vehicle.id#">
-                </td>
-            </tr>
-        @endif@
+    @for vc = 0; vc < vehicle_categories.length; vc++@
+        @vehicle_category = vehicle_categories[vc]@
+        @for v = 0; v < vehicles.length; v++@
+            @vehicle = vehicles[v]@
+            @if vehicle.category_id == vehicle_category.id@
+                <tr>
+                    <td>#vehicle_category.name#</td>
+                    <td>#vehicle.brand# #vehicle.type#</td>
+                    <td>
+                        <input type="text" name="time_s_#vehicle.id#">
+                    </td>
+                    <td>
+                        <input type="text" name="position_#vehicle.id#" readonly>
+                    </td>
+                </tr>
+            @endif@
+        @endfor@
     @endfor@
 </table>
+
+<button class="uk-button" data-click="return">Zurück</button>
+<button class="uk-button uk-button-primary" data-click="save">Speichern & Startposition ermitteln</button>
+
+<br><br>
+
+<button class="uk-button uk-button-primary" data-click="editRaceState" data-state="RACE">Qualifying abschließen</button>
+
 
 

@@ -12,7 +12,7 @@ class Login(object):
         Validator.require(data, "login", "password")
         user = self.application.user.find({"login": data["login"], "password": data["password"]})
         if user is not None:
-            return self.application.response(user)
+            return self.application.user.response(user)
         Validator.fail("The username or password is wrong!")
 
 

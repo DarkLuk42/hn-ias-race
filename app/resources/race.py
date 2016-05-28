@@ -3,7 +3,7 @@
 import app.resource
 
 
-class Race(app.resource.Resource):
+class Race(app.resource.IdResource):
 
     fields = {
         "name": str,
@@ -17,10 +17,8 @@ class Race(app.resource.Resource):
     }
 
     def __init__(self, application):
-        self.application = application
         self.filename = "race"
-        self.resources = []
-        self.load()
+        super(self.__class__, self).__init__(application)
 
     def sortfunction(self, resource):
         return resource["date"]

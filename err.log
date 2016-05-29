@@ -1,0 +1,4 @@
+nohup: ignoring input
+[29/May/2016:12:56:16] ENGINE Bus STARTING
+[29/May/2016:12:56:17] ENGINE Serving on http://0.0.0.0:8080
+[29/May/2016:12:56:17] ENGINE Bus STARTED

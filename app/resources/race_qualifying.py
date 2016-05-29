@@ -21,15 +21,15 @@ class RaceQualifying(Resource):
         super().__init__(application)
 
     def sortfunction(self, resource):
-        return resource["id"]
+        return resource["time_s"]
 
     def GET(self, race_id=None, vehicle_id=None, **data):
         if vehicle_id is None:
             if race_id is None:
-                return self.response(self.findall(**data))
+                return self.response(self.sort(self.findall(data)))
             race_id = Validator.require_int(race_id)
             data["race_id"] = race_id
-            return self.response(self.findall(**data))
+            return self.response(self.sort(self.findall(data)))
         vehicle_id = Validator.require_int(vehicle_id)
 
         resource = self.find({"race_id": race_id, "vehicle_id": vehicle_id})
@@ -43,10 +43,12 @@ class RaceQualifying(Resource):
         if resource is None:
             resource = {"race_id": race_id, "vehicle_id": vehicle_id}
             data = Validator.validate(data, self.__class__.fields, self.__class__.defaults, require_all=True)
+            self.resources.append(resource)
         else:
             data = Validator.validate(data, self.__class__.fields, self.__class__.defaults, require_all=False)
         for field in data:
             resource[field] = data[field]
+        self.save()
         return self.response(resource)
 
     def DELETE(self, race_id, vehicle_id, **data):

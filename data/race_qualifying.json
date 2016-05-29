@@ -1,0 +1,20 @@
+[
+  {
+    "race_id": 5,
+    "state": "DISQUALIFIED",
+    "vehicle_id": 1,
+    "time_s": 2
+  },
+  {
+    "race_id": 5,
+    "state": "QUALIFIED",
+    "vehicle_id": 2,
+    "time_s": 5
+  },
+  {
+    "race_id": 5,
+    "state": "QUALIFIED",
+    "vehicle_id": 4,
+    "time_s": 6
+  }
+]

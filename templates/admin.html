@@ -38,6 +38,8 @@
                     <button class="uk-button uk-button-primary uk-button-mini" data-click="showRegistration">Anmeldungen verwalten</button>
                 @elseif race.state == 'QUALIFIYNG'@
                     <button class="uk-button uk-button-primary uk-button-mini" data-click="showQualifying">Ergebnisse eintragen</button>
+                @elseif race.state == 'RACE'@
+                    <button class="uk-button uk-button-primary uk-button-mini" data-click="showEvaluation">Ergebnisse eintragen</button>
                 @endif@
 
                 <!-- change state -->
@@ -48,7 +50,6 @@
                     <button class="uk-button uk-button-primary uk-button-mini" data-click="editRaceState" data-state="QUALIFIYNG">Anmeldephase schließen</button>
                 @elseif race.state == 'QUALIFIYNG'@
                     <button class="uk-button uk-button-primary uk-button-mini" data-click="editRaceState" data-state="REGISTRATION"><-</button>
-                    <button class="uk-button uk-button-primary uk-button-mini" data-click="editRaceState" data-state="RACE">Rennen starten</button>
                 @elseif race.state == 'RACE'@
                     <button class="uk-button uk-button-primary uk-button-mini" data-click="editRaceState" data-state="QUALIFIYNG"><-</button>
                     <button class="uk-button uk-button-primary uk-button-mini" data-click="editRaceState" data-state="EVALUATION">Rennen ist vorbei</button>

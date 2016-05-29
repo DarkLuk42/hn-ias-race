@@ -77,7 +77,7 @@ class Resource(object):
                 result = deepcopy(model)
                 self.resources.remove(model)
                 self.save()
-                return model
+                return result
         return None
 
     def removeall(self, data):

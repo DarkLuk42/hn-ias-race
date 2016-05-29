@@ -21,7 +21,7 @@
             var vehicle = app.findVehicle(vehicle_id);
             vehicle.race_id = 0;
             delete vehicle.id;
-            LITAPP.ajax('PUT', '/vehicle/'+vehicle_id, vehicle, function(){
+            App.ajax('PUT', '/vehicle/'+vehicle_id, vehicle, function(){
                 app.load.vehicles(function(){
                     app.refreshView();
                 });
@@ -29,7 +29,7 @@
         },
         removeVehicle: function(el){
             var vehicle_id = el.closest("[data-id]").attr("data-id");
-            LITAPP.ajax('DELETE', '/vehicle/'+vehicle_id, null, function(){
+            App.ajax('DELETE', '/vehicle/'+vehicle_id, null, function(){
                 app.load.vehicles(function(){
                     app.refreshView();
                 });
@@ -40,7 +40,7 @@
             var vehicle = app.findVehicle(data.vehicle_id);
             vehicle.race_id = data.race_id;
             delete vehicle.id;
-            LITAPP.ajax('PUT', '/vehicle/'+data.vehicle_id, vehicle, function(){
+            App.ajax('PUT', '/vehicle/'+data.vehicle_id, vehicle, function(){
                 UIkit.modal('#registerVehicleModal').hide();
                 app.load.vehicles(function(){
                     app.refreshView();

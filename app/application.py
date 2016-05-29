@@ -16,6 +16,7 @@ class Application(object):
         self.user = user.User(self)
         self.station = station.Station(self)
         self.race = race.Race(self)
+        self.race_qualifying = race_qualifying.RaceQualifying(self)
         self.vehicle = vehicle.Vehicle(self)
         self.vehicle_category = vehicle_category.VehicleCategory(self)
 

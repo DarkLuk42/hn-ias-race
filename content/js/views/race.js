@@ -7,7 +7,7 @@ RaceView = Class.extend(View, {
             var data = VIEWS.race.data;
             if(data.id)
             {
-                LITAPP.ajax('PUT', '/race/'+data.id, el.serializeObject(), function(data){
+                App.ajax('PUT', '/race/'+data.id, el.serializeObject(), function(data){
                     VIEWS.race.data = data;
                     app.load.races(function(){
                     app.alertSuccess('Rennen wurde gespeichert.');
@@ -17,7 +17,7 @@ RaceView = Class.extend(View, {
             }
             else
             {
-                LITAPP.ajax('POST', '/race', el.serializeObject(), function(data){
+                App.ajax('POST', '/race', el.serializeObject(), function(data){
                     VIEWS.race.data = data;
                     app.load.races(function(){
                         app.alertSuccess('Rennen wurde erstellt.');

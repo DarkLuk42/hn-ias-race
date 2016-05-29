@@ -15,7 +15,7 @@ AdminView = Class.extend(View, {
         editRaceState: function(el){
             var state = el.attr("data-state");
             var race_id = el.closest("[data-id]").attr("data-id");
-            LITAPP.ajax('PUT', '/race/'+race_id, {"state": state}, function(){
+            App.ajax('PUT', '/race/'+race_id, {"state": state}, function(){
                 app.load.races(function(){
                     app.refreshView();
                 });
@@ -29,7 +29,7 @@ AdminView = Class.extend(View, {
         },
         removeVehicle: function(el){
             var vehicle_id = el.closest("[data-id]").attr("data-id");
-            LITAPP.ajax('DELETE', '/vehicle/'+vehicle_id, null, function(){
+            App.ajax('DELETE', '/vehicle/'+vehicle_id, null, function(){
                 app.load.vehicles(function(){
                     app.refreshView();
                 });
@@ -45,9 +45,14 @@ AdminView = Class.extend(View, {
             var race = app.findRace(race_id);
             app.showView(VIEWS.qualifying, race);
         },
+        showEvaluation: function(el){
+            var race_id = el.closest("[data-id]").attr("data-id");
+            var race = app.findRace(race_id);
+            app.showView(VIEWS.evaluation, race);
+        },
         removeRace: function(el){
             var race_id = el.closest("[data-id]").attr("data-id");
-            LITAPP.ajax('DELETE', '/race/'+race_id, null, function(){
+            App.ajax('DELETE', '/race/'+race_id, null, function(){
                 app.load.races(function(){
                     app.refreshView();
                 });
@@ -61,7 +66,7 @@ AdminView = Class.extend(View, {
         },
         removeVehicleCategory: function(el){
             var vehicle_category_id = el.closest("[data-id]").attr("data-id");
-            LITAPP.ajax('DELETE', '/vehicle_category/'+vehicle_category_id, null, function(){
+            App.ajax('DELETE', '/vehicle_category/'+vehicle_category_id, null, function(){
                 app.load.vehicle_categories(function(){
                     app.refreshView();
                 });

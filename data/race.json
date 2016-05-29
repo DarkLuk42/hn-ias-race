@@ -1,26 +1,18 @@
 [
   {
-    "id": 4,
-    "date": "heute",
-    "description": "test",
-    "state": "EVALUATION",
-    "leader_id": 1,
-    "name": "Rennen"
-  },
-  {
+    "state": "RACE",
+    "date": "morgen",
+    "description": "",
+    "name": "Neu",
     "id": 5,
-    "date": "morgen",
-    "description": "",
-    "state": "QUALIFIYNG",
-    "leader_id": 1,
-    "name": "Neu"
+    "leader_id": 1
   },
   {
-    "id": 6,
+    "state": "REGISTRATION",
     "date": "morgen",
     "description": "",
-    "state": "REGISTRATION",
-    "leader_id": 1,
-    "name": "Testrennen"
+    "name": "Testrennen",
+    "id": 6,
+    "leader_id": 1
   }
 ]

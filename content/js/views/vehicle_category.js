@@ -7,7 +7,7 @@ VehicleCategoryView = Class.extend(View, {
             var data = VIEWS.vehicle_category.data;
             if(data.id)
             {
-                LITAPP.ajax('PUT', '/vehicle_category/'+data.id, el.serializeObject(), function(data){
+                App.ajax('PUT', '/vehicle_category/'+data.id, el.serializeObject(), function(data){
                     VIEWS.vehicle_category.data = data;
                     app.load.vehicle_categories(function(){
                         app.alertSuccess('Fahrzeugklasse wurde gespeichert.');
@@ -17,7 +17,7 @@ VehicleCategoryView = Class.extend(View, {
             }
             else
             {
-                LITAPP.ajax('POST', '/vehicle_category', el.serializeObject(), function(data){
+                App.ajax('POST', '/vehicle_category', el.serializeObject(), function(data){
                     VIEWS.vehicle_category.data = data;
                     app.load.vehicle_categories(function(){
                         app.alertSuccess('Fahrzeugklasse wurde erstellt.');
@@ -28,7 +28,7 @@ VehicleCategoryView = Class.extend(View, {
         },
         remove: function(){
             var data = VIEWS.vehicle_category.data;
-            LITAPP.ajax('DELETE', '/vehicle_category/'+data.id, null, function(){
+            App.ajax('DELETE', '/vehicle_category/'+data.id, null, function(){
                 app.load.vehicle_categories(function(){
                     app.alertSuccess('Fahrzeugklasse wurde entfernt.');
                     app.showPreviousView();

@@ -2,21 +2,16 @@
 
 @var race = data@
 
-<h1>TODO</h1>
-
 <h2>Rennauswertung</h2>
 
 <table class="uk-table uk-form">
     <tr>
-        <th rowspan="2">Fahrzeugklasse</th>
-        <th rowspan="2">Fahrzeug</th>
+        <th>Fahrzeugklasse</th>
+        <th>Fahrzeug</th>
         @for var s = 0; s < race.stations.length; s++@
             @var station = race.stations[s];@
-            <th>#station.name#</th>
+            <th title="Zeit (in Sekunden)">#station.name#</th>
         @endfor@
-    </tr>
-    <tr>
-        <th colspan="#race.stations.length#">Zeit (in Sekunden)</th>
     </tr>
     @for vc = 0; vc < vehicle_categories.length; vc++@
         @var vehicle_category = vehicle_categories[vc]@
@@ -32,7 +27,12 @@
                             @var station = race.stations[s];@
                             @var evaluation = app.findRaceEvaluation(race.id, vehicle.id, s) || {}@
                             <td>
-                                <input type="text" name="time_s" data-vehicle_id="#vehicle.id#" data-station="#s#" value="#evaluation.time_s#">
+                                <input type="number" min="0" placeholder="Zeit" title="Zeit (in Sekunden)" name="time_s" data-vehicle_id="#vehicle.id#" data-station="#s#" value="#evaluation.time_s#">
+                                @if evaluation.correct_station_order == true@
+                                    <i class="uk-icon-check-circle uk-icon-medium uk-text-success" title="Reihenfolge ok"></i>
+                                @elseif evaluation.correct_station_order == false@
+                                    <i class="uk-icon-times-circle uk-icon-medium uk-text-danger" title="Reihenfolge falsch"></i>
+                                @endif@
                             </td>
                         @endfor@
                     </tr>
@@ -41,6 +41,15 @@
         @endfor@
     @endfor@
 </table>
+
+<button class="uk-button" data-click="return">Zurück</button>
+<button class="uk-button uk-button-primary" data-click="save">Speichern & Reihenfolge überprüfen</button>
+
+@if data.complete@
+<br><br>
+
+<button class="uk-button uk-button-primary" data-click="editRaceState" data-state="EVALUATION">Rennen beenden</button>
+@endif@
 
 <hr>
 
@@ -77,10 +86,3 @@
 </table>
 
 <button class="uk-button" data-click="return">Zurück</button>
-<button class="uk-button uk-button-primary" data-click="save">Speichern</button>
-
-@if data.complete@
-<br><br>
-
-<button class="uk-button uk-button-primary" data-click="editRaceState" data-state="EVALUATION">Rennen beenden</button>
-@endif@

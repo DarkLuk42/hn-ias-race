@@ -14,3 +14,7 @@ body{
     right: 26px;
     z-index: 1020;
 }
+.uk-form input[type="number"]
+{
+    max-width: 85px;
+}

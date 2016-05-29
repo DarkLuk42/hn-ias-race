@@ -1,16 +1,17 @@
 AdminView = Class.extend(View, {
     initialize: function(){
         this.template = 'admin';
+        this.name = 'Administrator';
     },
     prepareView: function(data){
         data.races = app.data.races;
     },
     events: {
         addRace: function(){
-            app.showView(VIEWS.race, {});
+            app.showView(VIEWS.form_race, {});
         },
         editRace: function(el){
-            app.showView(VIEWS.race, app.findRace(el.closest("[data-id]").attr("data-id")));
+            app.showView(VIEWS.form_race, app.findRace(el.closest("[data-id]").attr("data-id")));
         },
         editRaceState: function(el){
             var state = el.attr("data-state");
@@ -22,10 +23,10 @@ AdminView = Class.extend(View, {
             });
         },
         addVehicle: function(){
-            app.showView(VIEWS.vehicle, {});
+            app.showView(VIEWS.form_vehicle, {});
         },
         editVehicle: function(el){
-            app.showView(VIEWS.vehicle, app.findVehicle(el.closest("[data-id]").attr("data-id")));
+            app.showView(VIEWS.form_vehicle, app.findVehicle(el.closest("[data-id]").attr("data-id")));
         },
         removeVehicle: function(el){
             var vehicle_id = el.closest("[data-id]").attr("data-id");
@@ -38,17 +39,17 @@ AdminView = Class.extend(View, {
         showRegistration: function(el){
             var race_id = el.closest("[data-id]").attr("data-id");
             var race = app.findRace(race_id);
-            app.showView(VIEWS.registration, race);
+            app.showView(VIEWS.phase_registration, race);
         },
         showQualifying: function(el){
             var race_id = el.closest("[data-id]").attr("data-id");
             var race = app.findRace(race_id);
-            app.showView(VIEWS.qualifying, race);
+            app.showView(VIEWS.phase_qualifying, race);
         },
         showEvaluation: function(el){
             var race_id = el.closest("[data-id]").attr("data-id");
             var race = app.findRace(race_id);
-            app.showView(VIEWS.evaluation, race);
+            app.showView(VIEWS.phase_race, race);
         },
         removeRace: function(el){
             var race_id = el.closest("[data-id]").attr("data-id");
@@ -59,10 +60,10 @@ AdminView = Class.extend(View, {
             });
         },
         addVehicleCategory: function(){
-            app.showView(VIEWS.vehicle_category, {});
+            app.showView(VIEWS.form_vehicle_category, {});
         },
         editVehicleCategory: function(el){
-            app.showView(VIEWS.vehicle_category, app.findVehicleCategory(el.closest("[data-id]").attr("data-id")));
+            app.showView(VIEWS.form_vehicle_category, app.findVehicleCategory(el.closest("[data-id]").attr("data-id")));
         },
         removeVehicleCategory: function(el){
             var vehicle_category_id = el.closest("[data-id]").attr("data-id");

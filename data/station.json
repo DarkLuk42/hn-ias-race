@@ -1,37 +1,44 @@
 [
   {
     "race_id": 6,
-    "id": 4,
+    "position": 0,
     "name": "Station 1",
-    "description": "",
-    "position": 0
+    "id": 4,
+    "description": ""
   },
   {
     "race_id": 5,
+    "position": 0,
     "id": 6,
     "name": "Station 1",
-    "description": "test1",
-    "position": 0
+    "description": ""
   },
   {
     "race_id": 4,
-    "id": 1,
+    "position": 1,
     "name": "Station 3",
-    "description": "",
-    "position": 1
+    "id": 1,
+    "description": ""
   },
   {
     "race_id": 6,
-    "id": 5,
+    "position": 1,
     "name": "Station 2",
-    "description": "",
-    "position": 1
+    "id": 5,
+    "description": ""
   },
   {
     "race_id": 5,
+    "position": 1,
     "id": 7,
+    "name": "Station 2",
+    "description": ""
+  },
+  {
+    "race_id": 5,
+    "position": 2,
+    "id": 8,
     "name": "Station 3",
-    "description": "",
-    "position": 1
+    "description": ""
   }
 ]

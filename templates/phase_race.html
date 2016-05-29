@@ -1,0 +1,56 @@
+@;for(i in context){if(context.hasOwnProperty(i)){eval("var "+i+" = "+JSON.stringify(context[i])+";");}}@
+
+@var race = data@
+
+<h1>TODO</h1>
+
+<h2>Rennauswertung</h2>
+
+<table class="uk-table uk-form">
+    <tr>
+        <th>Fahrzeugklasse</th>
+        <th>Fahrzeug</th>
+        <th>Zeit (in Sekunden)</th>
+        <th>Startposition</th>
+    </tr>
+    @for vc = 0; vc < vehicle_categories.length; vc++@
+        @var vehicle_category = vehicle_categories[vc]@
+        @for v = 0; v < vehicles.length; v++@
+            @vehicle = vehicles[v]@
+            @if vehicle.race_id == race.id && vehicle.category_id == vehicle_category.id@
+                @var qualifying = app.findRaceQualifying(race.id, vehicle.id) || {}@
+                <tr class="@if qualifying.state == 'DISQUALIFIED'@disqualified@endif@">
+                    <td>#vehicle_category.name#</td>
+                    <td>#vehicle.brand# #vehicle.type#</td>
+                    <td>
+                        <input type="text" name="time_s" data-vehicle_id="#vehicle.id#" value="#qualifying.time_s#">
+                    </td>
+                    <td>
+                        #qualifying.position#
+                    </td>
+                    <td>
+                        @if qualifying.state == 'QUALIFIED'@
+                            <span class="uk-badge uk-badge-success">qualifiziert</span>
+                        @elseif qualifying.state == 'UNQUALIFIED'@
+                            <span class="uk-badge uk-badge-danger">unqualifiziert</span>
+                        @elseif qualifying.state == 'DISQUALIFIED'@
+                            <span class="uk-badge uk-badge-danger">disqualifiziert</span>
+                        @endif@
+                        @if qualifying.state == 'QUALIFIED'@
+                            <button class="uk-button uk-button-danger uk-button-mini" data-click="disqualify">disqualifizieren</button>
+                        @endif@
+                    </td>
+                </tr>
+            @endif@
+        @endfor@
+    @endfor@
+</table>
+
+<button class="uk-button" data-click="return">Zurück</button>
+<button class="uk-button uk-button-primary" data-click="save">Speichern & Startposition ermitteln</button>
+
+@if data.complete@
+<br><br>
+
+<button class="uk-button uk-button-primary" data-click="editRaceState" data-state="RACE">Qualifying abschließen</button>
+@endif@

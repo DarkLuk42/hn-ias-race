@@ -1,6 +1,7 @@
-QualifyingView = Class.extend(View, {
+PhaseQualifyingView = Class.extend(View, {
     initialize: function(){
-        this.template = 'qualifying';
+        this.template = 'phase_qualifying';
+        this.name = 'Qualifying';
     },
     prepareView: function(data){
         data.complete = true;
@@ -16,7 +17,7 @@ QualifyingView = Class.extend(View, {
     },
     events: {
         save: function(el){
-            var race_id = VIEWS.qualifying.data.id;
+            var race_id = VIEWS.phase_qualifying.data.id;
             var requests = [];
             $("input[name='time_s']").each(function(key, el){
                 var $el = $(el);
@@ -50,7 +51,7 @@ QualifyingView = Class.extend(View, {
         },
         editRaceState: function(el){
             var state = el.attr("data-state");
-            var race_id = VIEWS.qualifying.data.id;
+            var race_id = VIEWS.phase_qualifying.data.id;
             App.ajax('PUT', '/race/'+race_id, {"state": state}, function(){
                 app.load.races(function(){
                     app.showPreviousView();
@@ -59,9 +60,9 @@ QualifyingView = Class.extend(View, {
         },
         disqualify: function(el){
             el.closest("tr").addClass("disqualified");
-            el.closest("td").html('<span class="uk-badge uk-badge-danger">disqualifiziert</span>')
+            el.closest("td").html('<span class="uk-badge uk-badge-danger">disqualifiziert</span>');
         }
     }
 });
 
-VIEWS.qualifying = new QualifyingView();
+VIEWS.phase_qualifying = new PhaseQualifyingView();

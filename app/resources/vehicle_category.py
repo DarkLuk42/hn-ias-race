@@ -15,7 +15,7 @@ class VehicleCategory(app.resource.IdResource):
     }
 
     def __init__(self, application):
-        self.filename = "vehicle_category"
+        self.filename = "form_vehicle_category"
         super().__init__(application)
 
 

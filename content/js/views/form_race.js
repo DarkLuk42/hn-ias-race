@@ -1,14 +1,24 @@
-RaceView = Class.extend(View, {
+FormRaceView = Class.extend(View, {
     initialize: function(){
-        this.template = 'race';
+        this.template = 'form_race';
+        this.name = 'Rennen';
+    },
+    getName: function(){
+        return this.name + (this.data.id ? ' bearbeiten' : ' anlegen');
+    },
+    prepareView: function(data){
+        if(!data.stations || data.stations.length < 1)
+        {
+            data.stations = [{"name": "Station 1"}];
+        }
     },
     events: {
         save: function(el){
-            var data = VIEWS.race.data;
+            var data = VIEWS.form_race.data;
             if(data.id)
             {
                 App.ajax('PUT', '/race/'+data.id, el.serializeObject(), function(data){
-                    VIEWS.race.data = data;
+                    VIEWS.form_race.data = data;
                     app.load.races(function(){
                     app.alertSuccess('Rennen wurde gespeichert.');
                         app.refreshView();
@@ -18,7 +28,7 @@ RaceView = Class.extend(View, {
             else
             {
                 App.ajax('POST', '/race', el.serializeObject(), function(data){
-                    VIEWS.race.data = data;
+                    VIEWS.form_race.data = data;
                     app.load.races(function(){
                         app.alertSuccess('Rennen wurde erstellt.');
                         app.refreshView();
@@ -48,7 +58,7 @@ RaceView = Class.extend(View, {
                     "race_id": race_id
                 });
             }
-            VIEWS.race.data.stations = stations;
+            VIEWS.form_race.data.stations = stations;
             app.refreshView();
         },
         addStation: function(el){
@@ -73,10 +83,10 @@ RaceView = Class.extend(View, {
                     "race_id": race_id
                 });
             }
-            VIEWS.race.data.stations = stations;
+            VIEWS.form_race.data.stations = stations;
             app.refreshView();
         }
     }
 });
 
-VIEWS.race = new RaceView();
+VIEWS.form_race = new FormRaceView();

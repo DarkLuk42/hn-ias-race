@@ -1,10 +1,11 @@
-RegistrationView = Class.extend(View, {
+PhaseRegistrationView = Class.extend(View, {
     initialize: function(){
-        this.template = 'registration';
+        this.template = 'phase_registration';
+        this.name = 'Anmeldephase';
     },
     events: {
         registerVehicle: function(el){
-            var race_id = VIEWS.registration.data.id;
+            var race_id = VIEWS.phase_registration.data.id;
             var vehicle_id = el.closest("[data-id]").attr("data-id");
             App.ajax('PUT', '/vehicle/'+vehicle_id, {"race_id": race_id}, function(){
                 app.load.vehicles(function(){
@@ -22,7 +23,7 @@ RegistrationView = Class.extend(View, {
             });
         },
         editRaceState: function(el){
-            var race_id = VIEWS.registration.data.id;
+            var race_id = VIEWS.phase_registration.data.id;
             var state = el.attr("data-state");
             App.ajax('PUT', '/race/'+race_id, {"state": state}, function(){
                 app.load.races(function(){
@@ -31,7 +32,7 @@ RegistrationView = Class.extend(View, {
             });
         },
         editVehicle: function(el){
-            app.showView(VIEWS.vehicle, app.findVehicle(el.closest("[data-id]").attr("data-id")));
+            app.showView(VIEWS.form_vehicle, app.findVehicle(el.closest("[data-id]").attr("data-id")));
         },
         removeVehicle: function(el){
             var vehicle_id = el.closest("[data-id]").attr("data-id");
@@ -44,4 +45,4 @@ RegistrationView = Class.extend(View, {
     }
 });
 
-VIEWS.registration = new RegistrationView();
+VIEWS.phase_registration = new PhaseRegistrationView();

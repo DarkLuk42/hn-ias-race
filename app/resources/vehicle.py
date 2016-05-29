@@ -25,7 +25,7 @@ class Vehicle(app.resource.IdResource):
     }
 
     def __init__(self, application):
-        self.filename = "vehicle"
+        self.filename = "form_vehicle"
         super().__init__(application)
 
 

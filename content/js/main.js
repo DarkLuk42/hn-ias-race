@@ -69,6 +69,22 @@ App = Class.create({
         content.find("input").on("change", function(e){
             $(this).removeClass("uk-form-danger");
         });
+        this.refreshBreadcrumb();
+    },
+    refreshBreadcrumb: function(){
+        var view = this.activeView;
+        var viewBreadcrumb = $("#view-breadcrumb");
+        viewBreadcrumb.html("");
+        while (view)
+        {
+            if(view.getName()) {
+                var $li = $("<li></li>").append($("<span></span>").text(view.getName()));
+                if(view == this.activeView)
+                    $li.addClass("uk-active");
+                viewBreadcrumb.prepend($li);
+            }
+            view = view.previousView;
+        }
     },
     showPreviousView: function(){
         this.showView(this.activeView.previousView || VIEWS.init, null, false);

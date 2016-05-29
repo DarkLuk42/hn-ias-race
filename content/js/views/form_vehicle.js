@@ -1,14 +1,18 @@
-VehicleView = Class.extend(View, {
+FormVehicleView = Class.extend(View, {
     initialize: function(){
-        this.template = 'vehicle';
+        this.template = 'form_vehicle';
+        this.name = 'Fahrzeug';
+    },
+    getName: function(){
+        return this.name + (this.data.id ? ' bearbeiten' : ' anlegen');
     },
     events: {
         save: function(el){
-            var data = VIEWS.vehicle.data;
+            var data = VIEWS.form_vehicle.data;
             if(data.id)
             {
                 App.ajax('PUT', '/vehicle/'+data.id, el.serializeObject(), function(data){
-                    VIEWS.vehicle.data = data;
+                    VIEWS.form_vehicle.data = data;
                     app.load.vehicles(function(){
                         app.alertSuccess('Fahrzeug wurde gespeichert.');
                         app.refreshView();
@@ -18,7 +22,7 @@ VehicleView = Class.extend(View, {
             else
             {
                 App.ajax('POST', '/vehicle', el.serializeObject(), function(data){
-                    VIEWS.vehicle.data = data;
+                    VIEWS.form_vehicle.data = data;
                     app.load.vehicles(function(){
                         app.alertSuccess('Fahrzeug wurde erstellt.');
                         app.refreshView();
@@ -27,7 +31,7 @@ VehicleView = Class.extend(View, {
             }
         },
         remove: function(){
-            var data = VIEWS.vehicle.data;
+            var data = VIEWS.form_vehicle.data;
             App.ajax('DELETE', '/vehicle/'+data.id, null, function(){
                 app.load.vehicles(function(){
                     app.alertSuccess('Fahrzeug wurde entfernt.');
@@ -38,4 +42,4 @@ VehicleView = Class.extend(View, {
     }
 });
 
-VIEWS.vehicle = new VehicleView();
+VIEWS.form_vehicle = new FormVehicleView();

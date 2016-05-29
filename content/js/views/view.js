@@ -5,6 +5,9 @@ View = Class.create({
     initialize: function(){
 
     },
+    getName: function(){
+        return this.name;
+    },
     render: function(){
         this.prepareView(this.data);
         this.rendered = app.render(this.template, this.data);

@@ -17,7 +17,7 @@ class Race(app.resource.IdResource):
     }
 
     def __init__(self, application):
-        self.filename = "form_race"
+        self.filename = "race"
         super().__init__(application)
 
     def sortfunction(self, resource):

@@ -15,7 +15,9 @@ InitView = Class.extend(View, {
                 app.load.users(function(){
                     app.load.vehicles(function(){
                         app.load.race_qualifying(function(){
-                            app.showView(app.data.current_user.is_admin ? VIEWS.admin : VIEWS.user);
+                            app.load.race_evaluations(function(){
+                                app.showView(app.data.current_user.is_admin ? VIEWS.admin : VIEWS.user);
+                            });
                         });
                     });
                 });
@@ -27,7 +29,9 @@ InitView = Class.extend(View, {
                 app.load.users(function(){
                     app.load.vehicles(function(){
                         app.load.race_qualifying(function(){
-                            app.showView(app.data.current_user.is_admin ? VIEWS.admin : VIEWS.user);
+                            app.load.race_evaluations(function(){
+                                app.showView(app.data.current_user.is_admin ? VIEWS.admin : VIEWS.user);
+                            });
                         });
                     });
                 });

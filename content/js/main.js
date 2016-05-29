@@ -24,7 +24,8 @@ App = Class.create({
         races: [],
         vehicles: [],
         vehicle_categories: [],
-        race_qualifyings: []
+        race_qualifyings: [],
+        race_evaluations: []
     },
     initialize: function () {
         LITAPP.es_o.subscribe_px(this, 'app');
@@ -145,13 +146,21 @@ App = Class.create({
                         var race_qualifying = app.data.race_qualifyings[q];
                         if(race_qualifying.state == 'QUALIFIED') {
                             var vehicle = app.findVehicle(race_qualifying.vehicle_id);
-                            var group = "r" + race_qualifying.race_id + "_c" + vehicle.category_id;
-                            var position = positions[group] + 1 || 1;
-                            race_qualifying.position = position;
-                            positions[group] = position;
+                            if(vehicle) {
+                                var group = "r" + race_qualifying.race_id + "_c" + vehicle.category_id;
+                                var position = positions[group] + 1 || 1;
+                                race_qualifying.position = position;
+                                positions[group] = position;
+                            }
                         }
                     }
                 }
+                callback();
+            });
+        },
+        race_evaluations: function(callback){
+            App.ajax('GET', '/race_evaluation', null, function(data){
+                app.data.race_evaluations = data;
                 callback();
             });
         }
@@ -193,6 +202,16 @@ App = Class.create({
                 var race_qualifying = this.data.race_qualifyings[v];
                 if (race_qualifying.race_id == race_id && race_qualifying.vehicle_id == vehicle_id)
                     return race_qualifying;
+            }
+        }
+    },
+    findRaceEvaluation: function(race_id, vehicle_id, station){
+        for(var v in this.data.race_evaluations)
+        {
+            if(this.data.race_evaluations.hasOwnProperty(v)) {
+                var race_evaluation = this.data.race_evaluations[v];
+                if (race_evaluation.race_id == race_id && race_evaluation.vehicle_id == vehicle_id && race_evaluation.station == station)
+                    return race_evaluation;
             }
         }
     },

@@ -1,4 +1,5 @@
-.idea/
-tmp/
-vendor/
+/.idea
+/tmp
+/data/*.json
+/err.log
 *.pyc

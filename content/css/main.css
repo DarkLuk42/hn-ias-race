@@ -4,11 +4,6 @@ body
     margin: auto;
     padding: 15px !important;
 }
-header
-{
-    padding-bottom: 15px;
-    border-bottom: 1px solid #444444;
-}
 footer
 {
     padding-top: 15px;
@@ -42,7 +37,12 @@ footer
     display: none;
 }
 
-
+.uk-breadcrumb
+{
+    border-bottom: 1px solid #444444;
+    border-top: 1px solid #444444;
+    min-height: 20px;
+}
 .uk-form input[type="number"]
 {
     max-width: 85px;

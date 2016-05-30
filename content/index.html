@@ -25,12 +25,13 @@
         <script src="js/views/phase_qualifying.js"></script>
         <script src="js/views/phase_registration.js"></script>
         <script src="js/views/phase_race.js"></script>
+        <script src="js/views/phase_evaluation.js"></script>
     </head>
     <body>
         <header>
             <h1>Oldtimer Rennen</h1>
+            <span class="logged-in" style="display:none;">Sie sind eingeloggt als <span class="current-user"></span>. (<a onclick="window.location.reload();">ausloggen</a>)</span>
             <ul class="uk-breadcrumb" id="view-breadcrumb"></ul>
-            <button class="uk-button uk-button-mini uk-button-link" onclick="window.location.reload();">Logout</button>
         </header>
         <div class="uk-grid">
             <div id="alert-box"></div>

@@ -1,6 +1,7 @@
 #  coding: utf-8
 
 import app.resource
+from app.validator import Validator
 
 
 class User(app.resource.IdResource):
@@ -22,5 +23,12 @@ class User(app.resource.IdResource):
 
     def sortfunction(self, resource):
         return resource["login"]
+
+    def api_create(self, **data):
+        fillable = Validator.validate(data, self.__class__.fields, self.__class__.defaults)
+        if self.find({"login": fillable["login"]}) is not None:
+            Validator.fail('Der Benutzername ist bereits vergeben.');
+        resource = self.create(fillable)
+        return resource
 
 # EOF

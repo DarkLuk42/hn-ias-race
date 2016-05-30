@@ -13,6 +13,7 @@
         <th>Datum</th>
         <th>Beschreibung</th>
         <th>Phase</th>
+        <th></th>
     </tr>
     @for r = 0; r < races.length; r++@
         @var race = races[r];@
@@ -27,8 +28,14 @@
                         <li><span class="#race.state == 'REGISTRATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE') ? 'uk-text-muted' : '')#">Anmeldephase</span> <i class="uk-icon-chevron-right"></i></li>
                         <li><span class="#race.state == 'QUALIFYING' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION') ? 'uk-text-muted' : '')#">Qualifying</span> <i class="uk-icon-chevron-right"></i></li>
                         <li><span class="#race.state == 'RACE' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING') ? 'uk-text-muted' : '')#">Rennen</span> <i class="uk-icon-chevron-right"></i></li>
-                        <li><span class="#race.state == 'EVALUATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING' || race.state == 'RACE') ? 'uk-text-muted' : '')#">Rennauswertung</span></li>
+                        <li><span class="#race.state == 'EVALUATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING' || race.state == 'RACE') ? 'uk-text-muted' : '')#">Beendet</span></li>
                     </ol>
+                </td>
+                <td>
+                    <!-- extra view -->
+                    @if race.state == 'EVALUATION'@
+                        <button class="uk-button uk-button-primary uk-button-mini" data-click="showEvaluationResult">Ergebnisse anzeigen</button>
+                    @endif@
                 </td>
             </tr>
         @endif@

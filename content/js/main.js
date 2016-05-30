@@ -14,15 +14,14 @@ $.fn.serializeObject = function()
     });
     return o;
 };
+
 $.fn.getAttributes = function() {
     var attributes = {};
-
     if( this.length ) {
         $.each( this[0].attributes, function( index, attr ) {
             attributes[ attr.name ] = attr.value;
         } );
     }
-
     return attributes;
 };
 
@@ -119,7 +118,13 @@ App = Class.create({
                     case 'templates.loaded':
                         app.load.races(function(){
                             app.load.vehicle_categories(function(){
-                                app.showView(VIEWS.init);
+                                app.load.vehicles(function(){
+                                    app.load.race_qualifying(function(){
+                                        app.load.race_evaluations(function(){
+                                            app.showView(VIEWS.init);
+                                        });
+                                    });
+                                });
                             });
                         });
                         break;
@@ -301,6 +306,38 @@ App.showModal = function(el, data)
     //App.modal.options.bgclose = false;
     App.modal.options.keyboard = false;
     App.modal.show();
+};
+
+App.cmpFunctionBuilder = function(callback){
+    return function(a, b){
+        var v_a = callback(a);
+        var v_b = callback(b);
+        if (v_a > v_b)
+            return -1;
+        else if (v_a < v_b)
+            return 1;
+        else
+            return 0;
+    };
+};
+
+App.groupBy = function(arr, group, where){
+    if(typeof(group) == "string") {
+        var groupAttr = group;
+        group = function (o) {
+            return o[groupAttr]
+        };
+    }
+    var hist = {};
+    arr.map(function(a){
+        if(!where || where(a)){
+            var g = group(a);
+            if (!(g in hist))
+                hist[g] = [];
+            hist[g].push(a);
+        }
+    });
+    return hist;
 };
 
 App.hideModal = function()

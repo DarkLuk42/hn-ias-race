@@ -11,21 +11,67 @@
     <li><span class="#race.state == 'EVALUATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING' || race.state == 'RACE') ? 'uk-text-muted' : '')#">Beendet</span></li>
 </ol>
 
-<h2>Qualifying</h2>
+<h2>Siegertreppe</h2>
+
+<table class="uk-table uk-form">
+    @$.each(race.qualified_vehicles_by_category_total, function(vc, category_vehicles){@
+        @var vehicle_category = app.findVehicleCategory(vc) || {};@
+        @var position = 1;@
+        <tr>
+            <td colspan="3">
+                <h3>#vehicle_category.name#</h3>
+            </td>
+        </tr>
+        <tr>
+            <th>Platz</th>
+            <th>Fahrzeug</th>
+            <th>Zeit (Ziel)</th>
+        </tr>
+        @for v = 0; v < category_vehicles.length; v++@
+            @var vehicle = category_vehicles[v]@
+            @var qualifying = app.findRaceQualifying(race.id, vehicle.id);@
+            <tr data-id="#vehicle.id#">
+                <td>#position++#</td>
+                <td>
+                    #vehicle.brand#
+                    #vehicle.type#
+
+                    @if qualifying.state == 'QUALIFIED'@
+                        <span class="uk-badge uk-badge-success">qualifiziert</span>
+                    @elseif qualifying.state == 'UNQUALIFIED'@
+                        <span class="uk-badge uk-badge-danger">unqualifiziert</span>
+                    @elseif qualifying.state == 'DISQUALIFIED'@
+                        <span class="uk-badge uk-badge-danger">disqualifiziert</span>
+                    @endif@
+                </td>
+                <td>
+                    #vehicle.time_s_total#
+                </td>
+            </tr>
+        @endfor@
+    @});@
+</table>
+
+
+<hr>
+
+
+<h2>Rundenzeiten</h2>
 
 <table class="uk-table uk-form">
     @$.each(race.qualified_vehicles_by_category, function(vc, category_vehicles){@
         @var vehicle_category = app.findVehicleCategory(vc) || {};@
         <tr>
-            <td colspan="4">
+            <td colspan="#1+race.stations.length#">
                 <h3>#vehicle_category.name#</h3>
             </td>
         </tr>
         <tr>
             <th>Fahrzeug</th>
-            <th>Zeit (in Sekunden)</th>
-            <th>Startposition</th>
-            <th></th>
+            @for var s = 0; s < race.stations.length; s++@
+                @var station = race.stations[s];@
+                <th title="Zeit (in Sekunden)">#station.name#</th>
+            @endfor@
         </tr>
         @for v = 0; v < category_vehicles.length; v++@
             @var vehicle = category_vehicles[v]@
@@ -43,31 +89,17 @@
                         <span class="uk-badge uk-badge-danger">disqualifiziert</span>
                     @endif@
                 </td>
-                <td>
-                    <input type="number" min="0" name="time_s" data-vehicle_id="#vehicle.id#" value="#qualifying.time_s#">
-                </td>
-                <td>
-                    #qualifying.position#
-                </td>
-                <td>
-                    @if qualifying.state == 'QUALIFIED'@
-                        <button class="uk-button uk-button-danger uk-button-mini" data-click="disqualify" data-confirm="Soll das Fahrzeug wirklich disqualifiziert werden?">disqualifizieren</button>
-                    @endif@
-                </td>
+                @for var s = 0; s < race.stations.length; s++@
+                    @var station = race.stations[s];@
+                    @var evaluation = app.findRaceEvaluation(race.id, vehicle.id, s) || {}@
+                    <td>
+                        #evaluation.time_s#
+                    </td>
+                @endfor@
             </tr>
         @endfor@
     @});@
 </table>
-
-
-<button class="uk-button" data-click="return">Zurück</button>
-<button class="uk-button uk-button-primary" data-click="save">Speichern & Startposition ermitteln</button>
-
-@if data.complete@
-<br><br>
-
-<button class="uk-button uk-button-primary" data-click="editRaceState" data-state="RACE">Qualifying abschließen</button>
-@endif@
 
 
 <hr>
@@ -80,16 +112,15 @@
 @endif@
 
 <table class="uk-table uk-form">
-    @$.each(race.not_qualified_vehicles_by_category, function(vc, category_vehicles){@
+    @$.each(race.qualified_vehicles_by_category, function(vc, category_vehicles){@
         @var vehicle_category = app.findVehicleCategory(vc) || {};@
         <tr>
-            <td colspan="2">
+            <td colspan="1">
                 <h3>#vehicle_category.name#</h3>
             </td>
         </tr>
         <tr>
             <th>Fahrzeug</th>
-            <th></th>
         </tr>
         @for v = 0; v < category_vehicles.length; v++@
             @var vehicle = category_vehicles[v]@
@@ -107,17 +138,9 @@
                         <span class="uk-badge uk-badge-danger">disqualifiziert</span>
                     @endif@
                 </td>
-                <td>
-                    @if qualifying.state == 'DISQUALIFIED'@
-                        <button class="uk-button uk-button-primary uk-button-mini" data-click="unDisqualify">Disqualifizirung aufheben</button>
-                    @endif@
-                </td>
             </tr>
         @endfor@
     @});@
 </table>
 
-
 <button class="uk-button" data-click="return">Zurück</button>
-
-

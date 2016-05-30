@@ -1,28 +1,36 @@
 [
   {
-    "lastname": "Kropp",
     "login": "kropp",
-    "password": "123",
     "firstname": "Lukas",
-    "driver_license": false,
     "id": 2,
-    "is_admin": false
-  },
-  {
+    "is_admin": false,
     "lastname": "Kropp",
-    "login": "kropp",
-    "password": "123",
-    "firstname": "Lukas",
-    "driver_license": true,
-    "id": 3
+    "driver_license": false,
+    "password": "123"
   },
   {
-    "lastname": "Quast",
-    "login": "quast",
-    "password": "123",
+    "login": "kropp",
     "firstname": "Lukas",
-    "driver_license": false,
+    "id": 3,
+    "lastname": "Kropp",
+    "driver_license": true,
+    "password": "123"
+  },
+  {
+    "login": "max",
+    "firstname": "Max",
+    "id": 4,
+    "lastname": "Mustermann",
+    "driver_license": true,
+    "password": "123"
+  },
+  {
+    "login": "quast",
+    "firstname": "Lukas",
     "id": 1,
-    "is_admin": true
+    "is_admin": true,
+    "lastname": "Quast",
+    "driver_license": false,
+    "password": "123"
   }
 ]

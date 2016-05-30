@@ -46,10 +46,15 @@ AdminView = Class.extend(View, {
             var race = app.findRace(race_id);
             app.showView(VIEWS.phase_qualifying, race);
         },
-        showEvaluation: function(el){
+        showEvaluationForm: function(el){
             var race_id = el.closest("[data-id]").attr("data-id");
             var race = app.findRace(race_id);
             app.showView(VIEWS.phase_race, race);
+        },
+        showEvaluationResult: function(el){
+            var race_id = el.closest("[data-id]").attr("data-id");
+            var race = app.findRace(race_id);
+            app.showView(VIEWS.phase_evaluation, race);
         },
         removeRace: function(el){
             var race_id = el.closest("[data-id]").attr("data-id");

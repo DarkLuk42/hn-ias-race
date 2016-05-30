@@ -1,20 +1,20 @@
 [
   {
-    "state": "QUALIFIED",
-    "time_s": 2,
+    "state": "DISQUALIFIED",
+    "race_id": 5,
     "vehicle_id": 1,
-    "race_id": 5
+    "time_s": 2
   },
   {
     "state": "QUALIFIED",
-    "time_s": 5,
+    "race_id": 5,
     "vehicle_id": 2,
-    "race_id": 5
+    "time_s": 5
   },
   {
     "state": "QUALIFIED",
-    "time_s": 6,
+    "race_id": 5,
     "vehicle_id": 4,
-    "race_id": 5
+    "time_s": 6
   }
 ]

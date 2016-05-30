@@ -1,18 +1,18 @@
 [
   {
-    "description": "",
-    "state": "EVALUATION",
-    "date": "30.06.2016",
+    "name": "Tour d' Eifel",
     "id": 5,
-    "leader_id": 1,
-    "name": "Tour d' Eifel"
+    "description": "",
+    "date": "30.06.2016",
+    "state": "EVALUATION",
+    "leader_id": 1
   },
   {
-    "description": "",
-    "state": "REGISTRATION",
-    "date": "morgen",
+    "name": "Testrennen",
     "id": 6,
-    "leader_id": 1,
-    "name": "Testrennen"
+    "description": "",
+    "date": "morgen",
+    "state": "REGISTRATION",
+    "leader_id": 1
   }
 ]

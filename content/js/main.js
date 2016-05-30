@@ -14,6 +14,17 @@ $.fn.serializeObject = function()
     });
     return o;
 };
+$.fn.getAttributes = function() {
+    var attributes = {};
+
+    if( this.length ) {
+        $.each( this[0].attributes, function( index, attr ) {
+            attributes[ attr.name ] = attr.value;
+        } );
+    }
+
+    return attributes;
+};
 
 var LITAPP = {};
 
@@ -57,7 +68,16 @@ App = Class.create({
             e.preventDefault();
             e.stopPropagation();
             var el = $(this);
-            view.handleEvent(el.attr("data-click"), el);
+            if(el.attr("data-confirm")) {
+                UIkit.modal.confirm(el.attr("data-confirm"), function () {
+                    $("html").removeClass("uk-modal-page");
+                    view.handleEvent(el.attr("data-click"), el);
+                }, function(){
+                    $("html").removeClass("uk-modal-page");
+                });
+            } else {
+                view.handleEvent(el.attr("data-click"), el);
+            }
         });
         content.find(".uk-modal input").on("keydown", function(e){
             if(e.keyCode == 13)
@@ -218,6 +238,36 @@ App = Class.create({
     refreshView: function(){
         this.showView(this.activeView);
     },
+    refreshViewButKeepInput: function(){
+        var inputAttrFilter = new RegExp('^data-');
+        var formData = [];
+        $("input").each(function(key, el){
+            var $input = $(el);
+            var inputCache = {
+                "name" : $input.attr("name"),
+                "value" : $input.val(),
+                "data": {}
+            };
+            var attributes = $input.getAttributes();
+            $.each(attributes, function(name, value){
+                if(name.match(inputAttrFilter))
+                {
+                    inputCache.data[name] = value;
+                }
+            });
+            formData.push(inputCache);
+        });
+        this.refreshView();
+        $.each(formData, function(i, inputCache){
+            var selector = "[name='"+inputCache.name+"']";
+            $.each(inputCache.data, function(name, value){
+                selector += "["+name+"='"+value+"']";
+            });
+            try {
+                $(selector).val(inputCache.value);
+            } catch( ignored ){}
+        });
+    },
     alertSuccess: function(message){
         var alertBox = $("#alert-box");
         var alert = $('<div class="uk-alert uk-alert-success" data-uk-alert>'+
@@ -226,7 +276,7 @@ App = Class.create({
         '</div>');
         setTimeout(function(){
             alert.fadeOut();
-        }, 3000);
+        }, 7000);
         alertBox.prepend(alert);
     },
     alertError: function(message){
@@ -237,7 +287,7 @@ App = Class.create({
         '</div>');
         setTimeout(function(){
             alert.fadeOut();
-        }, 3000);
+        }, 60000);
         alertBox.prepend(alert);
     }
 });

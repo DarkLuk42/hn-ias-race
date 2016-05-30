@@ -26,10 +26,6 @@ PhaseQualifyingView = Class.extend(View, {
                 var vehicle_category = app.findVehicleCategory(vehicle.category_id);
                 var time_s = $el.val();
                 var state = time_s <= vehicle_category.qualifying_time_s ? 'QUALIFIED' : 'UNQUALIFIED';
-                if($el.closest("tr").hasClass("disqualified"))
-                {
-                    state = 'DISQUALIFIED';
-                }
                 requests.push({
                     "type": 'PUT',
                     "url": "/race_qualifying/"+race_id+"/"+vehicle_id,
@@ -59,8 +55,22 @@ PhaseQualifyingView = Class.extend(View, {
             });
         },
         disqualify: function(el){
-            el.closest("tr").addClass("disqualified");
-            el.closest("td").html('<span class="uk-badge uk-badge-danger">disqualifiziert</span>');
+            var race_id = VIEWS.phase_qualifying.data.id;
+            var vehicle_id = el.closest("[data-id]").attr("data-id");
+            App.ajax('PUT', '/race_qualifying/'+race_id+'/'+vehicle_id, {"state": 'DISQUALIFIED'}, function(){
+                app.load.race_qualifying(function(){
+                    app.refreshViewButKeepInput();
+                });
+            });
+        },
+        unDisqualify: function(el){
+            var race_id = VIEWS.phase_qualifying.data.id;
+            var vehicle_id = el.closest("[data-id]").attr("data-id");
+            App.ajax('PUT', '/race_qualifying/'+race_id+'/'+vehicle_id, {"state": 'QUALIFIED'}, function(){
+                app.load.race_qualifying(function(){
+                    app.refreshViewButKeepInput();
+                });
+            });
         }
     }
 });

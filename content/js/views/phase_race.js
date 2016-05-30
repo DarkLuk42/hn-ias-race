@@ -5,6 +5,17 @@ PhaseRaceView = Class.extend(View, {
     },
     prepareView: function(data){
         data.complete = true;
+        var stations = this.data.stations;
+        $.each(app.data.vehicles, function(v, vehicle){
+            var qualifying = app.findRaceQualifying(data.id, vehicle.id) || {};
+            if( vehicle.race_id == data.id && qualifying.state == 'QUALIFIED'){
+                $.each(stations, function(s, station){
+                    if( !app.findRaceEvaluation(data.id, vehicle.id, s)){
+                        data.complete = false;
+                    }
+                });
+            }
+        });
     },
     events: {
         save: function(el){
@@ -40,6 +51,24 @@ PhaseRaceView = Class.extend(View, {
             App.ajax('PUT', '/race/'+race_id, {"state": state}, function(){
                 app.load.races(function(){
                     app.showPreviousView();
+                });
+            });
+        },
+        disqualify: function(el){
+            var race_id = VIEWS.phase_race.data.id;
+            var vehicle_id = el.closest("[data-id]").attr("data-id");
+            App.ajax('PUT', '/race_qualifying/'+race_id+'/'+vehicle_id, {"state": 'DISQUALIFIED'}, function(){
+                app.load.race_qualifying(function(){
+                    app.refreshViewButKeepInput();
+                });
+            });
+        },
+        unDisqualify: function(el){
+            var race_id = VIEWS.phase_race.data.id;
+            var vehicle_id = el.closest("[data-id]").attr("data-id");
+            App.ajax('PUT', '/race_qualifying/'+race_id+'/'+vehicle_id, {"state": 'QUALIFIED'}, function(){
+                app.load.race_qualifying(function(){
+                    app.refreshViewButKeepInput();
                 });
             });
         }

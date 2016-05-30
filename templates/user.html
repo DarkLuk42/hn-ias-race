@@ -24,15 +24,22 @@
                     @if vehicle.race_id && (race = app.findRace(vehicle.race_id))@
                         #race.name#
                         @if race.state == 'REGISTRATION'@
-                            <button class="uk-button uk-button-danger uk-button-mini" data-click="unregisterVehicle">abmelden</button>
+                            <button class="uk-button uk-button-danger uk-button-mini" data-click="unregisterVehicle" data-confirm="Soll das Fahrzeug wirklich abgemeldet werden?">abmelden</button>
                         @endif@
                     @else@
                         <button class="uk-button uk-button-primary uk-button-mini" data-click="registerVehicle">anmelden</button>
                     @endif@
                 </td>
                 <td>
-                    <button class="uk-button uk-button-primary uk-button-mini" data-click="editVehicle">bearbeiten</button>
-                    <button class="uk-button uk-button-danger uk-button-mini" data-click="removeVehicle">löschen</button>
+                    @if vehicle.race_id && (race = app.findRace(vehicle.race_id))@
+                        @if race.state == 'REGISTRATION'@
+                            <button class="uk-button uk-button-primary uk-button-mini" data-click="editVehicle">bearbeiten</button>
+                            <button class="uk-button uk-button-danger uk-button-mini" data-click="removeVehicle" data-confirm="Soll das Fahrzeug wirklich gelöscht werden?">löschen</button>
+                        @endif@
+                    @else@
+                        <button class="uk-button uk-button-primary uk-button-mini" data-click="editVehicle">bearbeiten</button>
+                        <button class="uk-button uk-button-danger uk-button-mini" data-click="removeVehicle" data-confirm="Soll das Fahrzeug wirklich gelöscht werden?">löschen</button>
+                    @endif@
                 </td>
             </tr>
         @endif@
@@ -56,7 +63,15 @@
                 <td>#race.name#</td>
                 <td>#race.date#</td>
                 <td>#race.description#</td>
-                <td>#race.state#</td>
+                <td>
+                    <ol class="race-states">
+                        <li><span class="#race.state == 'PREPARE' ? 'uk-text-primary uk-text-bold' : ''#">Vorbereitung</span> <i class="uk-icon-chevron-right"></i></li>
+                        <li><span class="#race.state == 'REGISTRATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE') ? 'uk-text-muted' : '')#">Anmeldephase</span> <i class="uk-icon-chevron-right"></i></li>
+                        <li><span class="#race.state == 'QUALIFYING' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION') ? 'uk-text-muted' : '')#">Qualifying</span> <i class="uk-icon-chevron-right"></i></li>
+                        <li><span class="#race.state == 'RACE' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING') ? 'uk-text-muted' : '')#">Rennen</span> <i class="uk-icon-chevron-right"></i></li>
+                        <li><span class="#race.state == 'EVALUATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING' || race.state == 'RACE') ? 'uk-text-muted' : '')#">Rennauswertung</span></li>
+                    </ol>
+                </td>
             </tr>
         @endif@
     @endfor@

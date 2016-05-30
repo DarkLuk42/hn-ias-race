@@ -2,6 +2,15 @@
 
 @var race = data@
 
+<span>Rennen '#race.name#':</span><br>
+<ol class="race-states">
+    <li><span class="#race.state == 'PREPARE' ? 'uk-text-primary uk-text-bold' : ''#">Vorbereitung</span> <i class="uk-icon-chevron-right"></i></li>
+    <li><span class="#race.state == 'REGISTRATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE') ? 'uk-text-muted' : '')#">Anmeldephase</span> <i class="uk-icon-chevron-right"></i></li>
+    <li><span class="#race.state == 'QUALIFYING' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION') ? 'uk-text-muted' : '')#">Qualifying</span> <i class="uk-icon-chevron-right"></i></li>
+    <li><span class="#race.state == 'RACE' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING') ? 'uk-text-muted' : '')#">Rennen</span> <i class="uk-icon-chevron-right"></i></li>
+    <li><span class="#race.state == 'EVALUATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING' || race.state == 'RACE') ? 'uk-text-muted' : '')#">Rennauswertung</span></li>
+</ol>
+
 <h2>Qualifying</h2>
 
 <table class="uk-table uk-form">
@@ -17,28 +26,34 @@
             @vehicle = vehicles[v]@
             @if vehicle.race_id == race.id && vehicle.category_id == vehicle_category.id@
                 @var qualifying = app.findRaceQualifying(race.id, vehicle.id) || {}@
-                <tr class="@if qualifying.state == 'DISQUALIFIED'@disqualified@endif@">
-                    <td>#vehicle_category.name#</td>
-                    <td>#vehicle.brand# #vehicle.type#</td>
-                    <td>
-                        <input type="number" min="0" name="time_s" data-vehicle_id="#vehicle.id#" value="#qualifying.time_s#">
-                    </td>
-                    <td>
-                        #qualifying.position#
-                    </td>
-                    <td>
-                        @if qualifying.state == 'QUALIFIED'@
-                            <span class="uk-badge uk-badge-success">qualifiziert</span>
-                        @elseif qualifying.state == 'UNQUALIFIED'@
-                            <span class="uk-badge uk-badge-danger">unqualifiziert</span>
-                        @elseif qualifying.state == 'DISQUALIFIED'@
-                            <span class="uk-badge uk-badge-danger">disqualifiziert</span>
-                        @endif@
-                        @if qualifying.state == 'QUALIFIED'@
-                            <button class="uk-button uk-button-danger uk-button-mini" data-click="disqualify">disqualifizieren</button>
-                        @endif@
-                    </td>
-                </tr>
+                @if qualifying.state == 'QUALIFIED'@
+                    <tr data-id="#vehicle.id#">
+                        <td>#vehicle_category.name#</td>
+                        <td>
+                            #vehicle.brand#
+                            #vehicle.type#
+
+                            @if qualifying.state == 'QUALIFIED'@
+                                <span class="uk-badge uk-badge-success">qualifiziert</span>
+                            @elseif qualifying.state == 'UNQUALIFIED'@
+                                <span class="uk-badge uk-badge-danger">unqualifiziert</span>
+                            @elseif qualifying.state == 'DISQUALIFIED'@
+                                <span class="uk-badge uk-badge-danger">disqualifiziert</span>
+                            @endif@
+                        </td>
+                        <td>
+                            <input type="number" min="0" name="time_s" data-vehicle_id="#vehicle.id#" value="#qualifying.time_s#">
+                        </td>
+                        <td>
+                            #qualifying.position#
+                        </td>
+                        <td>
+                            @if qualifying.state == 'QUALIFIED'@
+                                <button class="uk-button uk-button-danger uk-button-mini" data-click="disqualify" data-confirm="Soll das Fahrzeug wirklich disqualifiziert werden?">disqualifizieren</button>
+                            @endif@
+                        </td>
+                    </tr>
+                @endif@
             @endif@
         @endfor@
     @endfor@
@@ -52,5 +67,53 @@
 
 <button class="uk-button uk-button-primary" data-click="editRaceState" data-state="RACE">Qualifying abschließen</button>
 @endif@
+
+
+<hr>
+
+
+<h2>Unqualifizierte/disqualifizierte Fahzeuge</h2>
+
+<table class="uk-table uk-form">
+    <tr>
+        <th>Fahrzeugklasse</th>
+        <th>Fahrzeug</th>
+        <th></th>
+    </tr>
+    @for vc = 0; vc < vehicle_categories.length; vc++@
+        @var vehicle_category = vehicle_categories[vc]@
+        @for v = 0; v < vehicles.length; v++@
+            @vehicle = vehicles[v]@
+            @if vehicle.race_id == race.id && vehicle.category_id == vehicle_category.id@
+                @var qualifying = app.findRaceQualifying(race.id, vehicle.id) || {}@
+                @if qualifying.state != 'QUALIFIED'@
+                    <tr data-id="#vehicle.id#">
+                        <td>#vehicle_category.name#</td>
+                        <td>
+                            #vehicle.brand#
+                            #vehicle.type#
+
+                            @if qualifying.state == 'QUALIFIED'@
+                                <span class="uk-badge uk-badge-success">qualifiziert</span>
+                            @elseif qualifying.state == 'UNQUALIFIED'@
+                                <span class="uk-badge uk-badge-danger">unqualifiziert</span>
+                            @elseif qualifying.state == 'DISQUALIFIED'@
+                                <span class="uk-badge uk-badge-danger">disqualifiziert</span>
+                            @endif@
+                        </td>
+                        <td>
+                            @if qualifying.state == 'DISQUALIFIED'@
+                                <button class="uk-button uk-button-primary uk-button-mini" data-click="unDisqualify">Disqualifizirung aufheben</button>
+                            @endif@
+                        </td>
+                    </tr>
+                @endif@
+            @endif@
+        @endfor@
+    @endfor@
+</table>
+
+
+<button class="uk-button" data-click="return">Zurück</button>
 
 

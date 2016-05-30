@@ -1,0 +1,36 @@
+[
+  {
+    "login": "kropp",
+    "firstname": "Lukas",
+    "id": 2,
+    "is_admin": false,
+    "lastname": "Kropp",
+    "driver_license": false,
+    "password": "123"
+  },
+  {
+    "login": "kropp",
+    "firstname": "Lukas",
+    "id": 3,
+    "lastname": "Kropp",
+    "driver_license": true,
+    "password": "123"
+  },
+  {
+    "login": "max",
+    "firstname": "Max",
+    "id": 4,
+    "lastname": "Mustermann",
+    "driver_license": true,
+    "password": "123"
+  },
+  {
+    "login": "quast",
+    "firstname": "Lukas",
+    "id": 1,
+    "is_admin": true,
+    "lastname": "Quast",
+    "driver_license": false,
+    "password": "123"
+  }
+]

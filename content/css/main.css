@@ -1,0 +1,64 @@
+body
+{
+    /*max-width: 1024px;*/
+    margin: auto;
+    padding: 15px !important;
+}
+footer
+{
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #444444;
+}
+.content
+{
+    min-height: 100px;
+    padding: 0;
+}
+#alert-box
+{
+    position:fixed;
+    top: 10px;
+    right: 26px;
+    z-index: 1020;
+}
+.race-states
+{
+    display: inline-block;
+    list-style-type: none;
+    /*border: 1px solid #444444;*/
+    padding: 0 4px;
+}
+.race-states li
+{
+    display: inline-block;
+}
+.superadmin
+{
+    display: none;
+}
+
+.uk-tab
+{
+    margin-bottom: 15px;
+}
+.uk-breadcrumb
+{
+    border-bottom: 1px solid #444444;
+    border-top: 1px solid #444444;
+    min-height: 20px;
+}
+.uk-form input[type="number"]
+{
+    max-width: 85px;
+}
+@media (min-width: 768px) {
+    .uk-description-list-horizontal > dt
+    {
+        width: auto;
+    }
+    .uk-description-list-horizontal > dd
+    {
+        margin-left: 24px;
+    }
+}

@@ -1,0 +1,85 @@
+@;for(i in context){if(context.hasOwnProperty(i)){eval("var "+i+" = "+JSON.stringify(context[i])+";");}}@
+
+<p>
+    Um sich für ein Rennen anzumelden müssen sie sich
+    <button class="uk-button uk-button-primary uk-button-mini" data-click="loginModal">einloggen</button>
+    oder <button class="uk-button uk-button-primary uk-button-mini" data-click="registerModal">registrieren</button>.
+</p>
+
+<h2>Rennen</h2>
+<table class="uk-table uk-table-hover uk-table-striped">
+    <tr>
+        <th>Rennen</th>
+        <th>Datum</th>
+        <th>Beschreibung</th>
+        <th>Phase</th>
+        <th></th>
+    </tr>
+    @for r = 0; r < races.length; r++@
+        @var race = races[r];@
+        @if race.state != 'PREPARE'@
+            <tr data-id="#race.id#">
+                <td>#race.name#</td>
+                <td>#race.date#</td>
+                <td>#race.description#</td>
+                <td>
+                    <ol class="race-states">
+                        <li><span class="#race.state == 'PREPARE' ? 'uk-text-primary uk-text-bold' : ''#">Vorbereitung</span> <i class="uk-icon-chevron-right"></i></li>
+                        <li><span class="#race.state == 'REGISTRATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE') ? 'uk-text-muted' : '')#">Anmeldephase</span> <i class="uk-icon-chevron-right"></i></li>
+                        <li><span class="#race.state == 'QUALIFYING' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION') ? 'uk-text-muted' : '')#">Qualifying</span> <i class="uk-icon-chevron-right"></i></li>
+                        <li><span class="#race.state == 'RACE' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING') ? 'uk-text-muted' : '')#">Rennen</span> <i class="uk-icon-chevron-right"></i></li>
+                        <li><span class="#race.state == 'EVALUATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING' || race.state == 'RACE') ? 'uk-text-muted' : '')#">Beendet</span></li>
+                    </ol>
+                </td>
+                <td>
+                    <!-- extra view -->
+                    @if race.state == 'EVALUATION'@
+                        <button class="uk-button uk-button-primary uk-button-mini" data-click="showEvaluationResult">Ergebnisse anzeigen</button>
+                    @endif@
+                </td>
+            </tr>
+        @endif@
+    @endfor@
+</table>
+
+<div id="registerModal" class="uk-modal">
+    <div class="uk-modal-dialog">
+        <div class="uk-modal-header">
+            Registrierung
+        </div>
+        <form class="uk-form" action="/user" method="post" data-submit="registerSubmit">
+            <div class="uk-form-row">
+                <input type="text" name="login" placeholder="Username"/>
+                <input type="password" name="password" placeholder="Passwort"/>
+            </div>
+            <div class="uk-form-row">
+                <input type="text" name="firstname" placeholder="Firstname"/>
+                <input type="text" name="lastname" placeholder="Lastname"/>
+            </div>
+            <div class="uk-form-row">
+                <label><input type="checkbox" name="driver_license"/>Führerschein</label>
+            </div>
+            <div class="uk-form-row">
+                <button class="uk-modal-close uk-button">Abbrechen</button>
+                <input type="submit" value="Anmelden" class="uk-button uk-button-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="loginModal" class="uk-modal">
+    <div class="uk-modal-dialog">
+        <div class="uk-modal-header">
+            Login
+        </div>
+        <form class="uk-form uk-form-row" action="/login" method="post" data-submit="loginSubmit">
+            <div class="uk-form-row">
+                <input type="text" name="login" placeholder="Username"/>
+                <input type="password" name="password" placeholder="Passwort"/>
+            </div>
+            <div class="uk-form-row">
+                <button class="uk-modal-close uk-button">Abbrechen</button>
+                <input type="submit" value="Anmelden" class="uk-button uk-button-primary"/>
+            </div>
+        </form>
+    </div>
+</div>

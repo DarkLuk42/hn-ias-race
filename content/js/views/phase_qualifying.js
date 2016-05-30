@@ -49,6 +49,7 @@ PhaseQualifyingView = Class.extend(View, {
 
             App.ajaxMany(requests, function(){
                 app.load.race_qualifying(function(){
+                    app.alertSuccess('Qualifikationszeiten wurden gespeichert.');
                     app.refreshView();
                 });
             });
@@ -58,6 +59,7 @@ PhaseQualifyingView = Class.extend(View, {
             var race_id = VIEWS.phase_qualifying.data.id;
             App.ajax('PUT', '/race/'+race_id, {"state": state}, function(){
                 app.load.races(function(){
+                    app.alertSuccess('Rennphase wurde aktualisiert.');
                     app.showPreviousView();
                 });
             });
@@ -67,6 +69,7 @@ PhaseQualifyingView = Class.extend(View, {
             var vehicle_id = el.closest("[data-id]").attr("data-id");
             App.ajax('PUT', '/race_qualifying/'+race_id+'/'+vehicle_id, {"state": 'DISQUALIFIED'}, function(){
                 app.load.race_qualifying(function(){
+                    app.alertSuccess('Fahrzeug wurde disqualifiziert.');
                     app.refreshViewButKeepInput();
                 });
             });
@@ -76,6 +79,7 @@ PhaseQualifyingView = Class.extend(View, {
             var vehicle_id = el.closest("[data-id]").attr("data-id");
             App.ajax('PUT', '/race_qualifying/'+race_id+'/'+vehicle_id, {"state": 'QUALIFIED'}, function(){
                 app.load.race_qualifying(function(){
+                    app.alertSuccess('Disqualifizierung wurde aufgehoben.');
                     app.refreshViewButKeepInput();
                 });
             });

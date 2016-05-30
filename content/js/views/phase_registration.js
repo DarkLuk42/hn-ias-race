@@ -9,6 +9,7 @@ PhaseRegistrationView = Class.extend(View, {
             var vehicle_id = el.closest("[data-id]").attr("data-id");
             App.ajax('PUT', '/vehicle/'+vehicle_id, {"race_id": race_id}, function(){
                 app.load.vehicles(function(){
+                    app.alertSuccess('Fahrzeug wurde angemeldet.');
                     app.refreshView();
                 });
             });
@@ -18,6 +19,7 @@ PhaseRegistrationView = Class.extend(View, {
             var vehicle_id = el.closest("[data-id]").attr("data-id");
             App.ajax('PUT', '/vehicle/'+vehicle_id, {"race_id": race_id}, function(){
                 app.load.vehicles(function(){
+                    app.alertSuccess('Fahrzeug wurde abgemeldet.');
                     app.refreshView();
                 });
             });
@@ -27,6 +29,7 @@ PhaseRegistrationView = Class.extend(View, {
             var state = el.attr("data-state");
             App.ajax('PUT', '/race/'+race_id, {"state": state}, function(){
                 app.load.races(function(){
+                    app.alertSuccess('Rennphase wurde aktualisiert.');
                     app.showPreviousView();
                 });
             });
@@ -38,6 +41,7 @@ PhaseRegistrationView = Class.extend(View, {
             var vehicle_id = el.closest("[data-id]").attr("data-id");
             App.ajax('DELETE', '/vehicle/'+vehicle_id, null, function(){
                 app.load.vehicles(function(){
+                    app.alertSuccess('Fahrzeug wurde gelöscht.');
                     app.refreshView();
                 });
             });

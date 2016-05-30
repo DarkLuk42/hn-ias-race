@@ -1,94 +1,102 @@
 @;for(i in context){if(context.hasOwnProperty(i)){eval("var "+i+" = "+JSON.stringify(context[i])+";");}}@
 
-<h2>Rennen <button class="uk-button uk-button-primary uk-button-small" data-click="addRace">neues Rennen anlegen</button></h2>
+<ul class="uk-tab" data-uk-tab>
+    <li class="uk-active"><a onclick="tab_race()">Rennen</a></li>
+    <li><a onclick="tab_vc()">Fahrzeugklassen</a></li>
+</ul>
 
-<table class="uk-table uk-table-hover uk-table-striped">
-    <tr>
-        <th>Rennen</th>
-        <th>Datum</th>
-        <th>Beschreibung</th>
-        <th>Status</th>
-        <th></th>
-    </tr>
-    @for r = 0; r < races.length; r++@
-        @var race = races[r];@
-        <tr data-id="#race.id#">
-            <td>#race.name#</td>
-            <td>#race.date#</td>
-            <td>#race.description#</td>
-            <td>
-                <ol class="race-states">
-                    <li><span class="#race.state == 'PREPARE' ? 'uk-text-primary uk-text-bold' : ''#">Vorbereitung</span> <i class="uk-icon-chevron-right"></i></li>
-                    <li><span class="#race.state == 'REGISTRATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE') ? 'uk-text-muted' : '')#">Anmeldephase</span> <i class="uk-icon-chevron-right"></i></li>
-                    <li><span class="#race.state == 'QUALIFYING' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION') ? 'uk-text-muted' : '')#">Qualifying</span> <i class="uk-icon-chevron-right"></i></li>
-                    <li><span class="#race.state == 'RACE' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING') ? 'uk-text-muted' : '')#">Rennen</span> <i class="uk-icon-chevron-right"></i></li>
-                    <li><span class="#race.state == 'EVALUATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING' || race.state == 'RACE') ? 'uk-text-muted' : '')#">Beendet</span></li>
-                </ol>
-            </td>
-            <td>
-                <!-- edit/delete -->
-                @if race.state == 'PREPARE'@
-                    <button class="uk-button uk-button-primary uk-button-mini" data-click="editRace">bearbeiten</button>
-                    <button class="uk-button uk-button-danger uk-button-mini superadmin" data-click="removeRace" data-confirm="Soll das Rennen wirklisch gelöscht werden?">löschen</button>
-                @elseif race.state == 'REGISTRATION'@
-                    <button class="uk-button uk-button-primary uk-button-mini" data-click="editRace">bearbeiten</button>
-                    <button class="uk-button uk-button-danger uk-button-mini superadmin" data-click="removeRace" data-confirm="Soll das Rennen wirklisch gelöscht werden?">löschen/absagen</button>
-                @elseif race.state == 'QUALIFYING'@
-                    <button class="uk-button uk-button-danger uk-button-mini superadmin" data-click="removeRace" data-confirm="Soll das Rennen wirklisch gelöscht werden?">löschen/absagen</button>
-                @elseif race.state == 'RACE'@
-                    <button class="uk-button uk-button-danger uk-button-mini superadmin" data-click="removeRace" data-confirm="Soll das Rennen wirklisch gelöscht werden?">löschen/absagen</button>
-                @elseif race.state == 'EVALUATION'@
-                    <button class="uk-button uk-button-danger uk-button-mini superadmin" data-click="removeRace" data-confirm="Soll das Rennen wirklisch gelöscht werden?">löschen</button>
-                @endif@
+<div id="tab-race">
+    <h2>Rennen <button class="uk-button uk-button-primary uk-button-small" data-click="addRace">neues Rennen anlegen</button></h2>
 
-                <!-- extra view -->
-                @if race.state == 'REGISTRATION'@
-                    <button class="uk-button uk-button-primary uk-button-mini" data-click="showRegistration">Anmeldungen verwalten</button>
-                @elseif race.state == 'QUALIFYING'@
-                    <button class="uk-button uk-button-primary uk-button-mini" data-click="showQualifying">Ergebnisse eintragen</button>
-                @elseif race.state == 'RACE'@
-                    <button class="uk-button uk-button-primary uk-button-mini" data-click="showEvaluationForm">Ergebnisse eintragen</button>
-                @elseif race.state == 'EVALUATION'@
-                    <button class="uk-button uk-button-primary uk-button-mini" data-click="showEvaluationResult">Ergebnisse anzeigen</button>
-                @endif@
-
-                <!-- change state -->
-                @if race.state == 'PREPARE'@
-                    <button class="uk-button uk-button-primary uk-button-mini" data-click="editRaceState" data-state="REGISTRATION">Anmeldephase starten</button>
-                @elseif race.state == 'REGISTRATION'@
-                    <button class="uk-button uk-button-primary uk-button-mini superadmin" data-click="editRaceState" data-state="PREPARE"><-</button>
-                @elseif race.state == 'QUALIFYING'@
-                    <button class="uk-button uk-button-primary uk-button-mini superadmin" data-click="editRaceState" data-state="REGISTRATION"><-</button>
-                @elseif race.state == 'RACE'@
-                    <button class="uk-button uk-button-primary uk-button-mini superadmin" data-click="editRaceState" data-state="QUALIFYING"><-</button>
-                @elseif race.state == 'EVALUATION'@
-                    <button class="uk-button uk-button-primary uk-button-mini superadmin" data-click="editRaceState" data-state="RACE"><-</button>
-                @endif@
-            </td>
+    <table class="uk-table uk-table-hover uk-table-striped">
+        <tr>
+            <th>Rennen</th>
+            <th>Datum</th>
+            <th>Beschreibung</th>
+            <th>Status</th>
+            <th></th>
         </tr>
-    @endfor@
-</table>
+        @for r = 0; r < races.length; r++@
+            @var race = races[r];@
+            <tr data-id="#race.id#">
+                <td>#race.name#</td>
+                <td>#race.date#</td>
+                <td>#race.description#</td>
+                <td>
+                    <ol class="race-states">
+                        <li><span class="#race.state == 'PREPARE' ? 'uk-text-primary uk-text-bold' : ''#">Vorbereitung</span> <i class="uk-icon-chevron-right"></i></li>
+                        <li><span class="#race.state == 'REGISTRATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE') ? 'uk-text-muted' : '')#">Anmeldephase</span> <i class="uk-icon-chevron-right"></i></li>
+                        <li><span class="#race.state == 'QUALIFYING' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION') ? 'uk-text-muted' : '')#">Qualifying</span> <i class="uk-icon-chevron-right"></i></li>
+                        <li><span class="#race.state == 'RACE' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING') ? 'uk-text-muted' : '')#">Rennen</span> <i class="uk-icon-chevron-right"></i></li>
+                        <li><span class="#race.state == 'EVALUATION' ? 'uk-text-primary uk-text-bold' : ( (race.state == 'PREPARE' || race.state == 'REGISTRATION' || race.state == 'QUALIFYING' || race.state == 'RACE') ? 'uk-text-muted' : '')#">Beendet</span></li>
+                    </ol>
+                </td>
+                <td>
+                    <!-- edit/delete -->
+                    @if race.state == 'PREPARE'@
+                        <button class="uk-button uk-button-primary uk-button-mini" data-click="editRace">bearbeiten</button>
+                        <button class="uk-button uk-button-danger uk-button-mini superadmin" data-click="removeRace" data-confirm="Soll das Rennen wirklisch gelöscht werden?">löschen</button>
+                    @elseif race.state == 'REGISTRATION'@
+                        <button class="uk-button uk-button-primary uk-button-mini" data-click="editRace">bearbeiten</button>
+                        <button class="uk-button uk-button-danger uk-button-mini superadmin" data-click="removeRace" data-confirm="Soll das Rennen wirklisch gelöscht werden?">löschen/absagen</button>
+                    @elseif race.state == 'QUALIFYING'@
+                        <button class="uk-button uk-button-danger uk-button-mini superadmin" data-click="removeRace" data-confirm="Soll das Rennen wirklisch gelöscht werden?">löschen/absagen</button>
+                    @elseif race.state == 'RACE'@
+                        <button class="uk-button uk-button-danger uk-button-mini superadmin" data-click="removeRace" data-confirm="Soll das Rennen wirklisch gelöscht werden?">löschen/absagen</button>
+                    @elseif race.state == 'EVALUATION'@
+                        <button class="uk-button uk-button-danger uk-button-mini superadmin" data-click="removeRace" data-confirm="Soll das Rennen wirklisch gelöscht werden?">löschen</button>
+                    @endif@
 
+                    <!-- extra view -->
+                    @if race.state == 'REGISTRATION'@
+                        <button class="uk-button uk-button-primary uk-button-mini" data-click="showRegistration">Anmeldungen verwalten</button>
+                    @elseif race.state == 'QUALIFYING'@
+                        <button class="uk-button uk-button-primary uk-button-mini" data-click="showQualifying">Ergebnisse eintragen</button>
+                    @elseif race.state == 'RACE'@
+                        <button class="uk-button uk-button-primary uk-button-mini" data-click="showEvaluationForm">Ergebnisse eintragen</button>
+                    @elseif race.state == 'EVALUATION'@
+                        <button class="uk-button uk-button-primary uk-button-mini" data-click="showEvaluationResult">Ergebnisse anzeigen</button>
+                    @endif@
 
-<h2>Fahrzeugklassen <button class="uk-button uk-button-primary uk-button-small" data-click="addVehicleCategory">neue Fahrzeugklasse anlegen</button></h2>
+                    <!-- change state -->
+                    @if race.state == 'PREPARE'@
+                        <button class="uk-button uk-button-primary uk-button-mini" data-click="editRaceState" data-state="REGISTRATION">Anmeldephase starten</button>
+                    @elseif race.state == 'REGISTRATION'@
+                        <button class="uk-button uk-button-primary uk-button-mini superadmin" data-click="editRaceState" data-state="PREPARE"><-</button>
+                    @elseif race.state == 'QUALIFYING'@
+                        <button class="uk-button uk-button-primary uk-button-mini superadmin" data-click="editRaceState" data-state="REGISTRATION"><-</button>
+                    @elseif race.state == 'RACE'@
+                        <button class="uk-button uk-button-primary uk-button-mini superadmin" data-click="editRaceState" data-state="QUALIFYING"><-</button>
+                    @elseif race.state == 'EVALUATION'@
+                        <button class="uk-button uk-button-primary uk-button-mini superadmin" data-click="editRaceState" data-state="RACE"><-</button>
+                    @endif@
+                </td>
+            </tr>
+        @endfor@
+    </table>
+</div>
 
-<table class="uk-table uk-table-hover uk-table-striped">
-    <tr>
-        <th>Fahrzeugklasse</th>
-        <th>Beschreibung</th>
-        <th>Qualifyingtime (in Sekunden)</th>
-        <th></th>
-    </tr>
-    @for r = 0; r < vehicle_categories.length; r++@
-        @var vehicle_category = vehicle_categories[r];@
-        <tr data-id="#vehicle_category.id#">
-            <td>#vehicle_category.name#</td>
-            <td>#vehicle_category.description#</td>
-            <td>#vehicle_category.qualifying_time_s#</td>
-            <td>
-                <button class="uk-button uk-button-primary uk-button-mini" data-click="editVehicleCategory">bearbeiten</button>
-                <button class="uk-button uk-button-danger uk-button-mini" data-click="removeVehicleCategory" data-confirm="Soll die Fahrzeugklasse wirklisch gelöscht werden?">löschen</button>
-            </td>
+<div id="tab-vc" style="display: none;">
+    <h2>Fahrzeugklassen <button class="uk-button uk-button-primary uk-button-small" data-click="addVehicleCategory">neue Fahrzeugklasse anlegen</button></h2>
+
+    <table class="uk-table uk-table-hover uk-table-striped">
+        <tr>
+            <th>Fahrzeugklasse</th>
+            <th>Beschreibung</th>
+            <th>Qualifyingtime (in Sekunden)</th>
+            <th></th>
         </tr>
-    @endfor@
-</table>
+        @for r = 0; r < vehicle_categories.length; r++@
+            @var vehicle_category = vehicle_categories[r];@
+            <tr data-id="#vehicle_category.id#">
+                <td>#vehicle_category.name#</td>
+                <td>#vehicle_category.description#</td>
+                <td>#vehicle_category.qualifying_time_s#</td>
+                <td>
+                    <button class="uk-button uk-button-primary uk-button-mini" data-click="editVehicleCategory">bearbeiten</button>
+                    <button class="uk-button uk-button-danger uk-button-mini" data-click="removeVehicleCategory" data-confirm="Soll die Fahrzeugklasse wirklisch gelöscht werden?">löschen</button>
+                </td>
+            </tr>
+        @endfor@
+    </table>
+</div>

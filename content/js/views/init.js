@@ -14,6 +14,7 @@ InitView = Class.extend(View, {
             App.ajax('POST', '/user', el.serializeObject(), function(data){
                 app.data.current_user = data;
                 app.load.users(function(){
+                    app.alertSuccess('Du hast dich erfolgreich registriert.');
                     app.showView(app.data.current_user.is_admin ? VIEWS.admin : VIEWS.user);
                     $(".current-user").text(app.data.current_user.firstname + ' ' + app.data.current_user.lastname);
                     $(".logged-in").show();
@@ -24,6 +25,7 @@ InitView = Class.extend(View, {
             App.ajax('POST', '/login', el.serializeObject(), function(data){
                 app.data.current_user = data;
                 app.load.users(function(){
+                    app.alertSuccess('Du hast dich erfolgreich eingeloggt.');
                     app.showView(app.data.current_user.is_admin ? VIEWS.admin : VIEWS.user);
                     $(".current-user").text(app.data.current_user.firstname + ' ' + app.data.current_user.lastname);
                     $(".logged-in").show();

@@ -6,13 +6,14 @@ body
 }
 footer
 {
+    margin-top: 15px;
     padding-top: 15px;
     border-top: 1px solid #444444;
 }
 .content
 {
     min-height: 100px;
-    padding: 15px 0;
+    padding: 0;
 }
 #alert-box
 {
@@ -37,6 +38,10 @@ footer
     display: none;
 }
 
+.uk-tab
+{
+    margin-bottom: 15px;
+}
 .uk-breadcrumb
 {
     border-bottom: 1px solid #444444;

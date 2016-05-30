@@ -116,16 +116,8 @@ App = Class.create({
                 switch (data_arr[0]) {
                     case 'init':
                     case 'templates.loaded':
-                        app.load.races(function(){
-                            app.load.vehicle_categories(function(){
-                                app.load.vehicles(function(){
-                                    app.load.race_qualifying(function(){
-                                        app.load.race_evaluations(function(){
-                                            app.showView(VIEWS.init);
-                                        });
-                                    });
-                                });
-                            });
+                        app.load.all(function(){
+                            app.showView(VIEWS.init);
                         });
                         break;
                 }
@@ -136,6 +128,54 @@ App = Class.create({
         }
     },
     load: {
+        all: function(callback){
+            App.ajaxMany([
+                {
+                    "type": 'GET',
+                    "url": '/user',
+                    "success": function(data){
+                        app.data.users = data;
+                    }
+                },
+                {
+                    "type": 'GET',
+                    "url": '/race',
+                    "success": function(data){
+                        app.data.races = data;
+                    }
+                },
+                {
+                    "type": 'GET',
+                    "url": '/vehicle',
+                    "success": function(data){
+                        app.data.vehicles = data;
+                    }
+                },
+                {
+                    "type": 'GET',
+                    "url": '/vehicle_category',
+                    "success": function(data){
+                        app.data.vehicle_categories = data;
+                    }
+                },
+                {
+                    "type": 'GET',
+                    "url": '/race_qualifying',
+                    "success": function(data){
+                        app.data.race_qualifyings = data;
+                    }
+                },
+                {
+                    "type": 'GET',
+                    "url": '/race_evaluation',
+                    "success": function(data){
+                        app.data.race_evaluations = data;
+                    }
+                }
+            ], function(){
+                callback();
+            });
+        },
         users: function(callback){
             App.ajax('GET', '/user', null, function(data){
                 app.data.users = data;
@@ -281,7 +321,7 @@ App = Class.create({
         '</div>');
         setTimeout(function(){
             alert.fadeOut();
-        }, 7000);
+        }, 5000);
         alertBox.prepend(alert);
     },
     alertError: function(message){
@@ -439,3 +479,15 @@ App.ajaxMany = function(requests, success_callback, error_callback){
 LITAPP.es_o = new EventService_cl();
 app = new App();
 LITAPP.tm_o = new TELIB.TemplateManager_cl();
+
+
+function tab_race(){
+    $('#tab-vc').hide();
+    $('#tab-race').show();
+    $('.uk-tab li').removeClass('uk-active').eq(0).addClass('uk-active');
+}
+function tab_vc(){
+    $('#tab-race').hide();
+    $('#tab-vc').show();
+    $('.uk-tab li').removeClass('uk-active').eq(1).addClass('uk-active');
+}

@@ -18,6 +18,7 @@ AdminView = Class.extend(View, {
             var race_id = el.closest("[data-id]").attr("data-id");
             App.ajax('PUT', '/race/'+race_id, {"state": state}, function(){
                 app.load.races(function(){
+                    app.alertSuccess('Rennphase wurde aktualisiert.');
                     app.refreshView();
                 });
             });
@@ -32,6 +33,7 @@ AdminView = Class.extend(View, {
             var vehicle_id = el.closest("[data-id]").attr("data-id");
             App.ajax('DELETE', '/vehicle/'+vehicle_id, null, function(){
                 app.load.vehicles(function(){
+                    app.alertSuccess('Fahrzeug wurde gelöscht.');
                     app.refreshView();
                 });
             });
@@ -60,6 +62,7 @@ AdminView = Class.extend(View, {
             var race_id = el.closest("[data-id]").attr("data-id");
             App.ajax('DELETE', '/race/'+race_id, null, function(){
                 app.load.races(function(){
+                    app.alertSuccess('Rennen wurde gelöscht.');
                     app.refreshView();
                 });
             });
@@ -74,6 +77,7 @@ AdminView = Class.extend(View, {
             var vehicle_category_id = el.closest("[data-id]").attr("data-id");
             App.ajax('DELETE', '/vehicle_category/'+vehicle_category_id, null, function(){
                 app.load.vehicle_categories(function(){
+                    app.alertSuccess('Fahrzeugkategorie wurde gelöscht.');
                     app.refreshView();
                 });
             });

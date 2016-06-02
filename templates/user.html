@@ -14,7 +14,7 @@
     </tr>
     @for r = 0; r < vehicles.length; r++@
         @var vehicle = vehicles[r];@
-        @if vehicle.owner_id = current_user.id@
+        @if vehicle.owner_id == current_user.id@
             <tr data-id="#vehicle.id#">
                 <td>#vehicle.type#</td>
                 <td>#vehicle.brand#</td>

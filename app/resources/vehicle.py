@@ -21,7 +21,8 @@ class Vehicle(app.resource.IdResource):
         "mechanic_id": int
     }
     defaults = {
-        "description": ""
+        "description": "",
+        "race_id": 0
     }
 
     def __init__(self, application):

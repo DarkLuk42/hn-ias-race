@@ -52,7 +52,8 @@ class Validator(object):
             if missing_field in defaults:
                 response[missing_field] = defaults[missing_field]
                 del missing_fields[i]
-            i += 1
+            else:
+                i += 1
 
         i = 0
         while i < len(empty_fields):
@@ -60,7 +61,8 @@ class Validator(object):
             if empty_field in defaults:
                 response[empty_field] = defaults[empty_field]
                 del empty_fields[i]
-            i += 1
+            else:
+                i += 1
 
         if overwrite_data:
             for field in list(data):

@@ -20,7 +20,7 @@ FormRaceView = Class.extend(View, {
                 App.ajax('PUT', '/race/'+data.id, el.serializeObject(), function(data){
                     VIEWS.form_race.data = data;
                     app.load.races(function(){
-                    app.alertSuccess('Rennen wurde gespeichert.');
+                        app.alertSuccess('Rennen wurde gespeichert.');
                         app.refreshView();
                     });
                 });
@@ -31,7 +31,7 @@ FormRaceView = Class.extend(View, {
                     VIEWS.form_race.data = data;
                     app.load.races(function(){
                         app.alertSuccess('Rennen wurde erstellt.');
-                        app.refreshView();
+                        app.showPreviousView();
                     });
                 });
             }

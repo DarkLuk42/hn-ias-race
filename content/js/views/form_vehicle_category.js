@@ -25,7 +25,7 @@ FormVehicleCategoryView = Class.extend(View, {
                     VIEWS.form_vehicle_category.data = data;
                     app.load.vehicle_categories(function(){
                         app.alertSuccess('Fahrzeugklasse wurde erstellt.');
-                        app.refreshView();
+                        app.showPreviousView();
                     });
                 });
             }

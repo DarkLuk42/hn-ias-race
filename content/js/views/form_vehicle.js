@@ -25,7 +25,7 @@ FormVehicleView = Class.extend(View, {
                     VIEWS.form_vehicle.data = data;
                     app.load.vehicles(function(){
                         app.alertSuccess('Fahrzeug wurde erstellt.');
-                        app.refreshView();
+                        app.showPreviousView();
                     });
                 });
             }

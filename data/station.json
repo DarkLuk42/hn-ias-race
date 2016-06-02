@@ -1,44 +1,58 @@
 [
   {
+    "position": 0,
     "race_id": 6,
+    "name": "Station 1",
     "description": "",
-    "id": 9,
-    "position": 0,
-    "name": "Station 1"
+    "id": 9
   },
   {
+    "position": 0,
     "race_id": 5,
+    "name": "Station 1",
     "description": "",
-    "id": 11,
-    "position": 0,
-    "name": "Station 1"
+    "id": 11
   },
   {
+    "position": 0,
+    "race_id": 7,
+    "name": "Station 1",
+    "description": "b1",
+    "id": 14
+  },
+  {
+    "position": 1,
     "race_id": 4,
+    "name": "Station 3",
     "description": "",
-    "id": 1,
-    "position": 1,
-    "name": "Station 3"
+    "id": 1
   },
   {
+    "position": 1,
     "race_id": 6,
+    "name": "Station 2",
     "description": "",
-    "id": 10,
-    "position": 1,
-    "name": "Station 2"
+    "id": 10
   },
   {
-    "race_id": 5,
-    "description": "",
-    "id": 12,
     "position": 1,
-    "name": "Station 2"
+    "race_id": 5,
+    "name": "Station 2",
+    "description": "",
+    "id": 12
   },
   {
-    "race_id": 5,
-    "description": "",
-    "id": 13,
+    "position": 1,
+    "race_id": 7,
+    "name": "Station 2",
+    "description": "b2",
+    "id": 15
+  },
+  {
     "position": 2,
-    "name": "Station 3"
+    "race_id": 5,
+    "name": "Station 3",
+    "description": "",
+    "id": 13
   }
 ]

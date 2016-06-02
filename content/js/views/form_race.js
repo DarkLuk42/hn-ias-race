@@ -58,6 +58,9 @@ FormRaceView = Class.extend(View, {
                     "race_id": race_id
                 });
             }
+            VIEWS.form_race.data.name = $("[name='name']").val();
+            VIEWS.form_race.data.description = $("[name='description']").val();
+            VIEWS.form_race.data.date = $("[name='date']").val();
             VIEWS.form_race.data.stations = stations;
             app.refreshView();
         },
@@ -83,6 +86,9 @@ FormRaceView = Class.extend(View, {
                     "race_id": race_id
                 });
             }
+            VIEWS.form_race.data.name = $("[name='name']").val();
+            VIEWS.form_race.data.description = $("[name='description']").val();
+            VIEWS.form_race.data.date = $("[name='date']").val();
             VIEWS.form_race.data.stations = stations;
             app.refreshView();
         }

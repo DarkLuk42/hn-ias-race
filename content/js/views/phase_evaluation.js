@@ -15,7 +15,7 @@ PhaseEvaluationView = Class.extend(View, {
         var race_id = data.id;
         var station = data.stations.length-1;
         data.qualified_vehicles_by_category_total = App.groupBy(app.data.vehicles.sort(App.cmpFunctionBuilder(function(vehicle){
-            var evaluation = app.findRaceEvaluation(race_id, vehicle.id, station);
+            var evaluation = app.findRaceEvaluation(race_id, vehicle.id, station) || {};
             vehicle.time_s_total = evaluation.time_s;
             return evaluation.time_s;
         })), "category_id", function(vehicle){

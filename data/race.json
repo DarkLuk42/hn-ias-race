@@ -1,26 +1,42 @@
 [
   {
-    "name": "Tour d' Eifel",
-    "date": "30.06.2016",
-    "id": 5,
-    "description": "",
-    "leader_id": 1,
-    "state": "EVALUATION"
-  },
+    "leader_id": 1, 
+    "name": "doku", 
+    "state": "QUALIFYING", 
+    "date": "01.01.1111", 
+    "id": 8, 
+    "description": ""
+  }, 
   {
-    "name": "name",
-    "date": "heute",
-    "leader_id": 1,
-    "description": "nix",
-    "id": 7,
-    "state": "PREPARE"
-  },
+    "leader_id": 1, 
+    "name": "a", 
+    "state": "QUALIFYING", 
+    "date": "2", 
+    "id": 9, 
+    "description": ""
+  }, 
   {
-    "name": "Testrennen",
-    "date": "morgen",
-    "id": 6,
-    "description": "",
-    "leader_id": 1,
-    "state": "REGISTRATION"
+    "leader_id": 1, 
+    "description": "", 
+    "state": "EVALUATION", 
+    "date": "30.06.2016", 
+    "id": 5, 
+    "name": "Tour d' Eifel"
+  }, 
+  {
+    "leader_id": 1, 
+    "name": "name", 
+    "state": "PREPARE", 
+    "date": "heute", 
+    "id": 7, 
+    "description": "nix"
+  }, 
+  {
+    "leader_id": 1, 
+    "description": "", 
+    "state": "REGISTRATION", 
+    "date": "morgen", 
+    "id": 6, 
+    "name": "Testrennen"
   }
 ]

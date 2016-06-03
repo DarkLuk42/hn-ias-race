@@ -39,7 +39,7 @@
         </tr>
         @for v = 0; v < category_vehicles.length; v++@
             @var vehicle = category_vehicles[v]@
-            @var qualifying = app.findRaceQualifying(race.id, vehicle.id);@
+            @var qualifying = app.findRaceQualifying(race.id, vehicle.id) || {};@
             <tr data-id="#vehicle.id#">
                 <td>
                     #vehicle.brand#
@@ -105,7 +105,7 @@
         </tr>
         @for v = 0; v < category_vehicles.length; v++@
             @var vehicle = category_vehicles[v]@
-            @var qualifying = app.findRaceQualifying(race.id, vehicle.id);@
+            @var qualifying = app.findRaceQualifying(race.id, vehicle.id) || {};@
             <tr data-id="#vehicle.id#">
                 <td>
                     #vehicle.brand#

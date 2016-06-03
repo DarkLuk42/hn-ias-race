@@ -30,8 +30,8 @@ PhaseQualifyingView = Class.extend(View, {
             $("input[name='time_s']").each(function(key, el){
                 var $el = $(el);
                 var vehicle_id = $el.attr("data-vehicle_id");
-                var vehicle = app.findVehicle(vehicle_id);
-                var vehicle_category = app.findVehicleCategory(vehicle.category_id);
+                var vehicle = app.findVehicle(vehicle_id) || {};
+                var vehicle_category = app.findVehicleCategory(vehicle.category_id) || {};
                 var time_s = $el.val();
                 var state = time_s <= vehicle_category.qualifying_time_s ? 'QUALIFIED' : 'UNQUALIFIED';
                 requests.push({

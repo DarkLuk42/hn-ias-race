@@ -1,11 +1,16 @@
 @;for(i in context){if(context.hasOwnProperty(i)){eval("var "+i+" = "+JSON.stringify(context[i])+";");}}@
 
 <ul class="uk-tab" data-uk-tab>
-    <li class="uk-active"><a onclick="tab_race()">Rennen</a></li>
-    <li><a onclick="tab_vc()">Fahrzeugklassen</a></li>
+    @if data.active_tab!='vc'@
+        <li class="uk-active"><a data-click="tabRace">Rennen</a></li>
+        <li><a data-click="tabVehicleCategory">Fahrzeugklassen</a></li>
+    @else@
+        <li><a data-click="tabRace">Rennen</a></li>
+        <li class="uk-active"><a data-click="tabVehicleCategory">Fahrzeugklassen</a></li>
+    @endif@
 </ul>
 
-<div id="tab-race">
+<div id="tab-race" @if data.active_tab=='vc'@ style="display: none;" @endif@>
     <h2>Rennen <button class="uk-button uk-button-primary uk-button-small" data-click="addRace">neues Rennen anlegen</button></h2>
 
     <table class="uk-table uk-table-hover uk-table-striped">
@@ -76,7 +81,7 @@
     </table>
 </div>
 
-<div id="tab-vc" style="display: none;">
+<div id="tab-vc" @if data.active_tab!='vc'@ style="display: none;" @endif@>
     <h2>Fahrzeugklassen <button class="uk-button uk-button-primary uk-button-small" data-click="addVehicleCategory">neue Fahrzeugklasse anlegen</button></h2>
 
     <table class="uk-table uk-table-hover uk-table-striped">

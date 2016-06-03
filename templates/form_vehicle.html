@@ -44,6 +44,7 @@
         <label class="uk-form-label" for="form-s-s">Fahrzeugklasse</label>
         <div class="uk-form-controls">
             <select id="form-s-s" name="category_id">
+                    <option value="">bitte Auswählen</option>
                 @for u = 0; u < vehicle_categories.length; u++@
                 @var vehicle_category = vehicle_categories[u];@
                     <option value="#vehicle_category.id#" @if vehicle_category.id == vehicle.category_id@selected@endif@>#vehicle_category.name#</option>
@@ -57,6 +58,7 @@
             <label class="uk-form-label" for="form-s-s">Fahrer</label>
             <div class="uk-form-controls">
                 <select id="form-s-s" name="driver_id">
+                    <option value="">bitte Auswählen</option>
                     @for u = 0; u < users.length; u++@
                     @var user = users[u];@
                         <option value="#user.id#" @if user.id == vehicle.driver_id@selected@endif@>#user.firstname# #user.lastname#</option>
@@ -68,6 +70,7 @@
             <label class="uk-form-label" for="form-s-s">Beifahrer</label>
             <div class="uk-form-controls">
                 <select id="form-s-s" name="passenger_id">
+                    <option value="">bitte Auswählen</option>
                     @for u = 0; u < users.length; u++@
                     @var user = users[u];@
                         <option value="#user.id#" @if user.id == vehicle.passenger_id@selected@endif@>#user.firstname# #user.lastname#</option>
@@ -79,6 +82,7 @@
             <label class="uk-form-label" for="form-s-s">Mechaniker</label>
             <div class="uk-form-controls">
                 <select id="form-s-s" name="mechanic_id">
+                    <option value="">bitte Auswählen</option>
                     @for u = 0; u < users.length; u++@
                     @var user = users[u];@
                         <option value="#user.id#" @if user.id == vehicle.mechanic_id@selected@endif@>#user.firstname# #user.lastname#</option>

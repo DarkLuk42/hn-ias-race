@@ -15,12 +15,12 @@ PhaseQualifyingView = Class.extend(View, {
             }
         }
         data.qualified_vehicles_by_category = App.groupBy(app.data.vehicles, "category_id", function(vehicle){
-            var qualifying = app.findRaceQualifying(data.id, vehicle.id) || {};
-            return vehicle.race_id == data.id && qualifying.state == 'QUALIFIED';
+            var qualifying = app.findRaceQualifying(data.id, vehicle.id);
+            return vehicle.race_id == data.id && (!qualifying || qualifying.state == 'QUALIFIED');
         });
         data.not_qualified_vehicles_by_category = App.groupBy(app.data.vehicles, "category_id", function(vehicle){
-            var qualifying = app.findRaceQualifying(data.id, vehicle.id) || {};
-            return vehicle.race_id == data.id && qualifying.state != 'QUALIFIED';
+            var qualifying = app.findRaceQualifying(data.id, vehicle.id);
+            return vehicle.race_id == data.id && (qualifying && qualifying.state != 'QUALIFIED');
         });
     },
     events: {

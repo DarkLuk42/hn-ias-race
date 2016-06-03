@@ -7,6 +7,18 @@ AdminView = Class.extend(View, {
         data.races = app.data.races;
     },
     events: {
+        tabVehicleCategory: function(){
+            VIEWS.admin.data.active_tab = "vc";
+            $('#tab-race').hide();
+            $('#tab-vc').show();
+            $('.uk-tab li').removeClass('uk-active').eq(1).addClass('uk-active');
+        },
+        tabRace: function(){
+            VIEWS.admin.data.active_tab = "race";
+            $('#tab-vc').hide();
+            $('#tab-race').show();
+            $('.uk-tab li').removeClass('uk-active').eq(0).addClass('uk-active');
+        },
         addRace: function(){
             app.showView(VIEWS.form_race, {});
         },

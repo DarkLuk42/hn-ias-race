@@ -73,6 +73,11 @@ App = Class.create({
                     view.handleEvent(el.attr("data-click"), el);
                 }, function(){
                     $("html").removeClass("uk-modal-page");
+                }, {
+                    labels: {
+                        Cancel: "Abbrechen",
+                        Ok: "Ok"
+                    }
                 });
             } else {
                 view.handleEvent(el.attr("data-click"), el);
@@ -320,7 +325,7 @@ App = Class.create({
         $('<p></p>').text(message).html()+
         '</div>');
         setTimeout(function(){
-            alert.fadeOut();
+            alert.fadeOut().remove();
         }, 5000);
         alertBox.prepend(alert);
     },
@@ -331,7 +336,7 @@ App = Class.create({
         $('<p></p>').text(message).html()+
         '</div>');
         setTimeout(function(){
-            alert.fadeOut();
+            alert.fadeOut().remove();
         }, 60000);
         alertBox.prepend(alert);
     }
@@ -479,15 +484,3 @@ App.ajaxMany = function(requests, success_callback, error_callback){
 LITAPP.es_o = new EventService_cl();
 app = new App();
 LITAPP.tm_o = new TELIB.TemplateManager_cl();
-
-
-function tab_race(){
-    $('#tab-vc').hide();
-    $('#tab-race').show();
-    $('.uk-tab li').removeClass('uk-active').eq(0).addClass('uk-active');
-}
-function tab_vc(){
-    $('#tab-race').hide();
-    $('#tab-vc').show();
-    $('.uk-tab li').removeClass('uk-active').eq(1).addClass('uk-active');
-}

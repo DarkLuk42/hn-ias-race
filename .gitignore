@@ -1,5 +1,4 @@
 /.idea
 /tmp
-/data/*.json
 /err.log
 *.pyc

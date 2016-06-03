@@ -1,0 +1,56 @@
+[
+  {
+    "race_id": 1,
+    "vehicle_id": 4,
+    "state": "UNQUALIFIED",
+    "time_s": 121
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 7,
+    "state": "QUALIFIED",
+    "time_s": 120
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 5,
+    "state": "QUALIFIED",
+    "time_s": 9
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 11,
+    "state": "DISQUALIFIED",
+    "time_s": 119
+  },
+  {
+    "race_id": 2,
+    "vehicle_id": 8,
+    "state": "QUALIFIED",
+    "time_s": 111
+  },
+  {
+    "race_id": 2,
+    "vehicle_id": 9,
+    "state": "QUALIFIED",
+    "time_s": 112
+  },
+  {
+    "race_id": 2,
+    "vehicle_id": 10,
+    "state": "UNQUALIFIED",
+    "time_s": 121
+  },
+  {
+    "race_id": 2,
+    "vehicle_id": 12,
+    "state": "QUALIFIED",
+    "time_s": 11
+  },
+  {
+    "race_id": 2,
+    "vehicle_id": 13,
+    "state": "QUALIFIED",
+    "time_s": 12
+  }
+]

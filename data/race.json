@@ -1,0 +1,42 @@
+[
+  {
+    "date": "01.01.2001",
+    "name": "Rennen 1",
+    "description": "",
+    "id": 1,
+    "leader_id": 1,
+    "state": "EVALUATION"
+  },
+  {
+    "date": "02.02.2002",
+    "name": "Rennen 2",
+    "description": "",
+    "id": 2,
+    "leader_id": 1,
+    "state": "RACE"
+  },
+  {
+    "date": "03.03.2003",
+    "name": "Das dritte!",
+    "description": "",
+    "id": 3,
+    "leader_id": 1,
+    "state": "QUALIFYING"
+  },
+  {
+    "date": "04.04.2004",
+    "name": "IV",
+    "description": "",
+    "id": 4,
+    "leader_id": 1,
+    "state": "REGISTRATION"
+  },
+  {
+    "date": "heute",
+    "name": "Das letzte",
+    "description": ":(",
+    "id": 5,
+    "leader_id": 1,
+    "state": "PREPARE"
+  }
+]

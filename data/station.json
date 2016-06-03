@@ -1,0 +1,114 @@
+[
+  {
+    "race_id": 5,
+    "position": 0,
+    "name": "Station 1",
+    "description": "",
+    "id": 11
+  },
+  {
+    "race_id": 4,
+    "position": 0,
+    "name": "Station 1",
+    "description": "",
+    "id": 12
+  },
+  {
+    "race_id": 3,
+    "position": 0,
+    "name": "Station 1",
+    "description": "",
+    "id": 37
+  },
+  {
+    "race_id": 2,
+    "position": 0,
+    "name": "Station 1",
+    "description": "Start",
+    "id": 46
+  },
+  {
+    "race_id": 1,
+    "position": 0,
+    "name": "Station 1",
+    "description": "Start",
+    "id": 51
+  },
+  {
+    "race_id": 3,
+    "position": 1,
+    "name": "Station 2",
+    "description": "",
+    "id": 38
+  },
+  {
+    "race_id": 2,
+    "position": 1,
+    "name": "Station 2",
+    "description": "",
+    "id": 47
+  },
+  {
+    "race_id": 1,
+    "position": 1,
+    "name": "Station 2",
+    "description": "Wendepunkt",
+    "id": 52
+  },
+  {
+    "race_id": 3,
+    "position": 2,
+    "name": "Station 3",
+    "description": "",
+    "id": 39
+  },
+  {
+    "race_id": 2,
+    "position": 2,
+    "name": "Station 3",
+    "description": "",
+    "id": 48
+  },
+  {
+    "race_id": 1,
+    "position": 2,
+    "name": "Station 3",
+    "description": "Wendepunkt 2",
+    "id": 53
+  },
+  {
+    "race_id": 3,
+    "position": 3,
+    "name": "Station 4",
+    "description": "",
+    "id": 40
+  },
+  {
+    "race_id": 2,
+    "position": 3,
+    "name": "Station 4",
+    "description": "",
+    "id": 49
+  },
+  {
+    "race_id": 1,
+    "position": 3,
+    "name": "Station 4",
+    "description": "Ziel",
+    "id": 54
+  },
+  {
+    "race_id": 3,
+    "position": 4,
+    "name": "Station 5",
+    "description": "",
+    "id": 41
+  },
+  {
+    "race_id": 2,
+    "position": 4,
+    "name": "Station 5b (Umleitung)",
+    "description": "Ziel",
+    "id": 50
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "race_id": 1,
+    "vehicle_id": 7,
+    "time_s": 1,
+    "station": 0
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 7,
+    "time_s": 2,
+    "station": 1
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 7,
+    "time_s": 3,
+    "station": 2
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 7,
+    "time_s": 4,
+    "station": 3
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 11,
+    "time_s": 1,
+    "station": 0
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 11,
+    "time_s": 2,
+    "station": 1
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 11,
+    "time_s": 6,
+    "station": 2
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 11,
+    "time_s": 4,
+    "station": 3
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 5,
+    "time_s": 1,
+    "station": 0
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 5,
+    "time_s": 2,
+    "station": 1
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 5,
+    "time_s": 3,
+    "station": 2
+  },
+  {
+    "race_id": 1,
+    "vehicle_id": 5,
+    "time_s": 4,
+    "station": 3
+  }
+]

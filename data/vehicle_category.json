@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Trecker",
+    "description": "",
+    "id": 1,
+    "qualifying_time_s": 120
+  },
+  {
+    "name": "Cabrio",
+    "description": "Ohne Dach halt ;)",
+    "id": 2,
+    "qualifying_time_s": 60
+  }
+]
